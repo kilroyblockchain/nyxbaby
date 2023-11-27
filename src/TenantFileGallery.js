@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import './TenantFileGallery.css';
+import './index.css'
+import './App.css'
+
 
 function TenantFileGallery() {
   const [tenant, setTenant] = useState('');
@@ -32,8 +35,11 @@ function TenantFileGallery() {
         const fullPath = blob.querySelector('Name').textContent;
         const fileName = fullPath.split('/').pop(); // Extract the file name without the folder path
         const url = `${containerUrl}/${fullPath}?${sasToken}`;
-        return { name: fileName, url }; // Store the file name without the folder and the URL
-      });
+        return { name: fileName, url }; // Store both the name and the URL
+      }).filter(file =>
+          !file.name.endsWith('.c2pa') && // Filter out .c2pa files
+          !file.name.endsWith('_thumbnail.png') // Filter out files ending with _thumbnail.png
+      );
 
       setFiles(filesData);
     } catch (e) {
@@ -54,22 +60,24 @@ function TenantFileGallery() {
 
   return (
       <div>
-        <input
-            type="text"
-            value={tenant}
-            onChange={handleTenantChange}
-            placeholder="Enter Tenant Name"
-        />
-        <button onClick={handleSearchClick} disabled={loading}>
-          {loading ? 'Loading...' : 'Load Tenant Files'}
-        </button>
-        {error && <p className="error">{error}</p>}
+        <div className="tenant-input-container">
+          <input
+              type="text"
+              value={tenant}
+              onChange={handleTenantChange}
+              placeholder="Enter Your Name"
+          />
+          <button onClick={handleSearchClick} disabled={loading}>
+            {loading ? 'Loading...' : 'Load My Files'}
+          </button>
+          {error && <p className="error">{error}</p>}
+        </div>
         <div className="file-gallery">
           {files.map((file, index) => (
               <div key={index} className="file-item">
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
                   <img src={file.url} alt={file.name} />
-                  <p>{file.name}</p> {/* Display only the file name */}
+                  <p>{file.name}</p> {/* Display the file name */}
                 </a>
               </div>
           ))}

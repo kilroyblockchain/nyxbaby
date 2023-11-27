@@ -1,3 +1,47 @@
+
+.tenant-input-container {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tenant-input-container input[type="text"] {
+  width: calc(100% - 20px); /* Subtracting padding */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.tenant-input-container button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.tenant-input-container button:hover,
+.tenant-input-container button:focus {
+  background-color: #ced4da;
+}
+
+.error {
+  color: #dc3545;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Keep your original .file-gallery and .file-item styles here */
+
 .error-message {
   color: red;
   margin: 10px 0;
@@ -42,7 +86,8 @@ input[type="text"] {
   width: 200px; /* Set a fixed width for each item */
   box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: some shadow for depth */
   text-align: center; /* Center the text (filename) */
-  background-color: white; /* Background color for the item */
+  background-color: #ced4da ; /* Background color for the item */
+  font-size: 12px;
 }
 
 .file-item img {
@@ -50,19 +95,5 @@ input[type="text"] {
   height: auto; /* Maintain aspect ratio */
   display: block; /* Remove extra space below the image */
   margin-bottom: 8px; /* Space between the image and the text */
-}
-
-.file-item p {
-  margin: 0; /* Remove default paragraph margin */
-  font-size: 14px;
-  overflow: hidden; /* Hide overflow */
-  text-overflow: ellipsis; /* Add ellipsis to text that overflows */
-  white-space: nowrap; /* No wrapping of text to ensure it stays on one line */
-}
-
-/* Optional: Add a hover effect */
-.file-item:hover {
-  transform: translateY(-2px); /* Slightly raise the item */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Increase shadow */
 }
 
