@@ -97,3 +97,24 @@ input[type="text"] {
   margin-bottom: 8px; /* Space between the image and the text */
 }
 
+.footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: 30px; /* Or however much space you want above the footer */
+  color: #333; /* Dark text color for contrast */
+  border-top: 1px solid #ddd; /* A subtle border line at the top of the footer */
+}
+
+.footer p {
+  margin: 10px 0; /* Spacing between lines */
+  font-size: 0.9em; /* Slightly smaller font size */
+}
+
+.footer a {
+  color: #007bff; /* Color for links */
+  text-decoration: none; /* No underline */
+}
+
+.footer a:hover {
+  text-decoration: underline; /* Underline on hover for better user experience */
+}

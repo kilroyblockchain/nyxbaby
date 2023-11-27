@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import './TenantFileGallery.css';
-import './index.css'
-import './App.css'
-
+import caifoj from './cai-foj-800.png'; // Make sure the path is correct
 
 function TenantFileGallery() {
   const [tenant, setTenant] = useState('');
@@ -57,7 +55,6 @@ function TenantFileGallery() {
   const handleSearchClick = () => {
     fetchFiles();
   };
-
   return (
       <div>
         <div className="tenant-input-container">
@@ -82,6 +79,20 @@ function TenantFileGallery() {
               </div>
           ))}
         </div>
+        <footer className="footer">
+          <p>
+            <img src={caifoj} alt="Friends of Justin" width="600" />
+          </p>
+          <p>
+            Powered by <a href="https://gpt.paybots.ai" target="_blank" rel="noopener noreferrer">Paybots.AI</a>
+          </p>
+          <p>
+            To inspect your content, use <a href="https://contentcredentials.org/verify" target="_blank" rel="noopener noreferrer">contentcredentials.org/verify</a>
+          </p>
+          <p>
+            &copy; 2023-2024, <a href="https://friendsofjustin.knowbots.org">Friends of Justin</a>
+          </p>
+        </footer>
       </div>
   );
 }
