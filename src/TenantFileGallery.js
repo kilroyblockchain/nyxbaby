@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './TenantFileGallery.css';
-import './App.css';
 import caifoj from './cai-foj-800.png'; // Make sure the path is correct
 
 function TenantFileGallery() {
@@ -19,11 +18,11 @@ function TenantFileGallery() {
     setLoading(true);
     setFiles([]); // Clear current files
 
-    const containerUrl = `https://filebaby.blob.core.windows.net/filebabyblob`;
-    const sasToken = process.env.REACT_APP_SAS_TOKEN;
+    const containerUrl = `https://vault1.file.baby/filebabyblob`; // Updated to new custom domain
+    // Removed the sasToken from the URL since we are using a custom domain
 
     try {
-      const response = await fetch(`${containerUrl}?restype=container&comp=list&prefix=${encodeURIComponent(tenant)}/&${sasToken}`);
+      const response = await fetch(`${containerUrl}?restype=container&comp=list&prefix=${encodeURIComponent(tenant)}/`);
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.text();
 
@@ -33,8 +32,9 @@ function TenantFileGallery() {
       const filesData = blobs.map(blob => {
         const fullPath = blob.querySelector('Name').textContent;
         const fileName = fullPath.split('/').pop(); // Extract the file name without the folder path
-        const url = `${containerUrl}/${fullPath}?${sasToken}`;
-        return { name: fileName, url }; // Store both the name and the URL
+        const url = `${containerUrl}/${fullPath}`;
+        const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
+        return { name: fileName, url, verifyUrl }; // Store the name, URL, and verify URL
       }).filter(file =>
           !file.name.endsWith('.c2pa') && // Filter out .c2pa files
           !file.name.endsWith('_thumbnail.png') // Filter out files ending with _thumbnail.png
@@ -56,6 +56,7 @@ function TenantFileGallery() {
   const handleSearchClick = () => {
     fetchFiles();
   };
+
   return (
       <div>
         <div className="tenant-input-container">
@@ -75,7 +76,8 @@ function TenantFileGallery() {
               <div key={index} className="file-item">
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
                   <img src={file.url} alt={file.name} />
-                  <p>{file.name}</p> {/* Display the file name */}
+                  <p>{file.name}</p>
+                  <a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">Verify</a> {/* Add verify link */}
                 </a>
               </div>
           ))}
