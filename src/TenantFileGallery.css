@@ -27,4 +27,42 @@ input[type="text"] {
   font-size: 16px;
   width: 250px;
 }
+.file-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* Adjust the gap between items as needed */
+  justify-content: center; /* Center the items in the container */
+  padding: 16px; /* Add some padding around the gallery */
+}
+
+.file-item {
+  border: 1px solid #ccc; /* A light border around each item */
+  padding: 8px; /* Padding inside each item */
+  border-radius: 8px; /* Optional: rounded corners */
+  width: 200px; /* Set a fixed width for each item */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: some shadow for depth */
+  text-align: center; /* Center the text (filename) */
+  background-color: white; /* Background color for the item */
+}
+
+.file-item img {
+  max-width: 100%; /* Make sure the image fits in the box */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Remove extra space below the image */
+  margin-bottom: 8px; /* Space between the image and the text */
+}
+
+.file-item p {
+  margin: 0; /* Remove default paragraph margin */
+  font-size: 14px;
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis to text that overflows */
+  white-space: nowrap; /* No wrapping of text to ensure it stays on one line */
+}
+
+/* Optional: Add a hover effect */
+.file-item:hover {
+  transform: translateY(-2px); /* Slightly raise the item */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Increase shadow */
+}
 

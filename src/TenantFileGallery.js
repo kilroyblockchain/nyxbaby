@@ -1,61 +1,57 @@
 import React, { useState } from 'react';
-import './TenantFileGallery.css'; // Ensure this CSS file exists in your src directory
-
-const githubToken = process.env.REACT_APP_GITHUB_TOKEN; // Make sure you've added your GitHub token to your .env file
-
-async function fetchFilesFromDirectory(apiUrl, token) {
-  let filesList = [];
-
-  try {
-    const response = await fetch(apiUrl, {
-      headers: {
-        Authorization: `token ${token}` // Add the token to the request headers
-      },
-    });
-    const data = await response.json();
-
-    if (Array.isArray(data)) {
-      for (const item of data) {
-        if (item.type === 'file' && (item.name.endsWith('.jpg') || item.name.endsWith('.png'))) {
-          filesList.push(item);
-        } else if (item.type === 'dir') {
-          const subDirFiles = await fetchFilesFromDirectory(item.url, token);
-          filesList = filesList.concat(subDirFiles);
-        }
-      }
-    } else {
-      console.error('GitHub API error:', data.message);
-    }
-  } catch (error) {
-    console.error('Error fetching directory:', error);
-  }
-
-  return filesList;
-}
+import './TenantFileGallery.css';
 
 function TenantFileGallery() {
   const [tenant, setTenant] = useState('');
   const [files, setFiles] = useState([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const fetchFiles = async () => {
+    if (!tenant) {
+      setError('Please enter a tenant name.');
+      return;
+    }
+
+    setError('');
+    setLoading(true);
+    setFiles([]); // Clear current files
+
+    const containerUrl = `https://filebaby.blob.core.windows.net/filebabyblob`;
+    const sasToken = process.env.REACT_APP_SAS_TOKEN;
+
+    try {
+      const response = await fetch(`${containerUrl}?restype=container&comp=list&prefix=${encodeURIComponent(tenant)}/&${sasToken}`);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.text();
+
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(data, "application/xml");
+      const blobs = Array.from(xml.querySelectorAll('Blob'));
+      const filesData = blobs.map(blob => {
+        const fullPath = blob.querySelector('Name').textContent;
+        const fileName = fullPath.split('/').pop(); // Extract the file name without the folder path
+        const url = `${containerUrl}/${fullPath}?${sasToken}`;
+        return { name: fileName, url }; // Store the file name without the folder and the URL
+      });
+
+      setFiles(filesData);
+    } catch (e) {
+      console.error('Error fetching files:', e);
+      setError('Failed to load resources.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleTenantChange = (event) => {
     setTenant(event.target.value);
   };
 
-  const handleSearch = async () => {
-    setError(null);
-    if (tenant) {
-      const apiUrl = `https://api.github.com/repos/PaybotsAI/paybotsai.github.io/contents/vip/${tenant}`;
-      const fetchedFiles = await fetchFilesFromDirectory(apiUrl, githubToken);
-      setFiles(fetchedFiles);
-    } else {
-      setError('Please enter a tenant name.');
-    }
+  const handleSearchClick = () => {
+    fetchFiles();
   };
 
-  const getThumbnailUrl = (fileUrl) => {
-    return fileUrl.includes('_thumbnail') ? fileUrl : fileUrl.replace('.jpg', '_thumbnail.png').replace('.png', '_thumbnail.png');
-  };
   return (
       <div>
         <input
@@ -64,18 +60,16 @@ function TenantFileGallery() {
             onChange={handleTenantChange}
             placeholder="Enter Tenant Name"
         />
-        <button onClick={handleSearch}>Load Tenant Files</button>
-        {error && <p className="error-message">{error}</p>}
+        <button onClick={handleSearchClick} disabled={loading}>
+          {loading ? 'Loading...' : 'Load Tenant Files'}
+        </button>
+        {error && <p className="error">{error}</p>}
         <div className="file-gallery">
           {files.map((file, index) => (
               <div key={index} className="file-item">
-                <img
-                    src={getThumbnailUrl(file.download_url)}
-                    alt={`Thumbnail for ${file.name}`}
-                />
-                <p>{file.name}</p>
-                <a href={file.download_url} target="_blank" rel="noopener noreferrer">
-                  View
+                <a href={file.url} target="_blank" rel="noopener noreferrer">
+                  <img src={file.url} alt={file.name} />
+                  <p>{file.name}</p> {/* Display only the file name */}
                 </a>
               </div>
           ))}
@@ -83,4 +77,5 @@ function TenantFileGallery() {
       </div>
   );
 }
+
 export default TenantFileGallery;
