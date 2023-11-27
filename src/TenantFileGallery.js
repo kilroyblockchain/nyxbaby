@@ -18,8 +18,8 @@ function TenantFileGallery() {
     setLoading(true);
     setFiles([]); // Clear current files
 
-    const containerUrl = `https://vault1.file.baby/filebabyblob`; // Updated to new custom domain
-    // Removed the sasToken from the URL since we are using a custom domain
+    const containerUrl = `https://filebaby.blob.core.windows.net/filebabyblob`;
+    const sasToken = process.env.REACT_APP_SAS_TOKEN;
 
     try {
       const response = await fetch(`${containerUrl}?restype=container&comp=list&prefix=${encodeURIComponent(tenant)}/`);
@@ -32,7 +32,7 @@ function TenantFileGallery() {
       const filesData = blobs.map(blob => {
         const fullPath = blob.querySelector('Name').textContent;
         const fileName = fullPath.split('/').pop(); // Extract the file name without the folder path
-        const url = `${containerUrl}/${fullPath}`;
+        const url = `${containerUrl}/${fullPath}?${sasToken}`;
         const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
         return { name: fileName, url, verifyUrl }; // Store the name, URL, and verify URL
       }).filter(file =>
