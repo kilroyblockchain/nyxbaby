@@ -1,120 +1,126 @@
-
+/* Base styles */
 .tenant-input-container {
-  max-width: 600px;
+  display: block;
+  max-width: 500px;
   margin: 30px auto;
   padding: 20px;
   background-color: #f8f9fa;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.tenant-input-container input[type="text"],
+.tenant-input-container button {
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+
 }
 
 .tenant-input-container input[type="text"] {
-  width: calc(100% - 20px); /* Subtracting padding */
-  padding: 10px;
-  margin-bottom: 10px;
   border: 1px solid #ced4da;
   border-radius: 4px;
-  font-size: 16px;
+  max-width: 90%;
+    flex: 1;
 }
 
 .tenant-input-container button {
-  width: 100%;
-  padding: 10px;
   border: none;
   border-radius: 4px;
   background-color: #007bff;
   color: white;
-  font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .tenant-input-container button:hover,
 .tenant-input-container button:focus {
-  background-color: #ced4da;
+  background-color: #0056b3;
 }
 
 .error {
   color: #dc3545;
   text-align: center;
-  margin-bottom: 10px;
-}
-
-/* Keep your original .file-gallery and .file-item styles here */
-
-.error-message {
-  color: red;
-  margin: 10px 0;
 }
 
 .file-gallery {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 16px;
   justify-content: center;
+  padding: 16px;
 }
 
 .file-item {
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   padding: 8px;
+  border-radius: 8px;
+  width: 200px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
-}
-
-.file-item img {
-  max-width: 150px;
-  margin-bottom: 5px;
-}
-
-input[type="text"] {
-  margin: 20px 0;
-  padding: 10px;
-  font-size: 16px;
-  width: 250px;
-}
-.file-gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px; /* Adjust the gap between items as needed */
-  justify-content: center; /* Center the items in the container */
-  padding: 16px; /* Add some padding around the gallery */
-}
-
-.file-item {
-  border: 1px solid #ccc; /* A light border around each item */
-  padding: 8px; /* Padding inside each item */
-  border-radius: 8px; /* Optional: rounded corners */
-  width: 200px; /* Set a fixed width for each item */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: some shadow for depth */
-  text-align: center; /* Center the text (filename) */
-  background-color: #ced4da ; /* Background color for the item */
+  background-color: #ced4da;
   font-size: 12px;
 }
 
 .file-item img {
-  max-width: 100%; /* Make sure the image fits in the box */
-  height: auto; /* Maintain aspect ratio */
-  display: block; /* Remove extra space below the image */
-  margin-bottom: 8px; /* Space between the image and the text */
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 8px;
 }
 
 .footer {
   text-align: center;
   padding: 20px;
-  margin-top: 30px; /* Or however much space you want above the footer */
-  color: #333; /* Dark text color for contrast */
-  border-top: 1px solid #ddd; /* A subtle border line at the top of the footer */
+  margin-top: 30px;
+  color: #333;
+  border-top: 1px solid #ddd;
+  background-color: #f8f9fa;
+}
+
+.footer img.responsive {
+  max-width: 100%;
+  height: auto;
 }
 
 .footer p {
-  margin: 10px 0; /* Spacing between lines */
-  font-size: 0.9em; /* Slightly smaller font size */
+  margin: 10px 0;
+  font-size: 0.9em;
 }
 
 .footer a {
-  color: #007bff; /* Color for links */
-  text-decoration: none; /* No underline */
+  color: #007bff;
+  text-decoration: none;
 }
 
 .footer a:hover {
-  text-decoration: underline; /* Underline on hover for better user experience */
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+
+  .file-item {
+    width: calc(50% - 8px); /* Adjust file items for smaller screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .file-item {
+    width: 100%; /* Full width for file items on very small screens */
+  }
+
+  /* Adjust the footer and any other elements for smaller screens */
+  .footer img.responsive {
+    max-width: 80%; /* Adjust the width of footer images on very small screens */
+    height: auto;
+  }
+}
+
+/* Ensure images are responsive */
+img.responsive {
+  max-width: 100%; /* Limit image width to the width of its container */
+  height: auto; /* Maintain the aspect ratio */
+
 }

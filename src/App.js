@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} alt="my.file.baby... MINE!" />
+        <img src={logo} alt="my.file.baby... MINE!" className={"responsive"}/>
         <TenantFileGallery />
       </header>
     </div>

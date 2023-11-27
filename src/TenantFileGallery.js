@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './TenantFileGallery.css';
+import './App.css';
 import caifoj from './cai-foj-800.png'; // Make sure the path is correct
 
 function TenantFileGallery() {
@@ -81,7 +82,7 @@ function TenantFileGallery() {
         </div>
         <footer className="footer">
           <p>
-            <img src={caifoj} alt="Friends of Justin" width="600" />
+            <img src={caifoj} alt="Friends of Justin" className="responsive" />
           </p>
           <p>
             Powered by <a href="https://gpt.paybots.ai" target="_blank" rel="noopener noreferrer">Paybots.AI</a>
