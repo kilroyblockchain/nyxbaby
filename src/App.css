@@ -28,6 +28,10 @@
 .App-link {
   color: #61dafb;
 }
+.responsive {
+  max-width: 100%;
+  height: auto;
+}
 
 @keyframes App-logo-spin {
   from {
