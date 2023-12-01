@@ -82,7 +82,7 @@ function FileUploadPage() {
             {uploadResponse && <div>
                 <h2>Response</h2>
                 {/* Display the image from the response */}
-                {uploadResponse && <img src={URL.createObjectURL(new Blob([uploadResponse]))} alt="Processed Image" />}
+                {uploadResponse && <img src={URL.createObjectURL(new Blob([uploadResponse]))} alt="Processed" />}
             </div>}
         </div>
     );
