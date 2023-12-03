@@ -47,7 +47,6 @@ function FileUploadPage() {
             setIsLoading(false);
         }
     };
-
     return (
         <div>
             <h1>Upload Manifest and Image</h1>
@@ -80,7 +79,8 @@ function FileUploadPage() {
             {isLoading && <p>Uploading...</p>}
             {error && <p className="error">{error}</p>}
             {uploadResponse && <div>
-                <h2>Response</h2>
+                <h2>VOILA! Your signed file awaits.</h2>
+                <h3>You can drag it to your desktop and then to the verifier to see the credentials.</h3>
                 {/* Display the image from the response */}
                 {uploadResponse && <img src={URL.createObjectURL(new Blob([uploadResponse]))} alt="Processed" />}
             </div>}
