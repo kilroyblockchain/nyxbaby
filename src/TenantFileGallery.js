@@ -18,7 +18,7 @@ function TenantFileGallery() {
     setLoading(true);
     setFiles([]); // Clear current files
 
-    const containerUrl = `https://filebaby.blob.core.windows.net/dev-filebabyblob`;
+    const containerUrl = `https://filebaby.blob.core.windows.net/filebabyblob`;
     const sasToken = process.env.REACT_APP_SAS_TOKEN;
 
     try {

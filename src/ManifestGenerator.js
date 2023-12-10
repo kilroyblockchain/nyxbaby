@@ -80,7 +80,7 @@ const ManifestGenerator = () => {
 
     return (
         <div>
-            <h1>Generate Manifest</h1>
+            <h1>1. Generate Manifest</h1>
             {!manifest ? (
                 <div>
                     <input
