@@ -80,7 +80,7 @@ function FileUploadPage() {
             {error && <p className="error">{error}</p>}
             {uploadResponse && <div>
                 <h2>VOILA! Your signed file awaits.</h2>
-                <h3>You can drag it to your desktop and then to the verifier to see the credentials.</h3>
+                <h3>You can drag it to your desktop and then to the <a href="https://contentcredentials.org/verify"  rel="noreferrer" target="_blank">verifier</a> to see the credentials.</h3>
                 {/* Display the image from the response */}
                 {uploadResponse && <img src={URL.createObjectURL(new Blob([uploadResponse]))} alt="Processed" />}
             </div>}
