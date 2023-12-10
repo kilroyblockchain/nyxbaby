@@ -49,7 +49,7 @@ function FileUploadPage() {
     };
     return (
         <div>
-            <h1>Upload Manifest and Image</h1>
+            <h1>2. Upload Manifest and Image</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="manifestFile">Manifest File:</label>

@@ -1,3 +1,105 @@
+/* Apply a general styling to the body for a nice background */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+h1 {
+  font-size: 1em;
+}
+/* Style the form to look more modern */
+form {
+  background-color: white;
+  color: #000;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 480px;
+  margin: auto;
+}
+
+/* Style the input fields */
+input[type="text"],
+input[type="file"] {
+  width: calc(100% - 20px);
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box; /* To include padding in width */
+}
+
+/* Style the buttons to make them stand out */
+button,
+input[type="submit"] {
+  background-color: #007bff; /* A nice blue */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover state for buttons */
+button:hover,
+input[type="submit"]:hover {
+  background-color: #0056b3; /* A darker blue */
+}
+
+/* Make sure the file input also looks like the button */
+input[type="file"]::file-selector-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-right: 4px;
+}
+
+/* Align items in the form */
+.form-item {
+  margin-bottom: 15px;
+}
+
+/* Label styling */
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Style for the container of the form */
+.form-container {
+  margin-top: 30px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the header of the form */
+.form-header {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Style for descriptions and other text */
+.text-description {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
 .App {
   text-align: center;
 }

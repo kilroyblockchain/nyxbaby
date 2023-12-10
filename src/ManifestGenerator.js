@@ -80,7 +80,8 @@ const ManifestGenerator = () => {
 
     return (
         <div>
-            <h1>1. Generate Manifest</h1>
+            <h1>Sign your own file:</h1>
+            <h2>1. Generate Manifest</h2>
             {!manifest ? (
                 <div>
                     <input
