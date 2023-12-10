@@ -1,46 +1,25 @@
 import React, { useState } from 'react';
 
 const ManifestGenerator = () => {
-    const [currentStep, setCurrentStep] = useState(0);
     const [formData, setFormData] = useState({
-        title: '',
         author: '',
         description: '',
-        service: '',
-        purpose: '',
-        profileLink: '',
-        // ... other fields
+        service: 'The World Wide Web',
+        purpose: 'Content Distribution',
+        profileId: 'https://linkedin.com/in/karenkilroy', // Use a default or empty string if dynamic input is needed
     });
     const [manifest, setManifest] = useState(null);
-
-    const questions = [
-        { label: 'Title', name: 'title' },
-        { label: 'Author', name: 'author' },
-        { label: 'Description', name: 'description' },
-        { label: 'Distribution Service', name: 'service' },
-        { label: 'Purpose of Distribution', name: 'purpose' },
-        { label: 'Profile Link (Behance, LinkedIn, Instagram)', name: 'profileLink' },
-        // ... other questions
-    ];
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const nextStep = () => {
-        if (currentStep < questions.length) {
-            setCurrentStep(currentStep + 1);
-        }
-    };
-
     const generateManifest = () => {
         const generatedManifest = {
             alg: "ps256",
-            // ... other static fields
-            title: formData.title,
-            ingredients: [
-                // ... ingredients fields
-            ],
+            ta_url: "http://timestamp.digicert.com",
+            claim_generator: "my.file.baby",
+            title: "Signed at My.File.Baby",
             assertions: [
                 {
                     label: "stds.schema-org.CreativeWork",
@@ -49,6 +28,7 @@ const ManifestGenerator = () => {
                         "@type": "CreativeWork",
                         "author": [
                             {
+                                "@id": formData.profileId,
                                 "@type": "Person",
                                 "name": formData.author
                             }
@@ -65,14 +45,25 @@ const ManifestGenerator = () => {
                             }
                         ]
                     }
+                },
+                // The following assertion seems static, so it is hardcoded here.
+                // If it needs to be dynamic, similar inputs can be created as shown above.
+                {
+                    label: "c2pa.training-mining",
+                    data: {
+                        "entries": {
+                            "c2pa.ai_generative_training": { "use": "notAllowed" },
+                            "c2pa.ai_inference": { "use": "notAllowed" },
+                            "c2pa.ai_training": { "use": "notAllowed" },
+                            "c2pa.data_mining": { "use": "notAllowed" }
+                        }
+                    }
                 }
             ],
             distribution: {
                 service: formData.service,
-                purpose: formData.purpose,
-            },
-            profileLink: formData.profileLink
-            // ... other manifest fields
+                purpose: formData.purpose
+            }
         };
         setManifest(generatedManifest);
     };
@@ -89,25 +80,37 @@ const ManifestGenerator = () => {
 
     return (
         <div>
-            {currentStep < questions.length ? (
+            {!manifest ? (
                 <div>
-                    <label>{questions[currentStep].label}</label>
                     <input
                         type="text"
-                        name={questions[currentStep].name}
-                        value={formData[questions[currentStep].name]}
+                        name="author"
+                        value={formData.author}
                         onChange={handleChange}
+                        placeholder="Author's Name"
                     />
-                    <button onClick={nextStep}>Next</button>
+                    <input
+                        type="text"
+                        name="description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        placeholder="Description"
+                    />
+                    <input
+                        type="text"
+                        name="profileId"
+                        value={formData.profileId}
+                        onChange={handleChange}
+                        placeholder="LinkedIn Profile URL"
+                    />
+                    <button onClick={generateManifest}>Generate Manifest</button>
                 </div>
-            ) : manifest ? (
+            ) : (
                 <div>
                     <h3>Generated Manifest:</h3>
                     <pre>{JSON.stringify(manifest, null, 2)}</pre>
                     <button onClick={downloadJson}>Download JSON</button>
                 </div>
-            ) : (
-                <button onClick={generateManifest}>Generate Manifest</button>
             )}
         </div>
     );
