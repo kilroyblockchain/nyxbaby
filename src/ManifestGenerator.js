@@ -6,7 +6,7 @@ const ManifestGenerator = () => {
         description: '',
         service: 'The World Wide Web',
         purpose: 'Content Distribution',
-        profileId: 'https://linkedin.com/in/karenkilroy', // Use a default or empty string if dynamic input is needed
+        profileId: '', // Use a default or empty string if dynamic input is needed
     });
     const [manifest, setManifest] = useState(null);
 
@@ -110,7 +110,7 @@ const ManifestGenerator = () => {
                 <div>
                     <h3>Generated Manifest:</h3>
                     <pre>{JSON.stringify(manifest, null, 2)}</pre>
-                    <button onClick={downloadJson}>Download JSON</button>
+                    <button onClick={downloadJson}>Download Manifest</button>
                 </div>
             )}
         </div>
