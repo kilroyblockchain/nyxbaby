@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './TenantFileGallery.css';
-import caifoj from './cai-foj-800.png'; // Make sure the path is correct
 
 function TenantFileGallery() {
   const [tenant, setTenant] = useState('');
