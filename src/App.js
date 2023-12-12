@@ -35,9 +35,13 @@ function AppContent() {
                     </>
                 ) : (
                     <SignInButton />
-                )}
+                    )
+                }
             </header>
             <footer className="footer">
+                <p>
+                    <a href="https://file.baby">About File Baby</a>
+                </p>
                 <p>
                     <img src={caifoj} alt="Friends of Justin" className="responsive" />
                 </p>
