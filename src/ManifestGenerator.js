@@ -19,7 +19,7 @@ const ManifestGenerator = () => {
             alg: "ps256",
             ta_url: "http://timestamp.digicert.com",
             claim_generator: "my.file.baby",
-            title: "Signed at My.File.Baby",
+            title: "Claimed at My.File.Baby",
             assertions: [
                 {
                     label: "stds.schema-org.CreativeWork",
