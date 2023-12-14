@@ -51,24 +51,27 @@ function FileUploadPage({ userName }) {
 
     const handleSaveToFileBaby = async () => {
         if (!userName) {
-            setError('User name is not defined. Cannot save to specific folder.');
+            setError('User name is not defined. Cannot save to a specific folder.');
             return;
         }
 
         setIsLoading(true);
         try {
-            if (!uploadResponse) {
-                setError('No file uploaded to save.');
-                return;
-            }
-
             const containerUrl = 'https://filebaby.blob.core.windows.net/filebabyblob';
             const sasToken = process.env.REACT_APP_SAS_TOKEN;
             const filePath = `${containerUrl}/${userName}/${imageFile.name}?${sasToken}`;
+
+            // Create a FormData object to send the image file with the correct Content-Type header
+            const formData = new FormData();
+            formData.append('file', imageFile, imageFile.name);
+
             const response = await fetch(filePath, {
                 method: 'PUT',
-                headers: { 'x-ms-blob-type': 'BlockBlob' },
-                body: new Blob([uploadResponse]),
+                headers: {
+                    'x-ms-blob-type': 'BlockBlob',
+                    'Content-Type': imageFile.type, // Set the Content-Type header based on the image file type
+                },
+                body: formData,
             });
 
             if (!response.ok) {
