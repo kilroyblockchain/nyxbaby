@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './TenantFileGallery.css';
 
-function TenantFileGallery() {
+function TenantFileGallery({ userName }) {
   const [tenant, setTenant] = useState('');
   const [files, setFiles] = useState([]);
   const [error, setError] = useState('');
@@ -49,10 +49,11 @@ function TenantFileGallery() {
   }, [tenant]); // Dependency array for useCallback
 
   useEffect(() => {
-    const userName = "YourDefaultUserName"; // Set a default value if userName is not available
-    setTenant(userName);
-    fetchFiles();
-  }, [fetchFiles]); // Updated useEffect dependencies
+    if (userName) {
+      setTenant(userName);
+      fetchFiles();
+    }
+  }, [userName, fetchFiles]); // Updated useEffect dependencies
 
   const handleTenantChange = (event) => {
     setTenant(event.target.value);
@@ -70,6 +71,7 @@ function TenantFileGallery() {
               value={tenant}
               onChange={handleTenantChange}
               placeholder="Enter Your Name"
+              disabled={!!userName}
           />
           <button onClick={handleSearchClick} disabled={loading}>
             {loading ? 'Loading...' : 'Load My Files'}
