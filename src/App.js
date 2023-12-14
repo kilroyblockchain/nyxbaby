@@ -32,7 +32,7 @@ function AppContent() {
                     <>
                         <TenantFileGallery userName={userName} />
                         <ManifestGenerator />
-                        <FileUploadPage />
+                        <FileUploadPage userName={userName} />
                     </>
                 ) : (
                     <SignInButton />
