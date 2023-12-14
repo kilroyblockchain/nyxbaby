@@ -57,6 +57,11 @@ function FileUploadPage({ userName }) {
 
         setIsLoading(true);
         try {
+            if (!uploadResponse) {
+                setError('No file uploaded to save.');
+                return;
+            }
+
             const containerUrl = 'https://filebaby.blob.core.windows.net/filebabyblob';
             const sasToken = process.env.REACT_APP_SAS_TOKEN;
             const filePath = `${containerUrl}/${userName}/${imageFile.name}?${sasToken}`;
