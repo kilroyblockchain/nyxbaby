@@ -46,7 +46,7 @@ function TenantFileGallery({ userName }) {
     } finally {
       setLoading(false);
     }
-  }, [tenant, userName]); // Updated dependency array for useCallback
+  }, [tenant]); // Dependency array for useCallback
 
   useEffect(() => {
     if (userName) {
