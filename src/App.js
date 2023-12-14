@@ -10,7 +10,6 @@ import msalInstance from "./authConfig";
 
 function SignInButton() {
     const { instance } = useMsal();
-
     const handleLogin = () => {
         instance.loginPopup().catch(e => {
             console.error(e);
@@ -22,6 +21,8 @@ function SignInButton() {
 
 function AppContent() {
     const isAuthenticated = useIsAuthenticated();
+    const { accounts } = useMsal();
+    const userName = accounts?.[0]?.username; // Retrieve the username of the signed-in user
 
     return (
         <div className="App">
@@ -29,14 +30,13 @@ function AppContent() {
                 <img src={logo} alt="my.file.baby... MINE!" className="responsive"/>
                 {isAuthenticated ? (
                     <>
-                        <TenantFileGallery />
+                        <TenantFileGallery userName={userName} />
                         <ManifestGenerator />
                         <FileUploadPage />
                     </>
                 ) : (
                     <SignInButton />
-                    )
-                }
+                )}
             </header>
             <footer className="footer">
                 <p>

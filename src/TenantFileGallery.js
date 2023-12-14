@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './TenantFileGallery.css';
 
-function TenantFileGallery() {
+function TenantFileGallery({ userName }) {
   const [tenant, setTenant] = useState('');
   const [files, setFiles] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (userName) {
+      setTenant(userName); // Automatically set the tenant name
+      fetchFiles();
+    }
+  }, [userName]);
 
   const fetchFiles = async () => {
     if (!tenant) {
@@ -64,6 +71,7 @@ function TenantFileGallery() {
               value={tenant}
               onChange={handleTenantChange}
               placeholder="Enter Your Name"
+              disabled={!!userName}
           />
           <button onClick={handleSearchClick} disabled={loading}>
             {loading ? 'Loading...' : 'Load My Files'}
@@ -83,7 +91,7 @@ function TenantFileGallery() {
               </div>
           ))}
         </div>
-        </div>
+      </div>
   );
 }
 
