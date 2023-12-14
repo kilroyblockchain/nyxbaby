@@ -32,11 +32,14 @@ function TenantFileGallery({ userName }) {
         const fullPath = blob.querySelector('Name').textContent;
         const fileName = fullPath.split('/').pop(); // Extract the file name without the folder path
         const url = `${containerUrl}/${fullPath}?${sasToken}`;
-        const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
+        // Double encode the URL for the verify link
+        const encodedUrl = encodeURIComponent(url);
+        const doubleEncodedUrl = encodeURIComponent(encodedUrl);
+        const verifyUrl = `https://contentcredentials.org/verify?source=${doubleEncodedUrl}`;
         return { name: fileName, url, verifyUrl }; // Store the name, URL, and verify URL
       }).filter(file =>
           !file.name.endsWith('.c2pa') && // Filter out .c2pa files
-          !file.name.endsWith('_thumbnail.png') // Filter out files ending with _thumbnail.png
+          !file.name.endsWith('_thumbnail.png') // Filter out thumbnail files
       );
 
       setFiles(filesData);
