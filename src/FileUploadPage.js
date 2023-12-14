@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
-
-function FileUploadPage() {
+function FileUploadPage({ userName }) {
     const [manifestFile, setManifestFile] = useState(null);
     const [imageFile, setImageFile] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [uploadResponse, setUploadResponse] = useState(null);
     const [error, setError] = useState('');
+    const [savedToFileBaby, setSavedToFileBaby] = useState(false);
 
     const handleManifestFileChange = (event) => {
         setManifestFile(event.target.files[0]);
@@ -23,10 +23,10 @@ function FileUploadPage() {
 
         const formData = new FormData();
         if (manifestFile) {
-            formData.append('file', manifestFile); // Append manifest file under the key 'file'
+            formData.append('file', manifestFile);
         }
         if (imageFile) {
-            formData.append('file', imageFile); // Append image file under the same key 'file'
+            formData.append('file', imageFile);
         }
 
         try {
@@ -48,6 +48,33 @@ function FileUploadPage() {
             setIsLoading(false);
         }
     };
+
+    const handleSaveToFileBaby = async () => {
+        setIsLoading(true);
+        try {
+            const containerUrl = 'https://filebaby.blob.core.windows.net/filebabyblob'; // Your container URL
+            const sasToken = process.env.REACT_APP_SAS_TOKEN; // Your SAS Token
+            const response = await fetch(`${containerUrl}/${userName}/${imageFile.name}?${sasToken}`, {
+                method: 'PUT',
+                headers: {
+                    'x-ms-blob-type': 'BlockBlob',
+                },
+                body: new Blob([uploadResponse]), // Assuming uploadResponse is the image data
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to save to File Baby with status: ${response.status}`);
+            }
+
+            setSavedToFileBaby(true);
+        } catch (error) {
+            console.error('Error saving to File Baby:', error);
+            setError(`Error saving to File Baby: ${error.message}`);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <div>
             <h1>2. Upload Manifest and Image</h1>
@@ -79,12 +106,16 @@ function FileUploadPage() {
 
             {isLoading && <p>Uploading...</p>}
             {error && <p className="error">{error}</p>}
-            {uploadResponse && <div>
-                <h2>VOILA! Your signed file awaits.</h2>
-                <h3>You can drag it to your desktop and then to the <a href="https://contentcredentials.org/verify"  rel="noreferrer" target="_blank">verifier</a> to see the credentials.</h3>
-                {/* Display the image from the response */}
-                {uploadResponse && <img src={URL.createObjectURL(new Blob([uploadResponse]))} alt="Processed" />}
-            </div>}
+            {uploadResponse && !savedToFileBaby && (
+                <div>
+                    <img src={URL.createObjectURL(new Blob([uploadResponse]))} alt="Processed" />
+                    <button onClick={handleSaveToFileBaby} disabled={isLoading}>
+                        Save to File Baby
+                    </button>
+                </div>
+            )}
+
+            {savedToFileBaby && <p>Image saved to File Baby successfully!</p>}
         </div>
     );
 }
