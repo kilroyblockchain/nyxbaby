@@ -36,7 +36,7 @@ function TenantFileGallery({ userName }) {
         return { name: fileName, url, verifyUrl }; // Store the name, URL, and verify URL
       }).filter(file =>
           !file.name.endsWith('.c2pa') && // Filter out .c2pa files
-          !file.name.endsWith('_thumbnail.png') // Filter out files ending with _thumbnail.png
+          !file.name.endsWith('_thumbnail.png') // Filter out thumbnail files
       );
 
       setFiles(filesData);
