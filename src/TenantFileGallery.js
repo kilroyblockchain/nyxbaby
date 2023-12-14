@@ -84,10 +84,10 @@ function TenantFileGallery({ userName }) {
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
                   <img src={file.url} alt={file.name} />
                   <p>{file.name}</p>
-                  <a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">
-                    Verify
-                  </a>
-                </a>
+                </a> {/* Close the image link anchor tag */}
+                <a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">
+                  Verify
+                </a> {/* Separate anchor tag for the Verify link */}
               </div>
           ))}
         </div>
