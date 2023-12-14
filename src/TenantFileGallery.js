@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './TenantFileGallery.css';
 
-function TenantFileGallery() {
+function TenantFileGallery({ userName }) {
   const [tenant, setTenant] = useState('');
   const [files, setFiles] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const fetchFiles = async () => {
+  const fetchFiles = useCallback(async () => {
     if (!tenant) {
       setError('Please enter a tenant name.');
       return;
@@ -36,7 +36,7 @@ function TenantFileGallery() {
         return { name: fileName, url, verifyUrl }; // Store the name, URL, and verify URL
       }).filter(file =>
           !file.name.endsWith('.c2pa') && // Filter out .c2pa files
-          !file.name.endsWith('_thumbnail.png') // Filter out files ending with _thumbnail.png
+          !file.name.endsWith('_thumbnail.png') // Filter out thumbnail files
       );
 
       setFiles(filesData);
@@ -46,7 +46,14 @@ function TenantFileGallery() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [tenant]); // Dependency array for useCallback
+
+  useEffect(() => {
+    if (userName) {
+      setTenant(userName);
+      fetchFiles();
+    }
+  }, [userName, fetchFiles]); // Updated useEffect dependencies
 
   const handleTenantChange = (event) => {
     setTenant(event.target.value);
@@ -64,6 +71,7 @@ function TenantFileGallery() {
               value={tenant}
               onChange={handleTenantChange}
               placeholder="Enter Your Name"
+              disabled={!!userName}
           />
           <button onClick={handleSearchClick} disabled={loading}>
             {loading ? 'Loading...' : 'Load My Files'}
@@ -76,14 +84,14 @@ function TenantFileGallery() {
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
                   <img src={file.url} alt={file.name} />
                   <p>{file.name}</p>
-                  <a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">
-                    Verify
-                  </a>
-                </a>
+                </a> {/* Close the image link anchor tag */}
+                <a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">
+                  Verify
+                </a> {/* Separate anchor tag for the Verify link */}
               </div>
           ))}
         </div>
-        </div>
+      </div>
   );
 }
 
