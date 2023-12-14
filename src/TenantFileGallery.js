@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './TenantFileGallery.css';
 
 function TenantFileGallery({ userName }) {
@@ -7,14 +7,7 @@ function TenantFileGallery({ userName }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (userName) {
-      setTenant(userName); // Automatically set the tenant name
-      fetchFiles();
-    }
-  }, [userName]);
-
-  const fetchFiles = async () => {
+  const fetchFiles = useCallback(async () => {
     if (!tenant) {
       setError('Please enter a tenant name.');
       return;
@@ -53,7 +46,14 @@ function TenantFileGallery({ userName }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [tenant]); // Dependency array for useCallback
+
+  useEffect(() => {
+    if (userName) {
+      setTenant(userName);
+      fetchFiles();
+    }
+  }, [userName, fetchFiles]); // Updated useEffect dependencies
 
   const handleTenantChange = (event) => {
     setTenant(event.target.value);
