@@ -65,11 +65,17 @@ function FileUploadPage({ userName }) {
             const containerUrl = 'https://filebaby.blob.core.windows.net/filebabyblob';
             const sasToken = process.env.REACT_APP_SAS_TOKEN;
             const filePath = `${containerUrl}/${userName}/${imageFile.name}?${sasToken}`;
+            const mimeType = imageFile.type;
+
             const response = await fetch(filePath, {
                 method: 'PUT',
-                headers: { 'x-ms-blob-type': 'BlockBlob' },
-                body: new Blob([uploadResponse]),
+                headers: {
+                    'x-ms-blob-type': 'BlockBlob',
+                    'Content-Type': mimeType, // Set the MIME type here
+                },
+                body: new Blob([uploadResponse], { type: mimeType }), // Set the Blob type
             });
+
 
             if (!response.ok) {
                 throw new Error(`Failed to save to File Baby with status: ${response.status}`);
