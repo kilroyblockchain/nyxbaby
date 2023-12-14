@@ -39,7 +39,7 @@ function FileUploadPage({ userName }) {
                 throw new Error(`File upload failed with status: ${response.status}`);
             }
 
-            const responseData = await response.arrayBuffer(); // Since the response is an image
+            const responseData = await response.arrayBuffer();
             setUploadResponse(responseData);
         } catch (error) {
             console.error('Error uploading files:', error);
@@ -50,16 +50,20 @@ function FileUploadPage({ userName }) {
     };
 
     const handleSaveToFileBaby = async () => {
+        if (!userName) {
+            setError('User name is not defined. Cannot save to specific folder.');
+            return;
+        }
+
         setIsLoading(true);
         try {
-            const containerUrl = 'https://filebaby.blob.core.windows.net/filebabyblob'; // Your container URL
-            const sasToken = process.env.REACT_APP_SAS_TOKEN; // Your SAS Token
-            const response = await fetch(`${containerUrl}/${userName}/${imageFile.name}?${sasToken}`, {
+            const containerUrl = 'https://filebaby.blob.core.windows.net/filebabyblob';
+            const sasToken = process.env.REACT_APP_SAS_TOKEN;
+            const filePath = `${containerUrl}/${userName}/${imageFile.name}?${sasToken}`;
+            const response = await fetch(filePath, {
                 method: 'PUT',
-                headers: {
-                    'x-ms-blob-type': 'BlockBlob',
-                },
-                body: new Blob([uploadResponse]), // Assuming uploadResponse is the image data
+                headers: { 'x-ms-blob-type': 'BlockBlob' },
+                body: new Blob([uploadResponse]),
             });
 
             if (!response.ok) {
