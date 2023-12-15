@@ -31,7 +31,7 @@ function FileUploadPage({ userName }) {
 //https://dev-paybots-claim-engine.azurewebsites.net
 //https://paybots-claim-engine.azurewebsites.net/api/http_example
         try {
-            const response = await fetch('https://dev-paybots-claim-engine.azurewebsites.net', {
+            const response = await fetch('https://dev-paybots-claim-engine.azurewebsites.net/api/file_and_manifest', {
                 method: 'POST',
                 body: formData,
             });
