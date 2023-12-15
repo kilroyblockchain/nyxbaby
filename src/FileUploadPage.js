@@ -28,9 +28,10 @@ function FileUploadPage({ userName }) {
         if (imageFile) {
             formData.append('file', imageFile);
         }
-
+//https://dev-paybots-claim-engine.azurewebsites.net
+//https://paybots-claim-engine.azurewebsites.net
         try {
-            const response = await fetch('https://paybots-claim-engine.azurewebsites.net/api/http_example', {
+            const response = await fetch('https://paybots-claim-engine.azurewebsites.net/api/file_and_manifest', {
                 method: 'POST',
                 body: formData,
             });
