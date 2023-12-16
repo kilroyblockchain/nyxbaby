@@ -28,8 +28,7 @@ function FileUploadPage({ userName }) {
         if (imageFile) {
             formData.append('file', imageFile);
         }
-//https://dev-paybots-claim-engine.azurewebsites.net
-//https://paybots-claim-engine.azurewebsites.net
+
         try {
             const response = await fetch('https://paybots-claim-engine.azurewebsites.net/api/file_and_manifest', {
                 method: 'POST',
@@ -42,6 +41,10 @@ function FileUploadPage({ userName }) {
 
             const responseData = await response.arrayBuffer();
             setUploadResponse(responseData);
+
+            // Reset file states after successful upload
+            setManifestFile(null);
+            setImageFile(null);
         } catch (error) {
             console.error('Error uploading files:', error);
             setError(`Error uploading files: ${error.message}`);
@@ -49,6 +52,7 @@ function FileUploadPage({ userName }) {
             setIsLoading(false);
         }
     };
+
 
     const handleSaveToFileBaby = async () => {
         if (!userName) {
