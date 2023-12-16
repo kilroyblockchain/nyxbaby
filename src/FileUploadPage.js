@@ -89,6 +89,13 @@ function FileUploadPage({ userName }) {
             }
 
             setSavedToFileBaby(true);
+
+            // Reset all file-related states after saving to File Baby
+            setManifestFile(null);
+            setImageFile(null);
+            setImageFileName('');
+            setImageFileType('');
+            setUploadResponse(null);
         } catch (error) {
             console.error('Error saving to File Baby:', error);
             setError(`Error saving to File Baby: ${error.message}`);
