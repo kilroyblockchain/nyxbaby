@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 function FileUploadPage({ userName }) {
     const [manifestFile, setManifestFile] = useState(null);
     const [imageFile, setImageFile] = useState(null);
+    const [imageFileName, setImageFileName] = useState('');
+    const [imageFileType, setImageFileType] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [uploadResponse, setUploadResponse] = useState(null);
     const [error, setError] = useState('');
@@ -27,6 +29,8 @@ function FileUploadPage({ userName }) {
         }
         if (imageFile) {
             formData.append('file', imageFile);
+            setImageFileName(imageFile.name);
+            setImageFileType(imageFile.type);
         }
 
         try {
@@ -53,7 +57,6 @@ function FileUploadPage({ userName }) {
         }
     };
 
-
     const handleSaveToFileBaby = async () => {
         if (!userName) {
             setError('User name is not defined. Cannot save to specific folder.');
@@ -69,18 +72,17 @@ function FileUploadPage({ userName }) {
 
             const containerUrl = 'https://filebaby.blob.core.windows.net/filebabyblob';
             const sasToken = process.env.REACT_APP_SAS_TOKEN;
-            const filePath = `${containerUrl}/${userName}/${imageFile.name}?${sasToken}`;
-            const mimeType = imageFile.type;
+            const filePath = `${containerUrl}/${userName}/${imageFileName}?${sasToken}`;
+            const mimeType = imageFileType;
 
             const response = await fetch(filePath, {
                 method: 'PUT',
                 headers: {
                     'x-ms-blob-type': 'BlockBlob',
-                    'Content-Type': mimeType, // Set the MIME type here
+                    'Content-Type': mimeType,
                 },
-                body: new Blob([uploadResponse], { type: mimeType }), // Set the Blob type
+                body: new Blob([uploadResponse], { type: mimeType }),
             });
-
 
             if (!response.ok) {
                 throw new Error(`Failed to save to File Baby with status: ${response.status}`);
