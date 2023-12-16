@@ -17,21 +17,11 @@ function FileUploadPage({ userName }) {
 
     // Function to reset all states to initial
     const resetAllStates = useCallback(() => {
-        setManifestFile(null);
-        setImageFile(null);
         setIsLoading(false);
         setError('');
         setSavedToFileBaby(false);
         resetFileInputs();
     }, [resetFileInputs]);
-
-    const handleManifestFileChange = (event) => {
-        setManifestFile(event.target.files[0]);
-    };
-
-    const handleImageFileChange = (event) => {
-        setImageFile(event.target.files[0]);
-    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
