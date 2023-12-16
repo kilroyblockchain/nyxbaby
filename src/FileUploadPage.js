@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 
 function FileUploadPage({ userName }) {
-    const [manifestFile, setManifestFile] = useState(null);
-    const [imageFile, setImageFile] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [savedToFileBaby, setSavedToFileBaby] = useState(false);
@@ -44,14 +42,6 @@ function FileUploadPage({ userName }) {
 
         // Example: console.log(manifestFile, imageFile);
         // Reset the form and state after handling the submission
-        resetAllStates();
-    };
-
-    const handleSaveToFileBaby = async () => {
-        // Add your logic to save to File Baby here
-        // Example: console.log('Saving to File Baby');
-        // Update the state as needed after saving
-        setSavedToFileBaby(true);
         resetAllStates();
     };
 
