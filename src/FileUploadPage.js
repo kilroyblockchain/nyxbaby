@@ -11,10 +11,12 @@ function FileUploadPage({ userName }) {
     const [savedToFileBaby, setSavedToFileBaby] = useState(false);
 
     const handleManifestFileChange = (event) => {
+        console.log('Manifest file selected:', event.target.files[0]);
         setManifestFile(event.target.files[0]);
     };
 
     const handleImageFileChange = (event) => {
+        console.log('Image file selected:', event.target.files[0]);
         setImageFile(event.target.files[0]);
     };
 
@@ -22,6 +24,7 @@ function FileUploadPage({ userName }) {
         event.preventDefault();
         setIsLoading(true);
         setError('');
+        console.log('Submitting files. Manifest:', manifestFile, 'Image:', imageFile);
 
         const formData = new FormData();
         if (manifestFile) {
@@ -47,6 +50,7 @@ function FileUploadPage({ userName }) {
             setUploadResponse(responseData);
 
             // Reset file states after successful upload
+            console.log('Resetting file states after upload');
             setManifestFile(null);
             setImageFile(null);
         } catch (error) {
@@ -58,6 +62,7 @@ function FileUploadPage({ userName }) {
     };
 
     const handleSaveToFileBaby = async () => {
+        console.log('Saving to File Baby. Image file name:', imageFileName);
         if (!userName) {
             setError('User name is not defined. Cannot save to specific folder.');
             return;
@@ -91,6 +96,7 @@ function FileUploadPage({ userName }) {
             setSavedToFileBaby(true);
 
             // Reset all file-related states after saving to File Baby
+            console.log('Resetting file states after saving to File Baby');
             setManifestFile(null);
             setImageFile(null);
             setImageFileName('');
