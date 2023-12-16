@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 function FileUploadPage({ userName }) {
     const [manifestFile, setManifestFile] = useState(null);
@@ -10,21 +10,27 @@ function FileUploadPage({ userName }) {
     const [error, setError] = useState('');
     const [savedToFileBaby, setSavedToFileBaby] = useState(false);
 
+    // Refs for file inputs
+    const manifestFileInput = useRef(null);
+    const imageFileInput = useRef(null);
+
     const handleManifestFileChange = (event) => {
-        console.log('Manifest file selected:', event.target.files[0]);
         setManifestFile(event.target.files[0]);
     };
 
     const handleImageFileChange = (event) => {
-        console.log('Image file selected:', event.target.files[0]);
         setImageFile(event.target.files[0]);
+    };
+
+    const resetFileInputs = () => {
+        if (manifestFileInput.current) manifestFileInput.current.value = "";
+        if (imageFileInput.current) imageFileInput.current.value = "";
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsLoading(true);
         setError('');
-        console.log('Submitting files. Manifest:', manifestFile, 'Image:', imageFile);
 
         const formData = new FormData();
         if (manifestFile) {
@@ -49,8 +55,10 @@ function FileUploadPage({ userName }) {
             const responseData = await response.arrayBuffer();
             setUploadResponse(responseData);
 
+            // Reset file inputs after successful upload
+            resetFileInputs();
+
             // Reset file states after successful upload
-            console.log('Resetting file states after upload');
             setManifestFile(null);
             setImageFile(null);
         } catch (error) {
@@ -62,7 +70,6 @@ function FileUploadPage({ userName }) {
     };
 
     const handleSaveToFileBaby = async () => {
-        console.log('Saving to File Baby. Image file name:', imageFileName);
         if (!userName) {
             setError('User name is not defined. Cannot save to specific folder.');
             return;
@@ -95,8 +102,10 @@ function FileUploadPage({ userName }) {
 
             setSavedToFileBaby(true);
 
+            // Reset file inputs after saving to File Baby
+            resetFileInputs();
+
             // Reset all file-related states after saving to File Baby
-            console.log('Resetting file states after saving to File Baby');
             setManifestFile(null);
             setImageFile(null);
             setImageFileName('');
@@ -117,6 +126,7 @@ function FileUploadPage({ userName }) {
                 <div>
                     <label htmlFor="manifestFile">Manifest File:</label>
                     <input
+                        ref={manifestFileInput}
                         id="manifestFile"
                         type="file"
                         onChange={handleManifestFileChange}
@@ -126,6 +136,7 @@ function FileUploadPage({ userName }) {
                 <div>
                     <label htmlFor="imageFile">Image File:</label>
                     <input
+                        ref={imageFileInput}
                         id="imageFile"
                         type="file"
                         onChange={handleImageFileChange}
