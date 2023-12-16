@@ -69,8 +69,6 @@ function FileUploadPage({ userName }) {
 
             const responseData = await response.arrayBuffer();
             setUploadResponse(responseData);
-
-            // Reset file inputs after successful upload
             resetFileInputs();
         } catch (error) {
             console.error('Error uploading files:', error);
@@ -112,8 +110,6 @@ function FileUploadPage({ userName }) {
             }
 
             setSavedToFileBaby(true);
-
-            // Reset all states after saving to File Baby
             resetAllStates();
         } catch (error) {
             console.error('Error saving to File Baby:', error);
@@ -123,19 +119,12 @@ function FileUploadPage({ userName }) {
         }
     };
 
-    // Function to force the component to remount
-    const refreshComponent = () => {
-        resetAllStates();
-        setKey(prevKey => prevKey + 1); // Change the key to force remount
-    };
-
     useEffect(() => {
-        // Reset states to initial when component mounts
         resetAllStates();
-    }, [key]); // Dependency array contains key, so it runs when key changes
+    }, [key, resetAllStates]);
 
     return (
-        <div key={key}> {/* Using the key to force remount */}
+        <div key={key}>
             <h1>2. Upload Manifest and Image</h1>
             <form onSubmit={handleSubmit}>
                 <div>
@@ -158,9 +147,7 @@ function FileUploadPage({ userName }) {
                         accept="image/jpeg,image/png"
                     />
                 </div>
-                <button
-                    type="submit"
-                    disabled={isLoading || !manifestFile || !imageFile}>
+                <button type="submit" disabled={isLoading || !manifestFile || !imageFile}>
                     Upload Files
                 </button>
             </form>
@@ -177,8 +164,6 @@ function FileUploadPage({ userName }) {
             )}
 
             {savedToFileBaby && <p>Image saved to File Baby successfully!</p>}
-            {/* Example usage of refreshComponent (you can call this function based on your application's need) */}
-            {/* <button onClick={refreshComponent}>Refresh Component</button> */}
         </div>
     );
 }
