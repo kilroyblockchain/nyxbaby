@@ -41,10 +41,10 @@ function ManifestRetriever() {
 
     return (
         <div>
-            <h1>Retrieve Manifest</h1>
+            <h1>Inspect a File</h1>
             <form onSubmit={handleSubmit}>
                 <div className="retrievedmanifest">
-                    <label htmlFor="file">Inspect a File:</label>
+                    <label htmlFor="file">File:</label>
                     <input
                         id="file"
                         type="file"
