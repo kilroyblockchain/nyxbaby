@@ -62,7 +62,7 @@ function ManifestRetriever() {
             {error && <p className="error">{error}</p>}
             {manifest && (
                 <div>
-                    <h2>Manifest:</h2>
+                    <h2>Manifest</h2>
                     <pre>{JSON.stringify(manifest, null, 2)}</pre>
                 </div>
             )}
