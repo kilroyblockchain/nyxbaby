@@ -65,6 +65,7 @@ function TenantFileGallery({ userName }) {
 
   return (
       <div>
+        <h1>My Files</h1>
         <div className="tenant-input-container">
           <input
               type="text"
