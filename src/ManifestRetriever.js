@@ -44,7 +44,7 @@ function ManifestRetriever() {
             <h1>Retrieve Manifest</h1>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="file">File:</label>
+                    <label htmlFor="file">Inspect a File:</label>
                     <input
                         id="file"
                         type="file"
