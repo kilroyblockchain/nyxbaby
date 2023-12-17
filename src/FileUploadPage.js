@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 function FileUploadPage({ userName }) {
     const [manifestFile, setManifestFile] = useState(null);
     const [imageFile, setImageFile] = useState(null);
+    const [imageFileName, setImageFileName] = useState('');
+    const [imageFileType, setImageFileType] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [uploadResponse, setUploadResponse] = useState(null);
     const [error, setError] = useState('');
@@ -27,9 +29,10 @@ function FileUploadPage({ userName }) {
         }
         if (imageFile) {
             formData.append('file', imageFile);
+            setImageFileName(imageFile.name);
+            setImageFileType(imageFile.type);
         }
-//https://dev-paybots-claim-engine.azurewebsites.net
-//https://paybots-claim-engine.azurewebsites.net
+
         try {
             const response = await fetch('https://paybots-claim-engine.azurewebsites.net/api/file_and_manifest', {
                 method: 'POST',
@@ -42,6 +45,10 @@ function FileUploadPage({ userName }) {
 
             const responseData = await response.arrayBuffer();
             setUploadResponse(responseData);
+
+            // Reset file states after successful upload
+            setManifestFile(null);
+            setImageFile(null);
         } catch (error) {
             console.error('Error uploading files:', error);
             setError(`Error uploading files: ${error.message}`);
@@ -65,24 +72,30 @@ function FileUploadPage({ userName }) {
 
             const containerUrl = 'https://filebaby.blob.core.windows.net/filebabyblob';
             const sasToken = process.env.REACT_APP_SAS_TOKEN;
-            const filePath = `${containerUrl}/${userName}/${imageFile.name}?${sasToken}`;
-            const mimeType = imageFile.type;
+            const filePath = `${containerUrl}/${userName}/${imageFileName}?${sasToken}`;
+            const mimeType = imageFileType;
 
             const response = await fetch(filePath, {
                 method: 'PUT',
                 headers: {
                     'x-ms-blob-type': 'BlockBlob',
-                    'Content-Type': mimeType, // Set the MIME type here
+                    'Content-Type': mimeType,
                 },
-                body: new Blob([uploadResponse], { type: mimeType }), // Set the Blob type
+                body: new Blob([uploadResponse], { type: mimeType }),
             });
-
 
             if (!response.ok) {
                 throw new Error(`Failed to save to File Baby with status: ${response.status}`);
             }
 
             setSavedToFileBaby(true);
+
+            // Reset all file-related states after saving to File Baby
+            setManifestFile(null);
+            setImageFile(null);
+            setImageFileName('');
+            setImageFileType('');
+            setUploadResponse(null);
         } catch (error) {
             console.error('Error saving to File Baby:', error);
             setError(`Error saving to File Baby: ${error.message}`);

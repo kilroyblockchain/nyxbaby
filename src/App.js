@@ -4,6 +4,7 @@ import TenantFileGallery from './TenantFileGallery';
 import logo from './logo.png';
 import FileUploadPage from './FileUploadPage';
 import ManifestGenerator from "./ManifestGenerator";
+import ManifestRetriever from "./ManifestRetriever";
 import caifoj from "./cai-foj-800.png";
 import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import msalInstance from "./authConfig";
@@ -30,6 +31,7 @@ function AppContent() {
                 <img src={logo} alt="my.file.baby... MINE!" className="responsive"/>
                 {isAuthenticated ? (
                     <>
+                        <ManifestRetriever />
                         <TenantFileGallery userName={userName} />
                         <ManifestGenerator />
                         <FileUploadPage userName={userName} />
