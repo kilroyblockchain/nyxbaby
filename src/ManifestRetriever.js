@@ -20,7 +20,7 @@ function ManifestRetriever() {
         formData.append('file', file);
 
         try {
-            const response = await fetch('https://dev-paybots-claim-engine.azurewebsites.net/api/manifest', {
+            const response = await fetch('https://paybots-claim-engine.azurewebsites.net/api/manifest', {
                 method: 'POST',
                 body: formData,
             });
