@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 
 function FileUploadPage({ userName }) {
-    const [key, setKey] = useState(0); // key for forcing remount
     const [manifestFile, setManifestFile] = useState(null);
     const [imageFile, setImageFile] = useState(null);
     const [imageFileName, setImageFileName] = useState('');
@@ -10,29 +9,6 @@ function FileUploadPage({ userName }) {
     const [uploadResponse, setUploadResponse] = useState(null);
     const [error, setError] = useState('');
     const [savedToFileBaby, setSavedToFileBaby] = useState(false);
-
-    // Refs for file inputs
-    const manifestFileInput = useRef(null);
-    const imageFileInput = useRef(null);
-
-    // Function to reset all states to initial
-    const resetAllStates = () => {
-        setManifestFile(null);
-        setImageFile(null);
-        setImageFileName('');
-        setImageFileType('');
-        setUploadResponse(null);
-        setSavedToFileBaby(false);
-        setError('');
-        setIsLoading(false);
-        resetFileInputs();
-    };
-
-    // Function to reset the file input fields
-    const resetFileInputs = () => {
-        if (manifestFileInput.current) manifestFileInput.current.value = "";
-        if (imageFileInput.current) imageFileInput.current.value = "";
-    };
 
     const handleManifestFileChange = (event) => {
         setManifestFile(event.target.files[0]);
@@ -70,8 +46,9 @@ function FileUploadPage({ userName }) {
             const responseData = await response.arrayBuffer();
             setUploadResponse(responseData);
 
-            // Reset file inputs after successful upload
-            resetFileInputs();
+            // Reset file states after successful upload
+            setManifestFile(null);
+            setImageFile(null);
         } catch (error) {
             console.error('Error uploading files:', error);
             setError(`Error uploading files: ${error.message}`);
@@ -113,8 +90,12 @@ function FileUploadPage({ userName }) {
 
             setSavedToFileBaby(true);
 
-            // Reset all states after saving to File Baby
-            resetAllStates();
+            // Reset all file-related states after saving to File Baby
+            setManifestFile(null);
+            setImageFile(null);
+            setImageFileName('');
+            setImageFileType('');
+            setUploadResponse(null);
         } catch (error) {
             console.error('Error saving to File Baby:', error);
             setError(`Error saving to File Baby: ${error.message}`);
@@ -123,25 +104,13 @@ function FileUploadPage({ userName }) {
         }
     };
 
-    // Function to force the component to remount
-    const refreshComponent = () => {
-        resetAllStates();
-        setKey(prevKey => prevKey + 1); // Change the key to force remount
-    };
-
-    useEffect(() => {
-        // Reset states to initial when component mounts
-        resetAllStates();
-    }, [key]); // Dependency array contains key, so it runs when key changes
-
     return (
-        <div key={key}> {/* Using the key to force remount */}
+        <div>
             <h1>2. Upload Manifest and Image</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="manifestFile">Manifest File:</label>
                     <input
-                        ref={manifestFileInput}
                         id="manifestFile"
                         type="file"
                         onChange={handleManifestFileChange}
@@ -151,7 +120,6 @@ function FileUploadPage({ userName }) {
                 <div>
                     <label htmlFor="imageFile">Image File:</label>
                     <input
-                        ref={imageFileInput}
                         id="imageFile"
                         type="file"
                         onChange={handleImageFileChange}
@@ -177,8 +145,6 @@ function FileUploadPage({ userName }) {
             )}
 
             {savedToFileBaby && <p>Image saved to File Baby successfully!</p>}
-            {/* Example usage of refreshComponent (you can call this function based on your application's need) */}
-            {/* <button onClick={refreshComponent}>Refresh Component</button> */}
         </div>
     );
 }
