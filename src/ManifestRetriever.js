@@ -25,6 +25,10 @@ function ManifestRetriever() {
                 body: formData,
             });
 
+            if (response.status === 500) {
+                throw new Error("No Manifest Found");
+            }
+
             if (!response.ok) {
                 throw new Error(`Manifest retrieval failed with status: ${response.status}`);
             }
@@ -33,7 +37,7 @@ function ManifestRetriever() {
             setManifest(responseData);
         } catch (error) {
             console.error('Error retrieving manifest:', error);
-            setError(`Error retrieving manifest: ${error.message}`);
+            setError(`Error: ${error.message}`);
         } finally {
             setIsLoading(false);
         }
