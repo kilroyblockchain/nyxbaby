@@ -79,7 +79,6 @@ function TenantFileGallery({ userName }) {
           {error && <p className="error">{error}</p>}
         </div>
         <div className="file-gallery">
-          <h1>My File Gallery</h1>
           {files.map((file, index) => (
               <div key={index} className="file-item">
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
