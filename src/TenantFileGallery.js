@@ -31,7 +31,8 @@ function TenantFileGallery({ userName }) {
       const filesData = blobs.map(blob => {
         const fullPath = blob.querySelector('Name').textContent;
         const fileName = fullPath.split('/').pop();
-        const url = `${containerUrl}/${fullPath}?${sasToken}`;
+        const encodedFullPath = encodeURIComponent(fullPath); // Encode the file path
+        const url = `${containerUrl}/${encodedFullPath}?${sasToken}`;
         const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
         return { name: fileName, url, verifyUrl };
       }).filter(file => !file.name.endsWith('.c2pa') && !file.name.endsWith('_thumbnail.png'));
@@ -94,9 +95,9 @@ function TenantFileGallery({ userName }) {
                   <p>{file.name}</p>
                 </a>
                 <p>
-                <a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">
-                  Verify
-                </a>
+                  <a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">
+                    Verify
+                  </a>
                 </p>
                 {/* Share link */}
                 <button onClick={() => handleShareClick(file.url)}>Share</button>
