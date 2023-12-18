@@ -98,7 +98,7 @@ function TenantFileGallery({ userName }) {
                 </a>
                 </p>
                 {/* Share link */}
-                <button onClick={() => handleShareClick(file.url)}>Share</button>
+                <button onClick={() => handleShareClick(file.Verifyurl)}>Share</button>
               </div>
           ))}
         </div>
