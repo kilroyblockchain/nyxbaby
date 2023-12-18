@@ -15,7 +15,7 @@ function TenantFileGallery({ userName }) {
 
     setError('');
     setLoading(true);
-    setFiles([]); // Clear current files
+    setFiles([]);
 
     const containerUrl = `https://filebaby.blob.core.windows.net/filebabyblob`;
     const sasToken = process.env.REACT_APP_SAS_TOKEN;
@@ -30,14 +30,11 @@ function TenantFileGallery({ userName }) {
       const blobs = Array.from(xml.querySelectorAll('Blob'));
       const filesData = blobs.map(blob => {
         const fullPath = blob.querySelector('Name').textContent;
-        const fileName = fullPath.split('/').pop(); // Extract the file name without the folder path
+        const fileName = fullPath.split('/').pop();
         const url = `${containerUrl}/${fullPath}?${sasToken}`;
         const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
-        return { name: fileName, url, verifyUrl }; // Store the name, URL, and verify URL
-      }).filter(file =>
-          !file.name.endsWith('.c2pa') && // Filter out .c2pa files
-          !file.name.endsWith('_thumbnail.png') // Filter out thumbnail files
-      );
+        return { name: fileName, url, verifyUrl };
+      }).filter(file => !file.name.endsWith('.c2pa') && !file.name.endsWith('_thumbnail.png'));
 
       setFiles(filesData);
     } catch (e) {
@@ -46,14 +43,14 @@ function TenantFileGallery({ userName }) {
     } finally {
       setLoading(false);
     }
-  }, [tenant]); // Dependency array for useCallback
+  }, [tenant]);
 
   useEffect(() => {
     if (userName) {
       setTenant(userName);
       fetchFiles();
     }
-  }, [userName, fetchFiles]); // Updated useEffect dependencies
+  }, [userName, fetchFiles]);
 
   const handleTenantChange = (event) => {
     setTenant(event.target.value);
@@ -61,6 +58,16 @@ function TenantFileGallery({ userName }) {
 
   const handleSearchClick = () => {
     fetchFiles();
+  };
+
+  // Function to copy file URL to clipboard and notify user
+  const handleShareClick = async (url) => {
+    try {
+      await navigator.clipboard.writeText(url);
+      alert('URL Copied to Clipboard!');
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
   };
 
   return (
@@ -85,10 +92,12 @@ function TenantFileGallery({ userName }) {
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
                   <img src={file.url} alt={file.name} />
                   <p>{file.name}</p>
-                </a> {/* Close the image link anchor tag */}
+                </a>
                 <a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">
                   Verify
-                </a> {/* Separate anchor tag for the Verify link */}
+                </a>
+                {/* Share link */}
+                <button onClick={() => handleShareClick(file.url)}>Share</button>
               </div>
           ))}
         </div>
