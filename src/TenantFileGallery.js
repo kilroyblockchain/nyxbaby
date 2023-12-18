@@ -21,7 +21,7 @@ function TenantFileGallery({ userName }) {
     const sasToken = process.env.REACT_APP_SAS_TOKEN;
 
     try {
-      const response = await fetch(`${containerUrl}?restype=container&comp=list&prefix=${encodeURIComponent(tenant)}/`);
+      const response = await fetch(`${containerUrl}?restype=container&comp=list&prefix=${encodeURIComponent}/`);
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.text();
 
