@@ -93,7 +93,7 @@ function TenantFileGallery({ userName }) {
                   <img src={file.url} alt={file.name} />
                   <p>{file.name}</p>
                 </a>
-                <a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">
+                <a href={file.verifyUrl} className={"verify"} target="_blank" rel="noopener noreferrer">
                   Verify
                 </a>
                 {/* Share link */}

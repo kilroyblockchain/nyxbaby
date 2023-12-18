@@ -39,7 +39,9 @@
 .tenant-input-container button:focus {
   background-color: #0056b3;
 }
-
+.verify a {
+  margin-right: 10px;
+}
 .error {
   color: #dc3545;
   text-align: center;
