@@ -31,8 +31,9 @@ function TenantFileGallery({ userName }) {
       const filesData = blobs.map(blob => {
         const fullPath = blob.querySelector('Name').textContent;
         const fileName = fullPath.split('/').pop();
-        const encodedFullPath = encodeURIComponent(fullPath); // Encode the file path
-        const url = `${containerUrl}/${encodedFullPath}?${sasToken}`;
+        const fileExtension = fileName.split('.').pop(); // Get the file extension
+        const encodedFilePath = encodeURIComponent(fullPath.split(`.${fileExtension}`)[0]); // Encode the file path up to the extension
+        const url = `${containerUrl}/${encodedFilePath}.${fileExtension}`; // Construct the URL with the extension
         const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
         return { name: fileName, url, verifyUrl };
       }).filter(file => !file.name.endsWith('.c2pa') && !file.name.endsWith('_thumbnail.png'));
