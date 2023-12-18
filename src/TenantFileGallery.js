@@ -18,7 +18,6 @@ function TenantFileGallery({ userName }) {
     setFiles([]);
 
     const containerUrl = `https://claimed.at.file.baby/filebabyblob`;
-    const sasToken = process.env.REACT_APP_SAS_TOKEN;
 
     try {
       const response = await fetch(`${containerUrl}?restype=container&comp=list&prefix=${encodeURIComponent(tenant)}/`);
