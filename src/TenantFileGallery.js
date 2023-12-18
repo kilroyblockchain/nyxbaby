@@ -18,7 +18,6 @@ function TenantFileGallery({ userName }) {
     setFiles([]);
 
     const containerUrl = `https://filebaby.blob.core.windows.net/filebabyblob`;
-    const sasToken = process.env.REACT_APP_SAS_TOKEN;
 
     try {
       const response = await fetch(`${containerUrl}?restype=container&comp=list&prefix=${encodeURIComponent(tenant)}/`);
@@ -31,7 +30,7 @@ function TenantFileGallery({ userName }) {
       const filesData = blobs.map(blob => {
         const fullPath = blob.querySelector('Name').textContent;
         const fileName = fullPath.split('/').pop();
-        const url = `${containerUrl}/${fullPath}?${sasToken}`;
+        const url = `${containerUrl}/${fullPath}`;
         const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
         return { name: fileName, url, verifyUrl };
       }).filter(file => !file.name.endsWith('.c2pa') && !file.name.endsWith('_thumbnail.png'));
