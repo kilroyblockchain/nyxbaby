@@ -17,7 +17,8 @@ function TenantFileGallery({ userName }) {
     setLoading(true);
     setFiles([]);
 
-    const containerUrl = `https://claimed.at.file.baby/filebabyblob`;
+    const containerUrl = `https://filebaby.blob.core.windows.net/filebabyblob`;
+    const sasToken = process.env.REACT_APP_SAS_TOKEN;
 
     try {
       const response = await fetch(`${containerUrl}?restype=container&comp=list&prefix=${encodeURIComponent(tenant)}/`);
@@ -30,7 +31,7 @@ function TenantFileGallery({ userName }) {
       const filesData = blobs.map(blob => {
         const fullPath = blob.querySelector('Name').textContent;
         const fileName = fullPath.split('/').pop();
-        const url = `${containerUrl}/${fullPath}`;
+        const url = `${containerUrl}/${fullPath}?${sasToken}`;
         const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
         return { name: fileName, url, verifyUrl };
       }).filter(file => !file.name.endsWith('.c2pa') && !file.name.endsWith('_thumbnail.png'));
@@ -92,11 +93,9 @@ function TenantFileGallery({ userName }) {
                   <img src={file.url} alt={file.name} />
                   <p>{file.name}</p>
                 </a>
-                <p>
-                <a href={file.verifyUrl} className={"verify"} target="_blank" rel="noopener noreferrer">
+                <a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">
                   Verify
                 </a>
-                </p>
                 {/* Share link */}
                 <button onClick={() => handleShareClick(file.url)}>Share</button>
               </div>
