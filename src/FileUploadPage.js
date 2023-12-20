@@ -15,7 +15,19 @@ function FileUploadPage({ userName }) {
     };
 
     const handleImageFileChange = (event) => {
-        setImageFile(event.target.files[0]);
+        const originalFile = event.target.files[0];
+        const uniqueTimeStamp = new Date().getTime(); // Get current timestamp
+        const uniqueFileName = `${uniqueTimeStamp}-${originalFile.name}`; // Append timestamp to original file name
+
+        // Create a new File object with the unique name
+        const imageFileWithUniqueName = new File([originalFile], uniqueFileName, {
+            type: originalFile.type,
+            lastModified: originalFile.lastModified,
+        });
+
+        setImageFile(imageFileWithUniqueName);
+        setImageFileName(uniqueFileName);
+        setImageFileType(originalFile.type);
     };
 
     const handleSubmit = async (event) => {
@@ -29,8 +41,6 @@ function FileUploadPage({ userName }) {
         }
         if (imageFile) {
             formData.append('file', imageFile);
-            setImageFileName(imageFile.name);
-            setImageFileType(imageFile.type);
         }
 
         try {
