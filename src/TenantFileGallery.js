@@ -17,7 +17,7 @@ function TenantFileGallery({ userName }) {
     setLoading(true);
     setFiles([]);
 
-    const containerUrl = `https://filebaby.blob.core.windows.net/filebabyblob`;
+    const containerUrl = `https://claimed.at.file.baby/filebabyblob`;
 
     try {
       const response = await fetch(`${containerUrl}?restype=container&comp=list&prefix=${encodeURIComponent(tenant)}/`);
