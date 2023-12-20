@@ -19,7 +19,7 @@ const ManifestGenerator = () => {
             alg: "ps256",
             ta_url: "http://timestamp.digicert.com",
             claim_generator: "my.file.baby",
-            title: "Claimed at My.File.Baby",
+            title: "Claimed at File.Baby",
             assertions: [
                 {
                     label: "stds.schema-org.CreativeWork",
@@ -103,7 +103,7 @@ const ManifestGenerator = () => {
                         name="profileId"
                         value={formData.profileId}
                         onChange={handleChange}
-                        placeholder="LinkedIn Profile URL"
+                        placeholder="LinkedIn, Instagram or Behance Profile URL"
                     />
                     <button onClick={generateManifest}>Generate Manifest</button>
                 </div>
