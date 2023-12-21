@@ -7,6 +7,8 @@ function TenantFileGallery({ userName }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const containerUrl = `https://claimed.at.file.baby/filebabyblob`;
+
   const fetchFiles = useCallback(async () => {
     if (!tenant) {
       setError('Please enter a tenant name.');
@@ -16,8 +18,6 @@ function TenantFileGallery({ userName }) {
     setError('');
     setLoading(true);
     setFiles([]);
-
-    const containerUrl = `https://claimed.at.file.baby/filebabyblob`;
 
     try {
       const response = await fetch(`${containerUrl}?restype=container&comp=list&prefix=${encodeURIComponent(tenant)}/`);
@@ -44,7 +44,7 @@ function TenantFileGallery({ userName }) {
     } finally {
       setLoading(false);
     }
-  }, [tenant]);
+  }, [containerUrl,tenant]);
 
   useEffect(() => {
     if (userName) {
@@ -61,13 +61,26 @@ function TenantFileGallery({ userName }) {
     fetchFiles();
   };
 
-  // Function to copy file URL to clipboard and notify user
   const handleShareClick = async (url) => {
     try {
       await navigator.clipboard.writeText(url);
       alert('URL Copied to Clipboard!');
     } catch (err) {
       console.error('Failed to copy:', err);
+    }
+  };
+
+  const handleDeleteClick = async (file) => {
+    try {
+      const response = await fetch(`${containerUrl}/${encodeURIComponent(file.name)}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      alert('File deleted successfully');
+      fetchFiles(); // Reload files after deletion
+    } catch (e) {
+      console.error('Error deleting file:', e);
+      alert('Failed to delete file.');
     }
   };
 
@@ -99,8 +112,8 @@ function TenantFileGallery({ userName }) {
                     Verify
                   </a>
                 </p>
-                {/* Share link */}
                 <button onClick={() => handleShareClick(file.url)}>Share</button>
+                <button onClick={() => handleDeleteClick(file)}>Delete</button>
               </div>
           ))}
         </div>
