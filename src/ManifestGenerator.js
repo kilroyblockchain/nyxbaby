@@ -80,7 +80,7 @@ const ManifestGenerator = () => {
 
     return (
         <div className="generator">
-            <h1>Claim my File</h1>
+            <h1>Claim My File</h1>
             <h2>1. Generate Manifest</h2>
             {!manifest ? (
                 <div className={"form-container"}>
