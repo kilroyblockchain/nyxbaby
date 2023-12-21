@@ -79,11 +79,11 @@ const ManifestGenerator = () => {
     };
 
     return (
-        <div>
+        <div className="generator">
             <h1>Claim my file</h1>
             <h2>1. Generate Manifest</h2>
             {!manifest ? (
-                <div>
+                <div className={"form-container"}>
                     <input
                         type="text"
                         name="author"

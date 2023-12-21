@@ -131,14 +131,34 @@ label {
   color: #61dafb;
 }
 .responsive {
-  max-width: 100%;
+  max-width: 300px;
   height: auto;
 }
 
 .retrievedmanifest label {
   display:none;
 }
-
+.generator {
+  max-width: 900px; /* Default max width for larger screens */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+}
+.generator .form-container {
+  margin-top: 0px;
+}
+.generator h1 {
+  margin-bottom: 0px;
+}
+@media screen and (max-width: 600px) {
+  .generator {
+    max-width: 525px; /* Smaller max width for phone screens */
+  }
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
