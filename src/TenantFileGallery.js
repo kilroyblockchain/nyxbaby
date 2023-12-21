@@ -7,6 +7,8 @@ function TenantFileGallery({ userName }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const containerUrl = `https://claimed.at.file.baby/filebabyblob`;
+
   const fetchFiles = useCallback(async () => {
     if (!tenant) {
       setError('Please enter a tenant name.');
@@ -16,8 +18,6 @@ function TenantFileGallery({ userName }) {
     setError('');
     setLoading(true);
     setFiles([]);
-
-    const containerUrl = `https://claimed.at.file.baby/filebabyblob`;
 
     try {
       const response = await fetch(`${containerUrl}?restype=container&comp=list&prefix=${encodeURIComponent(tenant)}/`);
@@ -30,9 +30,9 @@ function TenantFileGallery({ userName }) {
       const filesData = blobs.map(blob => {
         const fullPath = blob.querySelector('Name').textContent;
         const fileName = fullPath.split('/').pop();
-        const fileExtension = fileName.split('.').pop(); // Get the file extension
-        const encodedFilePath = encodeURIComponent(fullPath.split(`.${fileExtension}`)[0]); // Encode the file path up to the extension
-        const url = `${containerUrl}/${encodedFilePath}.${fileExtension}`; // Construct the URL with the extension
+        const fileExtension = fileName.split('.').pop();
+        const encodedFilePath = encodeURIComponent(fullPath.split(`.${fileExtension}`)[0]);
+        const url = `${containerUrl}/${encodedFilePath}.${fileExtension}`;
         const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
         return { name: fileName, url, verifyUrl };
       }).filter(file => !file.name.endsWith('.c2pa') && !file.name.endsWith('_thumbnail.png'));
@@ -44,7 +44,7 @@ function TenantFileGallery({ userName }) {
     } finally {
       setLoading(false);
     }
-  }, [tenant]);
+  }, [containerUrl, tenant]);
 
   useEffect(() => {
     if (userName) {
@@ -61,7 +61,6 @@ function TenantFileGallery({ userName }) {
     fetchFiles();
   };
 
-  // Function to copy file URL to clipboard and notify user
   const handleShareClick = async (url) => {
     try {
       await navigator.clipboard.writeText(url);
@@ -99,7 +98,6 @@ function TenantFileGallery({ userName }) {
                     Verify
                   </a>
                 </p>
-                {/* Share link */}
                 <button onClick={() => handleShareClick(file.url)}>Share</button>
               </div>
           ))}

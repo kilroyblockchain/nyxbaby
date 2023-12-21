@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function FileUploadPage({ userName }) {
     const [manifestFile, setManifestFile] = useState(null);
@@ -16,10 +16,9 @@ function FileUploadPage({ userName }) {
 
     const handleImageFileChange = (event) => {
         const originalFile = event.target.files[0];
-        const uniqueTimeStamp = new Date().getTime(); // Get current timestamp
-        const uniqueFileName = `${uniqueTimeStamp}-${originalFile.name}`; // Append timestamp to original file name
+        const uniqueTimeStamp = new Date().getTime();
+        const uniqueFileName = `${uniqueTimeStamp}-${originalFile.name}`;
 
-        // Create a new File object with the unique name
         const imageFileWithUniqueName = new File([originalFile], uniqueFileName, {
             type: originalFile.type,
             lastModified: originalFile.lastModified,
@@ -55,8 +54,6 @@ function FileUploadPage({ userName }) {
 
             const responseData = await response.arrayBuffer();
             setUploadResponse(responseData);
-
-            // Reset file states after successful upload
             setManifestFile(null);
             setImageFile(null);
         } catch (error) {
@@ -99,8 +96,7 @@ function FileUploadPage({ userName }) {
             }
 
             setSavedToFileBaby(true);
-
-            // Reset all file-related states after saving to File Baby
+            setTimeout(() => setSavedToFileBaby(false), 3000); // Reset after 3 seconds
             setManifestFile(null);
             setImageFile(null);
             setImageFileName('');
@@ -113,6 +109,14 @@ function FileUploadPage({ userName }) {
             setIsLoading(false);
         }
     };
+
+    useEffect(() => {
+        if (savedToFileBaby) {
+            // Perform actions when savedToFileBaby is true
+            // For example, display a success message
+        }
+        // This effect will run every time savedToFileBaby changes
+    }, [savedToFileBaby]);
 
     return (
         <div>

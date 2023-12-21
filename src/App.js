@@ -21,21 +21,22 @@ function SignInButton() {
 }
 
 function AppContent() {
+    const isDevelopment = process.env.NODE_ENV === 'development';
     const isAuthenticated = useIsAuthenticated();
     const { accounts } = useMsal();
-    const userName = accounts?.[0]?.username; // Retrieve the username of the signed-in user
+    const userName = isDevelopment ? "kilroy@uark.edu" : accounts?.[0]?.username;
 
     return (
         <div className="App">
             <header className="App-header">
                 <img src={logo} alt="my.file.baby... MINE!" className="responsive"/>
-                {isAuthenticated ? (
-                    <>
+                {isAuthenticated || isDevelopment ? (
+                    <p>
                         <ManifestRetriever />
                         <TenantFileGallery userName={userName} />
                         <ManifestGenerator />
                         <FileUploadPage userName={userName} />
-                    </>
+                    </p>
                 ) : (
                     <SignInButton />
                 )}
