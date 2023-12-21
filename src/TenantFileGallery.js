@@ -30,9 +30,9 @@ function TenantFileGallery({ userName }) {
       const filesData = blobs.map(blob => {
         const fullPath = blob.querySelector('Name').textContent;
         const fileName = fullPath.split('/').pop();
-        const fileExtension = fileName.split('.').pop(); // Get the file extension
-        const encodedFilePath = encodeURIComponent(fullPath.split(`.${fileExtension}`)[0]); // Encode the file path up to the extension
-        const url = `${containerUrl}/${encodedFilePath}.${fileExtension}`; // Construct the URL with the extension
+        const fileExtension = fileName.split('.').pop();
+        const encodedFilePath = encodeURIComponent(fullPath.split(`.${fileExtension}`)[0]);
+        const url = `${containerUrl}/${encodedFilePath}.${fileExtension}`;
         const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
         return { name: fileName, url, verifyUrl };
       }).filter(file => !file.name.endsWith('.c2pa') && !file.name.endsWith('_thumbnail.png'));
@@ -44,7 +44,7 @@ function TenantFileGallery({ userName }) {
     } finally {
       setLoading(false);
     }
-  }, [containerUrl,tenant]);
+  }, [containerUrl, tenant]);
 
   useEffect(() => {
     if (userName) {
@@ -67,20 +67,6 @@ function TenantFileGallery({ userName }) {
       alert('URL Copied to Clipboard!');
     } catch (err) {
       console.error('Failed to copy:', err);
-    }
-  };
-
-  const handleDeleteClick = async (file) => {
-    try {
-      const response = await fetch(`${containerUrl}/${encodeURIComponent(file.name)}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      alert('File deleted successfully');
-      fetchFiles(); // Reload files after deletion
-    } catch (e) {
-      console.error('Error deleting file:', e);
-      alert('Failed to delete file.');
     }
   };
 
@@ -113,7 +99,6 @@ function TenantFileGallery({ userName }) {
                   </a>
                 </p>
                 <button onClick={() => handleShareClick(file.url)}>Share</button>
-                <button onClick={() => handleDeleteClick(file)}>Delete</button>
               </div>
           ))}
         </div>
