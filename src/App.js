@@ -31,12 +31,12 @@ function AppContent() {
             <header className="App-header">
                 <img src={logo} alt="my.file.baby... MINE!" className="responsive"/>
                 {isAuthenticated || isDevelopment ? (
-                    <>
+                    <p>
                         <ManifestRetriever />
                         <TenantFileGallery userName={userName} />
                         <ManifestGenerator />
                         <FileUploadPage userName={userName} />
-                    </>
+                    </p>
                 ) : (
                     <SignInButton />
                 )}
