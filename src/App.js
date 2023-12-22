@@ -8,6 +8,7 @@ import ManifestRetriever from "./ManifestRetriever";
 import caifoj from "./cai-foj-800.png";
 import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import msalInstance from "./authConfig";
+import Chatbot from "./Chatbot";
 
 function SignInButton() {
     const { instance } = useMsal();
@@ -31,12 +32,13 @@ function AppContent() {
             <header className="App-header">
                 <img src={logo} alt="my.file.baby... MINE!" className="responsive"/>
                 {isAuthenticated || isDevelopment ? (
-                    <p>
+                    <div>
+                        <Chatbot />
                         <ManifestRetriever />
                         <TenantFileGallery userName={userName} />
                         <ManifestGenerator />
                         <FileUploadPage userName={userName} />
-                    </p>
+                    </div>
                 ) : (
                     <SignInButton />
                 )}
