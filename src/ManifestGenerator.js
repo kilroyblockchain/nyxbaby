@@ -19,7 +19,7 @@ const ManifestGenerator = () => {
             alg: "ps256",
             ta_url: "http://timestamp.digicert.com",
             claim_generator: "my.file.baby",
-            title: "Claimed at My.File.Baby",
+            title: "Claimed at File.Baby",
             assertions: [
                 {
                     label: "stds.schema-org.CreativeWork",
@@ -79,11 +79,11 @@ const ManifestGenerator = () => {
     };
 
     return (
-        <div>
-            <h1>Sign your own file:</h1>
+        <div className="generator">
+            <h1>Claim My File</h1>
             <h2>1. Generate Manifest</h2>
             {!manifest ? (
-                <div>
+                <div className={"form-container"}>
                     <input
                         type="text"
                         name="author"
@@ -103,7 +103,7 @@ const ManifestGenerator = () => {
                         name="profileId"
                         value={formData.profileId}
                         onChange={handleChange}
-                        placeholder="LinkedIn Profile URL"
+                        placeholder="LinkedIn, Instagram or Behance Profile URL"
                     />
                     <button onClick={generateManifest}>Generate Manifest</button>
                 </div>

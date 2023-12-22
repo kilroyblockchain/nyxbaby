@@ -32,9 +32,6 @@ function ManifestUpload() {
                 </button>
                 {error && <p className="error">{error}</p>}
             </div>
-            <div className="file-gallery">
-                {/* ... (Copy the code inside files.map() from your previous code) */}
-            </div>
         </div>
     );
 }

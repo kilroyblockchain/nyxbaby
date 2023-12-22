@@ -4,9 +4,11 @@ import TenantFileGallery from './TenantFileGallery';
 import logo from './logo.png';
 import FileUploadPage from './FileUploadPage';
 import ManifestGenerator from "./ManifestGenerator";
+import ManifestRetriever from "./ManifestRetriever";
 import caifoj from "./cai-foj-800.png";
 import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import msalInstance from "./authConfig";
+import Chatbot from "./Chatbot";
 
 function SignInButton() {
     const { instance } = useMsal();
@@ -20,20 +22,23 @@ function SignInButton() {
 }
 
 function AppContent() {
+    const isDevelopment = process.env.NODE_ENV === 'development';
     const isAuthenticated = useIsAuthenticated();
     const { accounts } = useMsal();
-    const userName = accounts?.[0]?.username; // Retrieve the username of the signed-in user
+    const userName = isDevelopment ? "kilroy@uark.edu" : accounts?.[0]?.username;
 
     return (
         <div className="App">
             <header className="App-header">
                 <img src={logo} alt="my.file.baby... MINE!" className="responsive"/>
-                {isAuthenticated ? (
-                    <>
+                {isAuthenticated || isDevelopment ? (
+                    <div>
+                        <Chatbot />
+                        <ManifestRetriever />
                         <TenantFileGallery userName={userName} />
                         <ManifestGenerator />
                         <FileUploadPage userName={userName} />
-                    </>
+                    </div>
                 ) : (
                     <SignInButton />
                 )}

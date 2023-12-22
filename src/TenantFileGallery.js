@@ -7,6 +7,8 @@ function TenantFileGallery({ userName }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const containerUrl = `https://claimed.at.file.baby/filebabyblob`;
+
   const fetchFiles = useCallback(async () => {
     if (!tenant) {
       setError('Please enter a tenant name.');
@@ -15,10 +17,7 @@ function TenantFileGallery({ userName }) {
 
     setError('');
     setLoading(true);
-    setFiles([]); // Clear current files
-
-    const containerUrl = `https://filebaby.blob.core.windows.net/filebabyblob`;
-    const sasToken = process.env.REACT_APP_SAS_TOKEN;
+    setFiles([]);
 
     try {
       const response = await fetch(`${containerUrl}?restype=container&comp=list&prefix=${encodeURIComponent(tenant)}/`);
@@ -30,14 +29,13 @@ function TenantFileGallery({ userName }) {
       const blobs = Array.from(xml.querySelectorAll('Blob'));
       const filesData = blobs.map(blob => {
         const fullPath = blob.querySelector('Name').textContent;
-        const fileName = fullPath.split('/').pop(); // Extract the file name without the folder path
-        const url = `${containerUrl}/${fullPath}?${sasToken}`;
+        const fileName = fullPath.split('/').pop();
+        const fileExtension = fileName.split('.').pop();
+        const encodedFilePath = encodeURIComponent(fullPath.split(`.${fileExtension}`)[0]);
+        const url = `${containerUrl}/${encodedFilePath}.${fileExtension}`;
         const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
-        return { name: fileName, url, verifyUrl }; // Store the name, URL, and verify URL
-      }).filter(file =>
-          !file.name.endsWith('.c2pa') && // Filter out .c2pa files
-          !file.name.endsWith('_thumbnail.png') // Filter out thumbnail files
-      );
+        return { name: fileName, url, verifyUrl };
+      }).filter(file => !file.name.endsWith('.c2pa') && !file.name.endsWith('_thumbnail.png'));
 
       setFiles(filesData);
     } catch (e) {
@@ -46,14 +44,14 @@ function TenantFileGallery({ userName }) {
     } finally {
       setLoading(false);
     }
-  }, [tenant]); // Dependency array for useCallback
+  }, [containerUrl, tenant]);
 
   useEffect(() => {
     if (userName) {
       setTenant(userName);
       fetchFiles();
     }
-  }, [userName, fetchFiles]); // Updated useEffect dependencies
+  }, [userName, fetchFiles]);
 
   const handleTenantChange = (event) => {
     setTenant(event.target.value);
@@ -63,8 +61,18 @@ function TenantFileGallery({ userName }) {
     fetchFiles();
   };
 
+  const handleShareClick = async (url) => {
+    try {
+      await navigator.clipboard.writeText(url);
+      alert('URL Copied to Clipboard!');
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
   return (
       <div>
+        <h1>My Files</h1>
         <div className="tenant-input-container">
           <input
               type="text"
@@ -84,10 +92,13 @@ function TenantFileGallery({ userName }) {
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
                   <img src={file.url} alt={file.name} />
                   <p>{file.name}</p>
-                </a> {/* Close the image link anchor tag */}
-                <a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">
-                  Verify
-                </a> {/* Separate anchor tag for the Verify link */}
+                </a>
+                <p>
+                  <a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">
+                    Verify
+                  </a>
+                </p>
+                <button onClick={() => handleShareClick(file.url)}>Share</button>
               </div>
           ))}
         </div>

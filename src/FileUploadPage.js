@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function FileUploadPage({ userName }) {
     const [manifestFile, setManifestFile] = useState(null);
     const [imageFile, setImageFile] = useState(null);
+    const [imageFileName, setImageFileName] = useState('');
+    const [imageFileType, setImageFileType] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [uploadResponse, setUploadResponse] = useState(null);
     const [error, setError] = useState('');
@@ -13,7 +15,18 @@ function FileUploadPage({ userName }) {
     };
 
     const handleImageFileChange = (event) => {
-        setImageFile(event.target.files[0]);
+        const originalFile = event.target.files[0];
+        const uniqueTimeStamp = new Date().getTime();
+        const uniqueFileName = `${uniqueTimeStamp}-${originalFile.name}`;
+
+        const imageFileWithUniqueName = new File([originalFile], uniqueFileName, {
+            type: originalFile.type,
+            lastModified: originalFile.lastModified,
+        });
+
+        setImageFile(imageFileWithUniqueName);
+        setImageFileName(uniqueFileName);
+        setImageFileType(originalFile.type);
     };
 
     const handleSubmit = async (event) => {
@@ -28,10 +41,9 @@ function FileUploadPage({ userName }) {
         if (imageFile) {
             formData.append('file', imageFile);
         }
-//https://dev-paybots-claim-engine.azurewebsites.net
-//https://paybots-claim-engine.azurewebsites.net/api/http_example
+
         try {
-            const response = await fetch('https://dev-paybots-claim-engine.azurewebsites.net', {
+            const response = await fetch('https://paybots-claim-engine.azurewebsites.net/api/file_and_manifest', {
                 method: 'POST',
                 body: formData,
             });
@@ -42,6 +54,8 @@ function FileUploadPage({ userName }) {
 
             const responseData = await response.arrayBuffer();
             setUploadResponse(responseData);
+            setManifestFile(null);
+            setImageFile(null);
         } catch (error) {
             console.error('Error uploading files:', error);
             setError(`Error uploading files: ${error.message}`);
@@ -65,24 +79,29 @@ function FileUploadPage({ userName }) {
 
             const containerUrl = 'https://filebaby.blob.core.windows.net/filebabyblob';
             const sasToken = process.env.REACT_APP_SAS_TOKEN;
-            const filePath = `${containerUrl}/${userName}/${imageFile.name}?${sasToken}`;
-            const mimeType = imageFile.type;
+            const filePath = `${containerUrl}/${userName}/${imageFileName}?${sasToken}`;
+            const mimeType = imageFileType;
 
             const response = await fetch(filePath, {
                 method: 'PUT',
                 headers: {
                     'x-ms-blob-type': 'BlockBlob',
-                    'Content-Type': mimeType, // Set the MIME type here
+                    'Content-Type': mimeType,
                 },
-                body: new Blob([uploadResponse], { type: mimeType }), // Set the Blob type
+                body: new Blob([uploadResponse], { type: mimeType }),
             });
-
 
             if (!response.ok) {
                 throw new Error(`Failed to save to File Baby with status: ${response.status}`);
             }
 
             setSavedToFileBaby(true);
+            setTimeout(() => setSavedToFileBaby(false), 3000); // Reset after 3 seconds
+            setManifestFile(null);
+            setImageFile(null);
+            setImageFileName('');
+            setImageFileType('');
+            setUploadResponse(null);
         } catch (error) {
             console.error('Error saving to File Baby:', error);
             setError(`Error saving to File Baby: ${error.message}`);
@@ -90,6 +109,14 @@ function FileUploadPage({ userName }) {
             setIsLoading(false);
         }
     };
+
+    useEffect(() => {
+        if (savedToFileBaby) {
+            // Perform actions when savedToFileBaby is true
+            // For example, display a success message
+        }
+        // This effect will run every time savedToFileBaby changes
+    }, [savedToFileBaby]);
 
     return (
         <div>
