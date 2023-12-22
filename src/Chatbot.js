@@ -14,7 +14,7 @@ const Chatbot = () => {
         e.preventDefault();
         if (!userInput.trim()) return;
 
-        const openAIEndpoint = "https://project-filebabygpt3-axqar.eastus.inference.ml.azure.com/score";
+        const openAIEndpoint = "https://filebabygpt3.openai.azure.com/openai/deployments/FBChat35turbo/chat/completions?api-version=2023-07-01-preview";
 
         // Define the headers
         const headers = {
