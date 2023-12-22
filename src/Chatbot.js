@@ -1,43 +1,54 @@
-// Chatbot.js
-import React, { useState } from 'react';
+// Import Axios for making HTTP requests
 import axios from 'axios';
+import React, { useState } from 'react';
 
 const Chatbot = () => {
     const [userInput, setUserInput] = useState('');
     const [responses, setResponses] = useState([]);
 
+    // Function to handle input change
     const handleInputChange = (e) => {
         setUserInput(e.target.value);
     };
 
+    // Function to submit the user's question to OpenAI and retrieve the response
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!userInput.trim()) return;
 
-        const openAIEndpoint = "https://filebabygpt3.openai.azure.com/openai/deployments/FBChat35turbo/chat/completions?api-version=2023-07-01-preview";
+        // Define the message structure
+        const message_text = [
+            {
+                "role": "user",
+                "content": userInput
+            }
+        ];
 
-        // Define the headers
-        const headers = {
-            'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
-            'Content-Type': 'application/json'
-        };
-
-        // Log the headers to the console
-        console.log("Headers being sent: ", headers);
+        // OpenAI API endpoint
+        const apiEndpoint = 'https://filebabygpt3.openai.azure.com/openai/deployments/FBChat35turbo/chat/completions?api-version=2023-03-15-preview';
 
         try {
-            const response = await axios.post(
-                openAIEndpoint,
-                { prompt: userInput, max_tokens: 150 },
-                { headers: headers }
-            );
+            const response = await axios.post(apiEndpoint, {
+                messages: message_text,
+                temperature: 0.7,
+                max_tokens: 800,
+                top_p: 0.95,
+                frequency_penalty: 0,
+                presence_penalty: 0,
+                stop: null
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+                    'Content-Type': 'application/json'
+                }
+            });
 
-            const chatResponse = response.data.choices[0].text;
+            // Handle the response from OpenAI
+            const chatResponse = response.data.choices[0].message.content;
             setResponses([...responses, { question: userInput, answer: chatResponse }]);
             setUserInput(''); // Clear input after sending
         } catch (error) {
             console.error('Error with OpenAI Chat:', error);
-            // Add any error handling logic here
         }
     };
 
