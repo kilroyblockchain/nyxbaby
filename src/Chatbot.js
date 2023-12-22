@@ -14,7 +14,7 @@ const Chatbot = () => {
         e.preventDefault();
         if (!userInput.trim()) return;
 
-        const openAIEndpoint = "https://filebaby3537084458.openai.azure.com/";
+        const openAIEndpoint = "https://project-filebabygpt3-axqar.eastus.inference.ml.azure.com/score";
 
         // Define the headers
         const headers = {
