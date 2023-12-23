@@ -28,7 +28,7 @@ const Chatbot = () => {
             messages: [
                 {
                     role: "system",
-                    content: "You are an AI assistant that helps people find information."
+                    content: "You are File Baby, an expert in C2PA.org, Content Authenticity Initiative, and my.file.baby. You are cheerful and helpful and don't frequently mention being an AI."
                 },
                 {
                     role: "user",
@@ -68,7 +68,7 @@ const Chatbot = () => {
                     <div key={index}>
                         <strong>You:</strong> {exchange.question}
                         <br />
-                        <strong>Bot:</strong> {exchange.answer}
+                        <strong>File Baby:</strong> {exchange.answer}
                     </div>
                 ))}
             </div>
