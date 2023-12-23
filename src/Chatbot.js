@@ -1,75 +1,74 @@
-// Import Axios for making HTTP requests
-import axios from 'axios';
+// Chatbot.js
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const Chatbot = () => {
-    const [userInput, setUserInput] = useState('');
-    const [responses, setResponses] = useState([]);
+    const [prompt, setPrompt] = useState('');
+    const [response, setResponse] = useState([]);
 
-    // Function to handle input change
     const handleInputChange = (e) => {
-        setUserInput(e.target.value);
+        setPrompt(e.target.value);
     };
 
-    // Function to submit the user's question to OpenAI and retrieve the response
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!userInput.trim()) return;
+        if (!prompt.trim()) return;
 
-        // Define the message structure
-        const message_text = [
-            {
-                "role": "user",
-                "content": userInput
-            }
-        ];
+        // Use the endpoint URL as shown in the Azure AI Studio sample code
+        const apiEndpoint = "https://filebabygpt3.openai.azure.com/openai/deployments/FBChat35turbo/chat/completions?api-version=2023-07-01-preview";
 
-        // OpenAI API endpoint
-        const apiEndpoint = 'https://filebabygpt3.openai.azure.com/openai/deployments/FBChat35turbo/chat/completions?api-version=2023-03-15-preview';
+        // Use the header format as shown in the sample code
+        const headers = {
+            'api-key': process.env.REACT_APP_OPENAI_API_KEY,
+            'Content-Type': 'application/json'
+        };
+
+        // Set the request data according to the sample code structure
+        const data = {
+            messages: [
+                {
+                    role: "system",
+                    content: "You are an AI assistant that helps people find information."
+                },
+                {
+                    role: "user",
+                    content: prompt
+                }
+            ],
+            // Additional parameters like temperature, max_tokens, etc. can be added here
+        };
 
         try {
-            const response = await axios.post(apiEndpoint, {
-                messages: message_text,
-                temperature: 0.7,
-                max_tokens: 800,
-                top_p: 0.95,
-                frequency_penalty: 0,
-                presence_penalty: 0,
-                stop: null
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            // Handle the response from OpenAI
-            const chatResponse = response.data.choices[0].message.content;
-            setResponses([...responses, { question: userInput, answer: chatResponse }]);
-            setUserInput(''); // Clear input after sending
+            // Make the POST request to the OpenAI API
+            const response = await axios.post(apiEndpoint, data, { headers: headers });
+            // Update the state with the response data
+            // Make sure to adjust the path to the message content according to the actual API response structure
+            setResponse(prevResponses => [...prevResponses, { question: prompt, answer: response.data.choices[0].message.content }]);
+            setPrompt(''); // Clear the input after sending
         } catch (error) {
             console.error('Error with OpenAI Chat:', error);
+            // Handle errors here, such as updating the UI to notify the user
         }
     };
 
     return (
         <div>
-            <h1>File Baby Chatbot</h1>
+            <h1>Chatbot</h1>
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
-                    value={userInput}
+                    value={prompt}
                     onChange={handleInputChange}
-                    placeholder="Ask me anything..."
+                    placeholder="Type your message"
                 />
                 <button type="submit">Send</button>
             </form>
             <div>
-                {responses.map((exchange, index) => (
+                {response.map((exchange, index) => (
                     <div key={index}>
                         <strong>You:</strong> {exchange.question}
                         <br />
-                        <strong>File Baby:</strong> {exchange.answer}
+                        <strong>Bot:</strong> {exchange.answer}
                     </div>
                 ))}
             </div>
