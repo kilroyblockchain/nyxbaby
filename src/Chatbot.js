@@ -53,7 +53,7 @@ const Chatbot = () => {
 
     return (
         <div>
-            <h1>Chatbot</h1>
+            <h1>Chatbot GPT4</h1>
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
