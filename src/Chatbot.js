@@ -15,7 +15,7 @@ const Chatbot = () => {
         if (!prompt.trim()) return;
 
         // Use the endpoint URL as shown in the Azure AI Studio sample code
-        const apiEndpoint = "https://karen-ai4-aiservices591054455.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2023-03-15-preview";
+        const apiEndpoint = "https://karen-ai4-aiservices591054455.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2023-07-01-preview";
 
         // Use the header format as shown in the sample code
         const headers = {
