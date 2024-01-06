@@ -108,6 +108,13 @@ label {
   height: 40vmin;
   pointer-events: none;
 }
+.user {
+  color: blue;
+}
+.chat {
+  font-size:1em;
+margin: 20px;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

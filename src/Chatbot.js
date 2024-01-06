@@ -15,8 +15,9 @@ const Chatbot = () => {
         if (!prompt.trim()) return;
 
         // Use the endpoint URL as shown in the Azure AI Studio sample code
-        const apiEndpoint = "https://filebabygpt3.openai.azure.com/openai/deployments/FBChat35turbo/chat/completions?api-version=2023-07-01-preview";
-
+    //    const apiEndpoint = "https://filebabygpt3.openai.azure.com/openai/deployments/FBChat35turbo/chat/completions?api-version=2023-07-01-preview";
+        const apiEndpoint = "https://fbprompt351104.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2023-03-15-preview";
+        //const apiEndpoint="https://filebabydalle.openai.azure.com/openai/images/generations:submit?api-version=2023-06-01-preview";
         // Use the header format as shown in the sample code
         const headers = {
             'api-key': process.env.REACT_APP_OPENAI_API_KEY,
@@ -53,7 +54,7 @@ const Chatbot = () => {
 
     return (
         <div>
-            <h1>Chatbot</h1>
+            <h1>Prompt</h1>
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -65,10 +66,10 @@ const Chatbot = () => {
             </form>
             <div>
                 {response.map((exchange, index) => (
-                    <div key={index}>
-                        <strong>You:</strong> {exchange.question}
-                        <br />
-                        <strong>File Baby:</strong> {exchange.answer}
+                    <div className={"chat"} key={index}>
+                        <div className={"user"}><strong>You:</strong> {exchange.question}
+                            <br /></div>
+                        <div className={"filebaby"}><strong>File Baby:</strong> {exchange.answer}</div>
                     </div>
                 ))}
             </div>
