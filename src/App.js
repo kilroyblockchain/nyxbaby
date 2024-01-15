@@ -35,7 +35,7 @@ function AppContent() {
                 {isAuthenticated || isDevelopment ? (
                     <div>
                         <Chatbot />
-                        <Imagebot />
+                        <Imagebot userName={userName} />
                         <ManifestRetriever />
                         <TenantFileGallery userName={userName} />
                         <ManifestGenerator />

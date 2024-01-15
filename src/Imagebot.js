@@ -1,11 +1,12 @@
-// Imagebot.js
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Imagebot = () => {
+const Imagebot = ({ userName }) => {
     const [prompt, setPrompt] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [savedToFileBaby, setSavedToFileBaby] = useState(false);
+    const [error, setError] = useState('');
 
     const handleInputChange = (e) => {
         setPrompt(e.target.value);
@@ -13,53 +14,98 @@ const Imagebot = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsLoading(true); // Indicate that a request is in progress
-        if (!prompt.trim()) return;
+        setIsLoading(true);
+        if (!prompt.trim()) {
+            setError('Prompt cannot be empty.');
+            setIsLoading(false);
+            return;
+        }
 
         const apiEndpoint = "https://filebabydalle.openai.azure.com/openai/images/generations:submit?api-version=2023-06-01-preview";
-
         const headers = {
             'api-key': process.env.REACT_APP_OPENAI_API_KEY,
             'Content-Type': 'application/json'
         };
-
         const data = {
             prompt: prompt,
-            size: "1024x1024", // Size of the image to generate
-            n: 1, // Number of images to generate
+            size: "1024x1024",
+            n: 1,
         };
 
         try {
-            // Make the POST request to the DALL·E API
             const response = await axios.post(apiEndpoint, data, { headers: headers });
             const operationLocation = response.headers['operation-location'];
-
-            // Function to poll the operation location for the result
             const pollForImage = async (operationLocation) => {
                 try {
                     const statusResponse = await axios.get(operationLocation, { headers: headers });
-                    console.log('Polling response data:', statusResponse.data); // Log the response data
-
-                    // Check if the status is 'succeeded' and if the URL is present
                     if (statusResponse.status === 200 && statusResponse.data.status === 'succeeded' && statusResponse.data.result.data[0].url) {
-                        setImageUrl(statusResponse.data.result.data[0].url); // Set the image URL
-                        setIsLoading(false); // Set loading state to false
+                        setImageUrl(statusResponse.data.result.data[0].url);
+                        setIsLoading(false);
                     } else {
-                        console.log('Image not ready, retrying...');
-                        // If the image is not ready, poll again after a delay
-                        setTimeout(() => pollForImage(operationLocation), 1000); // Retry every second
+                        setTimeout(() => pollForImage(operationLocation), 1000);
                     }
                 } catch (pollError) {
                     console.error('Error polling for image:', pollError);
-                    setIsLoading(false); // Set loading state to false
+                    setIsLoading(false);
                 }
             };
 
-            pollForImage(operationLocation); // Start polling
-            setPrompt(''); // Clear the input after sending
+            pollForImage(operationLocation);
         } catch (error) {
             console.error('Error with DALL·E API:', error);
-            setIsLoading(false); // Set loading state to false
+            setIsLoading(false);
+        }
+    };
+
+    const handleSaveToFileBaby = async () => {
+        if (!userName) {
+            setError('User name is not defined. Cannot save to specific folder.');
+            return;
+        }
+
+        setIsLoading(true);
+        setError('');
+
+        if (!imageUrl) {
+            setError('No image to save.');
+            setIsLoading(false);
+            return;
+        }
+
+        try {
+            const response = await fetch(imageUrl);
+            const imageBlob = await response.blob();
+            const mimeType = imageBlob.type;
+
+            // Use the entire email address as the folder name
+            const encodedUserName = encodeURIComponent(userName);
+            const containerUrl = 'https://filebaby.blob.core.windows.net/filebabyblob';
+            const sasToken = process.env.REACT_APP_SAS_TOKEN;
+            const filePath = `${containerUrl}/${encodedUserName}/${prompt}-${Date.now()}.png`;
+
+            const uploadResponse = await fetch(`${filePath}?${sasToken}`, {
+                method: 'PUT',
+                headers: {
+                    'x-ms-blob-type': 'BlockBlob',
+                    'Content-Type': mimeType,
+                },
+                body: new Blob([imageBlob], { type: mimeType }),
+            });
+
+            if (!uploadResponse.ok) {
+                throw new Error(`Failed to save to File Baby with status: ${uploadResponse.status}`);
+            }
+
+            setSavedToFileBaby(true);
+            setTimeout(() => {
+                setSavedToFileBaby(false);
+                setImageUrl('');
+            }, 3000);
+        } catch (error) {
+            console.error('Error saving to File Baby:', error);
+            setError(`Error saving to File Baby: ${error.message}`);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -74,17 +120,20 @@ const Imagebot = () => {
                     placeholder="Describe the image you want to generate"
                     disabled={isLoading}
                 />
-                <button type="submit" disabled={isLoading}>
-                    {isLoading ? 'Generating...' : 'Generate'}
-                </button>
+                <button type="submit" disabled={isLoading}>Generate</button>
             </form>
-            {imageUrl && (
+            {error && <p className="error">{error}</p>}
+            {imageUrl && !savedToFileBaby && (
                 <div>
                     <h2>Generated Image:</h2>
                     <img src={imageUrl} alt="Generated" style={{ maxWidth: '100%', maxHeight: '500px' }} />
+                    <button onClick={handleSaveToFileBaby} disabled={isLoading}>
+                        Save to File Baby
+                    </button>
                 </div>
             )}
             {isLoading && <p>Generating your image, please wait...</p>}
+            {savedToFileBaby && <p>Image saved to File Baby successfully!</p>}
         </div>
     );
 };
