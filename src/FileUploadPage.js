@@ -1,32 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 function FileUploadPage({ userName }) {
     const [manifestFile, setManifestFile] = useState(null);
-    const [imageFile, setImageFile] = useState(null);
-    const [imageFileName, setImageFileName] = useState('');
-    const [imageFileType, setImageFileType] = useState('');
+    const [file, setFile] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [uploadResponse, setUploadResponse] = useState(null);
+    const [uploadedFileUrl, setUploadedFileUrl] = useState('');
     const [error, setError] = useState('');
-    const [savedToFileBaby, setSavedToFileBaby] = useState(false);
 
     const handleManifestFileChange = (event) => {
         setManifestFile(event.target.files[0]);
     };
 
-    const handleImageFileChange = (event) => {
+    const handleFileChange = (event) => {
         const originalFile = event.target.files[0];
-        const uniqueTimeStamp = new Date().getTime();
-        const uniqueFileName = `${uniqueTimeStamp}-${originalFile.name}`;
-
-        const imageFileWithUniqueName = new File([originalFile], uniqueFileName, {
-            type: originalFile.type,
-            lastModified: originalFile.lastModified,
-        });
-
-        setImageFile(imageFileWithUniqueName);
-        setImageFileName(uniqueFileName);
-        setImageFileType(originalFile.type);
+        setFile(originalFile);
     };
 
     const handleSubmit = async (event) => {
@@ -38,8 +26,8 @@ function FileUploadPage({ userName }) {
         if (manifestFile) {
             formData.append('file', manifestFile);
         }
-        if (imageFile) {
-            formData.append('file', imageFile);
+        if (file) {
+            formData.append('file', file);
         }
 
         try {
@@ -53,74 +41,22 @@ function FileUploadPage({ userName }) {
             }
 
             const responseData = await response.arrayBuffer();
+            const blob = new Blob([responseData]);
+            const url = URL.createObjectURL(blob);
+            setUploadedFileUrl(url);
             setUploadResponse(responseData);
             setManifestFile(null);
-            setImageFile(null);
+            setFile(null);
         } catch (error) {
             console.error('Error uploading files:', error);
             setError(`Error uploading files: ${error.message}`);
-        } finally {
+        }finally {
             setIsLoading(false);
         }
     };
-
-    const handleSaveToFileBaby = async () => {
-        if (!userName) {
-            setError('User name is not defined. Cannot save to specific folder.');
-            return;
-        }
-
-        setIsLoading(true);
-        try {
-            if (!uploadResponse) {
-                setError('No file uploaded to save.');
-                return;
-            }
-
-            const containerUrl = 'https://filebaby.blob.core.windows.net/filebabyblob';
-            const sasToken = process.env.REACT_APP_SAS_TOKEN;
-            const filePath = `${containerUrl}/${userName}/${imageFileName}?${sasToken}`;
-            const mimeType = imageFileType;
-
-            const response = await fetch(filePath, {
-                method: 'PUT',
-                headers: {
-                    'x-ms-blob-type': 'BlockBlob',
-                    'Content-Type': mimeType,
-                },
-                body: new Blob([uploadResponse], { type: mimeType }),
-            });
-
-            if (!response.ok) {
-                throw new Error(`Failed to save to File Baby with status: ${response.status}`);
-            }
-
-            setSavedToFileBaby(true);
-            setTimeout(() => setSavedToFileBaby(false), 3000); // Reset after 3 seconds
-            setManifestFile(null);
-            setImageFile(null);
-            setImageFileName('');
-            setImageFileType('');
-            setUploadResponse(null);
-        } catch (error) {
-            console.error('Error saving to File Baby:', error);
-            setError(`Error saving to File Baby: ${error.message}`);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        if (savedToFileBaby) {
-            // Perform actions when savedToFileBaby is true
-            // For example, display a success message
-        }
-        // This effect will run every time savedToFileBaby changes
-    }, [savedToFileBaby]);
-
     return (
         <div>
-            <h1>2. Upload Manifest and Image</h1>
+            <h1>Upload Files</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="manifestFile">Manifest File:</label>
@@ -132,33 +68,34 @@ function FileUploadPage({ userName }) {
                     />
                 </div>
                 <div>
-                    <label htmlFor="imageFile">Image File:</label>
+                    <label htmlFor="fileInput">File (Image/Audio/Video):</label>
                     <input
-                        id="imageFile"
+                        id="fileInput"
                         type="file"
-                        onChange={handleImageFileChange}
-                        accept="image/jpeg,image/png"
+                        onChange={handleFileChange}
+                        accept="image/jpeg,image/png,audio/mp3,video/mp4"
                     />
                 </div>
-                <button
-                    type="submit"
-                    disabled={isLoading || !manifestFile || !imageFile}>
+                <button type="submit" disabled={isLoading || !manifestFile || !file}>
                     Upload Files
                 </button>
             </form>
 
             {isLoading && <p>Uploading...</p>}
             {error && <p className="error">{error}</p>}
-            {uploadResponse && !savedToFileBaby && (
+            {uploadResponse && !isLoading && (
                 <div>
-                    <img src={URL.createObjectURL(new Blob([uploadResponse]))} alt="Processed" />
-                    <button onClick={handleSaveToFileBaby} disabled={isLoading}>
-                        Save to File Baby
-                    </button>
+                    <p>File uploaded successfully!</p>
+                    <audio controls>
+                        <source src={uploadedFileUrl} type="audio/mpeg" />
+                        Your browser does not support the audio element.
+                    </audio>
+                    <br/>
+                    <a href={uploadedFileUrl} download>
+                        Download File
+                    </a>
                 </div>
             )}
-
-            {savedToFileBaby && <p>Image saved to File Baby successfully!</p>}
         </div>
     );
 }
