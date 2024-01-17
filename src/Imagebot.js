@@ -126,7 +126,7 @@ const Imagebot = ({ userName }) => {
             {imageUrl && !savedToFileBaby && (
                 <div>
                     <h2>Generated Image:</h2>
-                    <div class={"generated-image"}>
+                    <div className={"generated-image"}>
                     <img className={"generated"} src={imageUrl} alt="Generated" style={{ maxWidth: '100%', maxHeight: '500px' }} />
                     </div>
                     <button onClick={handleSaveToFileBaby} disabled={isLoading}>

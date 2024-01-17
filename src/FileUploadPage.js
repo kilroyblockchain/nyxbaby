@@ -150,8 +150,8 @@ function FileUploadPage({ userName }) {
             {isLoading && <p>Uploading...</p>}
             {error && <p className="error">{error}</p>}
             {uploadResponse && !savedToFileBaby && (
-                <div>
-                    <img src={URL.createObjectURL(new Blob([uploadResponse]))} alt="Processed" />
+                <div className={"signed"}>
+                    <img src={URL.createObjectURL(new Blob([uploadResponse]))} alt="Processed" className={"signed"} />
                     <button onClick={handleSaveToFileBaby} disabled={isLoading}>
                         Save to File Baby
                     </button>
