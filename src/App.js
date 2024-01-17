@@ -55,7 +55,7 @@ function AppContent() {
                     To inspect your content, use <a href="https://contentcredentials.org/verify" target="_blank" rel="noopener noreferrer">contentcredentials.org/verify</a>
                 </p>
                 <p>
-                    &copy; 2023-2024, <a href="https://friendsofjustin.knowbots.org">Friends of Justin</a>
+                    &copy; Copyright 2024, <a href={"https://file.baby"} alt={"File Baby"}>File Baby</a> in partnership with <a href="https://friendsofjustin.knowbots.org">Friends of Justin</a>, All Rights Reserved
                 </p>
             </footer>
         </div>
