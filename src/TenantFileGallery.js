@@ -70,6 +70,15 @@ function TenantFileGallery({ userName }) {
     }
   };
 
+  const audioPlaceholder = './audio_placeholder.png'; // Path to your audio placeholder image
+
+  const getFileThumbnail = (file) => {
+    if (file.name.endsWith('.mp3')) {
+      return audioPlaceholder;
+    }
+    return file.url;
+  };
+
   return (
       <div>
         <h1>My Files</h1>
@@ -90,7 +99,7 @@ function TenantFileGallery({ userName }) {
           {files.map((file, index) => (
               <div key={index} className="file-item">
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
-                  <img src={file.url} alt={file.name} />
+                  <img src={getFileThumbnail(file)} alt={file.name} />
                   <p>{file.name}</p>
                 </a>
                 <p>

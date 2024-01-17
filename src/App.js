@@ -8,7 +8,6 @@ import ManifestRetriever from "./ManifestRetriever";
 import caifoj from "./cai-foj-800.png";
 import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import msalInstance from "./authConfig";
-import Chatbot from "./Chatbot";
 import Imagebot from "./Imagebot";
 
 function SignInButton() {
@@ -32,9 +31,9 @@ function AppContent() {
         <div className="App">
             <header className="App-header">
                 <img src={logo} alt="my.file.baby... MINE!" className="responsive"/>
+            </header>
                 {isAuthenticated || isDevelopment ? (
                     <div>
-                        <Chatbot />
                         <Imagebot userName={userName} />
                         <ManifestRetriever />
                         <TenantFileGallery userName={userName} />
@@ -44,7 +43,7 @@ function AppContent() {
                 ) : (
                     <SignInButton />
                 )}
-            </header>
+
             <footer className="footer">
                 <p>
                     <a href="https://file.baby">About File Baby</a>
