@@ -10,13 +10,20 @@ const Chatbot = ({ setFilterCriteria }) => {
     };
 
     const interpretAndActOnGPTResponse = (gptResponse) => {
-        if (gptResponse.toLowerCase().includes("hello world")) {
-            setFilterCriteria({ action: 'showHelloWorld' });
+        const lowerCaseResponse = gptResponse.toLowerCase();
+
+        if (lowerCaseResponse.includes("image") || lowerCaseResponse.includes("photo")) {
+            setFilterCriteria({ type: 'image' });
+        } else if (lowerCaseResponse.includes("audio") || lowerCaseResponse.includes("music")) {
+            setFilterCriteria({ type: 'audio' });
+        } else if (lowerCaseResponse.includes("document")) {
+            setFilterCriteria({ type: 'document' });
+        } else if (lowerCaseResponse.includes("video")) {
+            setFilterCriteria({ type: 'video' });
         } else {
-            setFilterCriteria({});
+            setFilterCriteria({}); // Clear filter criteria
         }
     };
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -32,7 +39,7 @@ const Chatbot = ({ setFilterCriteria }) => {
             messages: [
                 {
                     role: "system",
-                    content: "You are File Baby, an expert in C2PA.org, Content Authenticity Initiative, and my.file.baby. You are cheerful and helpful and don't frequently mention being an AI."
+                    content: "You are a file filtering assistant."
                 },
                 {
                     role: "user",
@@ -42,25 +49,26 @@ const Chatbot = ({ setFilterCriteria }) => {
         };
 
         try {
-            const response = await axios.post(apiEndpoint, data, { headers: headers });
-            const gptResponse = response.data.choices[0].message.content;
+            const apiResponse = await axios.post(apiEndpoint, data, { headers });
+            const gptResponse = apiResponse.data.choices[0].message.content;
             setResponse(prevResponses => [...prevResponses, { question: prompt, answer: gptResponse }]);
             interpretAndActOnGPTResponse(gptResponse);
-            setPrompt('');
         } catch (error) {
             console.error('Error with OpenAI Chat:', error);
         }
+
+        setPrompt(''); // Clear the input field
     };
 
     return (
         <div>
-            <h1>Chatbot GPT4</h1>
+            <h1>Chat with File Baby</h1>
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
                     value={prompt}
                     onChange={handleInputChange}
-                    placeholder="Type your message"
+                    placeholder="Ask me to filter files"
                 />
                 <button type="submit">Send</button>
             </form>

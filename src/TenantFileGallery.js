@@ -7,6 +7,8 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Define the containerUrl outside of the useCallback hook if it does not change,
+  // or inside the hook if it depends on other stateful values.
   const containerUrl = `https://claimed.at.file.baby/filebabyblob`;
 
   const fetchFiles = useCallback(async () => {
@@ -27,7 +29,7 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
       const parser = new DOMParser();
       const xml = parser.parseFromString(data, "application/xml");
       const blobs = Array.from(xml.querySelectorAll('Blob'));
-      const filesData = blobs.map(blob => {
+      let filesData = blobs.map(blob => {
         const fullPath = blob.querySelector('Name').textContent;
         const fileName = fullPath.split('/').pop();
         const fileExtension = fileName.split('.').pop();
@@ -37,6 +39,15 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
         return { name: fileName, url, verifyUrl };
       });
 
+      // Apply filters based on filterCriteria
+      if (filterCriteria.type === 'image') {
+        filesData = filesData.filter(file => file.name.match(/\.(jpg|jpeg|png|gif)$/i));
+      } else if (filterCriteria.type === 'audio') {
+        filesData = filesData.filter(file => file.name.match(/\.(mp3|wav|aac)$/i));
+      } else if (filterCriteria.type ==="video") {
+        filesData = filesData.filter(file => file.name.match(/\.(mp4|mov|avi)$/i));
+      }
+
       setFiles(filesData);
     } catch (e) {
       console.error('Error fetching files:', e);
@@ -44,7 +55,7 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
     } finally {
       setLoading(false);
     }
-  }, [containerUrl, tenant]);
+  }, [tenant, filterCriteria, containerUrl]); // Included containerUrl in the dependency array
 
   useEffect(() => {
     if (userName) {
@@ -73,14 +84,6 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
     }
   };
 
-  const getFlashingText = () => {
-    return (
-        <div className="flashing-text">
-          Hello World
-        </div>
-    );
-  };
-
   return (
       <div>
         <h1>My Files</h1>
@@ -98,11 +101,10 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
           {error && <p className="error">{error}</p>}
         </div>
         <div className="file-gallery">
-          {filterCriteria.action === 'showHelloWorld' && getFlashingText()}
           {files.map((file, index) => (
               <div key={index} className="file-item">
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
-                  <img src={file.url} alt={file.name} />
+                  <img src={file.url} alt={file.name} className="file-thumbnail" />
                   <p>{file.name}</p>
                 </a>
                 <p>
