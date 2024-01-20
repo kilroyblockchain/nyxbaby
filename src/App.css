@@ -154,6 +154,15 @@ label {
 .generator h1 {
   margin-bottom: 0px;
 }
+.flashing-text {
+  color: yellow;
+  font-size: 24px;
+  animation: flash 1s linear infinite;
+}
+
+@keyframes flash {
+  50% { opacity: 0; }
+}
 @media screen and (max-width: 600px) {
   .generator {
     max-width: 525px; /* Smaller max width for phone screens */

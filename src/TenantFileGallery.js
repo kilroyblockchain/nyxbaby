@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './TenantFileGallery.css';
 
-function TenantFileGallery({ userName }) {
+function TenantFileGallery({ userName, filterCriteria = {} }) {
   const [tenant, setTenant] = useState('');
   const [files, setFiles] = useState([]);
   const [error, setError] = useState('');
@@ -35,7 +35,7 @@ function TenantFileGallery({ userName }) {
         const url = `${containerUrl}/${encodedFilePath}.${fileExtension}`;
         const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
         return { name: fileName, url, verifyUrl };
-      }).filter(file => !file.name.endsWith('.c2pa') && !file.name.endsWith('_thumbnail.png'));
+      });
 
       setFiles(filesData);
     } catch (e) {
@@ -49,9 +49,12 @@ function TenantFileGallery({ userName }) {
   useEffect(() => {
     if (userName) {
       setTenant(userName);
-      fetchFiles();
     }
-  }, [userName, fetchFiles]);
+  }, [userName]);
+
+  useEffect(() => {
+    fetchFiles();
+  }, [fetchFiles]);
 
   const handleTenantChange = (event) => {
     setTenant(event.target.value);
@@ -68,6 +71,14 @@ function TenantFileGallery({ userName }) {
     } catch (err) {
       console.error('Failed to copy:', err);
     }
+  };
+
+  const getFlashingText = () => {
+    return (
+        <div className="flashing-text">
+          Hello World
+        </div>
+    );
   };
 
   return (
@@ -87,6 +98,7 @@ function TenantFileGallery({ userName }) {
           {error && <p className="error">{error}</p>}
         </div>
         <div className="file-gallery">
+          {filterCriteria.action === 'showHelloWorld' && getFlashingText()}
           {files.map((file, index) => (
               <div key={index} className="file-item">
                 <a href={file.url} target="_blank" rel="noopener noreferrer">

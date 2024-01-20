@@ -1,8 +1,7 @@
-// Chatbot.js
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Chatbot = () => {
+const Chatbot = ({ setFilterCriteria }) => {
     const [prompt, setPrompt] = useState('');
     const [response, setResponse] = useState([]);
 
@@ -10,20 +9,25 @@ const Chatbot = () => {
         setPrompt(e.target.value);
     };
 
+    const interpretAndActOnGPTResponse = (gptResponse) => {
+        if (gptResponse.toLowerCase().includes("hello world")) {
+            setFilterCriteria({ action: 'showHelloWorld' });
+        } else {
+            setFilterCriteria({});
+        }
+    };
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!prompt.trim()) return;
 
-        // Use the endpoint URL as shown in the Azure AI Studio sample code
         const apiEndpoint = "https://karen-ai4-aiservices591054455.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2023-07-01-preview";
-
-        // Use the header format as shown in the sample code
         const headers = {
             'api-key': process.env.REACT_APP_OPENAI_API_KEY,
             'Content-Type': 'application/json'
         };
 
-        // Set the request data according to the sample code structure
         const data = {
             messages: [
                 {
@@ -35,19 +39,16 @@ const Chatbot = () => {
                     content: prompt
                 }
             ],
-            // Additional parameters like temperature, max_tokens, etc. can be added here
         };
 
         try {
-            // Make the POST request to the OpenAI API
             const response = await axios.post(apiEndpoint, data, { headers: headers });
-            // Update the state with the response data
-            // Make sure to adjust the path to the message content according to the actual API response structure
-            setResponse(prevResponses => [...prevResponses, { question: prompt, answer: response.data.choices[0].message.content }]);
-            setPrompt(''); // Clear the input after sending
+            const gptResponse = response.data.choices[0].message.content;
+            setResponse(prevResponses => [...prevResponses, { question: prompt, answer: gptResponse }]);
+            interpretAndActOnGPTResponse(gptResponse);
+            setPrompt('');
         } catch (error) {
             console.error('Error with OpenAI Chat:', error);
-            // Handle errors here, such as updating the UI to notify the user
         }
     };
 
