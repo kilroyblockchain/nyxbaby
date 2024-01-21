@@ -23,7 +23,7 @@ const Imagebot = ({ userName }) => {
 
         const apiEndpoint = "https://filebabydalle.openai.azure.com/openai/images/generations:submit?api-version=2023-06-01-preview";
         const headers = {
-            'api-key': process.env.REACT_APP_OPENAI_API_KEY,
+            'api-key': process.env.REACT_APP_DALLE_OPENAI_API_KEY,
             'Content-Type': 'application/json'
         };
         const data = {
