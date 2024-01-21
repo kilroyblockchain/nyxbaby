@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import TenantFileGallery from './TenantFileGallery';
 import logo from './logo.png';
 import FileUploadPage from './FileUploadPage';
 import ManifestGenerator from "./ManifestGenerator";
 import ManifestRetriever from "./ManifestRetriever";
-import caifoj from "./cai-foj-800.png";
 import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import msalInstance from "./authConfig";
 import Imagebot from "./Imagebot";
+import Chatbot from "./Chatbot";
+import caifoj from './cai-foj-800.png'
 
 function SignInButton() {
     const { instance } = useMsal();
@@ -22,6 +23,7 @@ function SignInButton() {
 }
 
 function AppContent() {
+    const [filterCriteria, setFilterCriteria] = useState({}); // Added state for filter criteria
     const isDevelopment = process.env.NODE_ENV === 'development';
     const isAuthenticated = useIsAuthenticated();
     const { accounts } = useMsal();
@@ -35,8 +37,9 @@ function AppContent() {
                 {isAuthenticated || isDevelopment ? (
                     <div>
                         <Imagebot userName={userName} />
+                        <Chatbot setFilterCriteria={setFilterCriteria} /> {/* Passing setFilterCriteria */}
                         <ManifestRetriever />
-                        <TenantFileGallery userName={userName} />
+                        <TenantFileGallery userName={userName} filterCriteria={filterCriteria} /> {/* Passing filterCriteria */}
                         <ManifestGenerator />
                         <FileUploadPage userName={userName} />
                     </div>
@@ -57,6 +60,9 @@ function AppContent() {
                 <p>
                     &copy; Copyright 2024, <a href={"https://file.baby"} alt={"File Baby"}>File Baby</a> in partnership with <a href="https://friendsofjustin.knowbots.org">Friends of Justin</a>, All Rights Reserved
                 </p>
+
+                {/* Footer content */}
+
             </footer>
         </div>
     );
