@@ -31,12 +31,7 @@ const Chatbot = ({ setFilterCriteria }) => {
 
 
         // Use the endpoint URL as shown in the Azure AI Studio sample code
-        const apiEndpoint = "https://filebabygpt3.openai.azure.com/openai/deployments/FBChat35turbo/chat/completions?api-version=2023-07-01-preview";
-    //    const apiEndpoint = "https://fbprompt351104.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2023-03-15-preview";
-      //  const apiEndpoint="https://filebabydalle.openai.azure.com/openai/images/generations:submit?api-version=2023-06-01-preview";
-        // Use the header format as shown in the sample code
-
-      //const apiEndpoint = "https://karen-ai4-aiservices591054455.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2023-07-01-preview";
+        const apiEndpoint = "https://fbprompt351104.openai.azure.com/openai/deployments/gpt-35-turbo/chat/completions?api-version=2023-07-01-preview";
 
         const headers = {
             'api-key': process.env.REACT_APP_OPENAI_API_KEY,
