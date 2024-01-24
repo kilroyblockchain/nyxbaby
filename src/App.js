@@ -9,7 +9,7 @@ import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import msalInstance from "./authConfig";
 import Imagebot from "./Imagebot";
 import Chatbot from "./Chatbot";
-import caifb from './CAI-FB-full_sized.png'
+import caifb from './CAI-FB-800.png'
 
 function SignInButton() {
     const { instance } = useMsal();
