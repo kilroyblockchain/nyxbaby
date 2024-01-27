@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './TenantFileGallery.css';
 
-function TenantFileGallery({ userName }) {
+function TenantFileGallery({ userName, filterCriteria = {} }) {
   const [tenant, setTenant] = useState('');
   const [files, setFiles] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Define the containerUrl outside of the useCallback hook if it does not change,
+  // or inside the hook if it depends on other stateful values.
   const containerUrl = `https://claimed.at.file.baby/filebabyblob`;
 
   const fetchFiles = useCallback(async () => {
@@ -27,7 +29,7 @@ function TenantFileGallery({ userName }) {
       const parser = new DOMParser();
       const xml = parser.parseFromString(data, "application/xml");
       const blobs = Array.from(xml.querySelectorAll('Blob'));
-      const filesData = blobs.map(blob => {
+      let filesData = blobs.map(blob => {
         const fullPath = blob.querySelector('Name').textContent;
         const fileName = fullPath.split('/').pop();
         const fileExtension = fileName.split('.').pop();
@@ -35,7 +37,16 @@ function TenantFileGallery({ userName }) {
         const url = `${containerUrl}/${encodedFilePath}.${fileExtension}`;
         const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
         return { name: fileName, url, verifyUrl };
-      }).filter(file => !file.name.endsWith('.c2pa') && !file.name.endsWith('_thumbnail.png'));
+      });
+
+      // Apply filters based on filterCriteria
+      if (filterCriteria.type === 'image') {
+        filesData = filesData.filter(file => file.name.match(/\.(jpg|jpeg|png|gif)$/i));
+      } else if (filterCriteria.type === 'audio') {
+        filesData = filesData.filter(file => file.name.match(/\.(mp3|wav|aac)$/i));
+      } else if (filterCriteria.type ==="video") {
+        filesData = filesData.filter(file => file.name.match(/\.(mp4|mov|avi)$/i));
+      }
 
       setFiles(filesData);
     } catch (e) {
@@ -44,14 +55,17 @@ function TenantFileGallery({ userName }) {
     } finally {
       setLoading(false);
     }
-  }, [containerUrl, tenant]);
+  }, [tenant, filterCriteria, containerUrl]); // Included containerUrl in the dependency array
 
   useEffect(() => {
     if (userName) {
       setTenant(userName);
-      fetchFiles();
     }
-  }, [userName, fetchFiles]);
+  }, [userName]);
+
+  useEffect(() => {
+    fetchFiles();
+  }, [fetchFiles]);
 
   const handleTenantChange = (event) => {
     setTenant(event.target.value);
@@ -99,6 +113,7 @@ function TenantFileGallery({ userName }) {
           {files.map((file, index) => (
               <div key={index} className="file-item">
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
+
                   <img src={getFileThumbnail(file)} alt={file.name} />
                   <p>{file.name}</p>
                 </a>
