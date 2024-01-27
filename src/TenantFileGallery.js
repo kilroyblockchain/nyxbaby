@@ -5,7 +5,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
   const [tenant, setTenant] = useState(userName || '');
   const [files, setFiles] = useState([]);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);  // Utilize loading state
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [nameFilter, setNameFilter] = useState('');
@@ -14,7 +14,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
 
   const fetchFiles = useCallback(async () => {
     setError('');
-    setLoading(true);
+    setLoading(true);  // Start loading
     setFiles([]);
 
     try {
@@ -35,12 +35,10 @@ function TenantFileGallery({ userName, filterCriteria }) {
         return { name: fileName, url, verifyUrl, type: fileExtension };
       });
 
-      // Apply name filter
       if (nameFilter) {
         filesData = filesData.filter(file => file.name.toLowerCase().includes(nameFilter.toLowerCase()));
       }
 
-      // Apply type filter from filterCriteria if specified
       if (filterCriteria && filterCriteria.type) {
         const regex = new RegExp(`.(${filterCriteria.type})$`, 'i');
         filesData = filesData.filter(file => file.name.match(regex));
@@ -50,7 +48,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
     } catch (e) {
       setError(`Failed to load resources. ${e.message}`);
     } finally {
-      setLoading(false);
+      setLoading(false);  // End loading
     }
   }, [tenant, filterCriteria, nameFilter, containerUrl]);
 
@@ -66,7 +64,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
     setTenant(event.target.value);
   };
 
-  const handleSearchClick = () => {
+  const handleSearchClick = () => {  // Implement search functionality
     fetchFiles();
   };
 
@@ -110,17 +108,19 @@ function TenantFileGallery({ userName, filterCriteria }) {
               placeholder="Enter Your Name"
               disabled={!!userName}
           />
+        </div>
+        <div className={"filter-filenames"}>
+        <div className="pagination-controls">
           <input
+              className={"file-search"}
               type="text"
               value={nameFilter}
               onChange={(e) => setNameFilter(e.target.value)}
               placeholder="Filter by filename"
           />
           <button onClick={handleSearchClick} disabled={loading}>
-            {loading ? 'Loading...' : 'Search'}
+            {loading ? 'Loading...' : 'Search'}  {/* Utilize loading state */}
           </button>
-        </div>
-        <div className="pagination-controls">
           <div className="items-per-page-selector">
             <label htmlFor="itemsPerPage">Items per page:</label>
             <select id="itemsPerPage" value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
@@ -137,6 +137,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
             Next
           </button>
         </div>
+        </div>
 
         <div className="file-gallery">
           {currentFiles.map((file, index) => (
@@ -145,8 +146,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
                   <img src={getFileThumbnail(file)} alt={file.name} className="file-thumbnail" />
                   <p>{file.name}</p>
                 </a>
-                <p><a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">Verify</a>
-                </p>
+                <p><a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">Verify</a></p>
                 <button onClick={() => handleShareClick(file.url)}>Share</button>
               </div>
           ))}

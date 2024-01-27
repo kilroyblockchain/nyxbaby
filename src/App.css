@@ -38,6 +38,9 @@ input[type="file"] {
   border-radius: 4px;
   box-sizing: border-box; /* To include padding in width */
 }
+input [class="file-search"] {
+max-width:200px;
+}
 
 /* Style the buttons to make them stand out */
 button,
@@ -51,6 +54,9 @@ input[type="submit"] {
   cursor: pointer;
   border-radius: 4px;
   transition: background-color 0.3s ease;
+}
+.filter-filenames {
+  justify-self: center;
 }
 
 /* Hover state for buttons */

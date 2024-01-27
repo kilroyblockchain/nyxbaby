@@ -71,7 +71,8 @@
 }
 
 .file-gallery {
-  display: flex;
+  display:flex;
+  min-width:950px;
   flex-wrap: wrap;
   gap: 16px;
   justify-content: center;
@@ -95,7 +96,9 @@
   display: block;
   margin-bottom: 8px;
 }
-
+.file-search {
+  max-width:400px;
+}
 
 @media (max-width: 768px) {
   .file-item {
