@@ -127,7 +127,7 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
               type="text"
               value={nameFilter}
               onChange={(e) => setNameFilter(e.target.value)}
-              placeholder="Filter by name"
+              placeholder="Filter by filename"
           />
           <button onClick={handleSearchClick} disabled={loading}>
             {loading ? 'Loading...' : 'Search'}
