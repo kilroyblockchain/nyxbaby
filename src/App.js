@@ -46,11 +46,13 @@ function AppContent() {
                 ) : (
                     <SignInButton />
                 )}
+            <p>
+            <img src={caifb} alt="File Baby is a member of Content Authenticity Initiative" className="responsive" />
+        </p>
+
 
             <footer className="footer">
-                <p>
-                    <img src={caifb} alt="File Baby is a member of Content Authenticity Initiative" className="responsive" />
-                </p>
+
                 <p>
                     <a href="https://file.baby">Privacy Policy & Terms of Use</a>
                 </p>
