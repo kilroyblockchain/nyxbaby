@@ -124,6 +124,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
           <div className="items-per-page-selector">
             <label htmlFor="itemsPerPage">Items per page:</label>
             <select id="itemsPerPage" value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
+              <option value="5">5</option>
               <option value="10">10</option>
               <option value="20">20</option>
               <option value="50">50</option>

@@ -106,12 +106,15 @@
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 400px) {
   .file-item {
     width: 100%; /* Full width for file items on very small screens */
   }
 
-  /* Adjust the footer and any other elements for smaller screens */
+  .file-search {
+    max-width:400px;
+  }
+    /* Adjust the footer and any other elements for smaller screens */
   .footer img.responsive {
     max-width: 80%; /* Adjust the width of footer images on very small screens */
     height: auto;
