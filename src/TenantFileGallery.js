@@ -8,7 +8,7 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [nameFilter, setNameFilter] = useState('');  // State for name filter
+  const [nameFilter, setNameFilter] = useState('');
 
   const containerUrl = `https://claimed.at.file.baby/filebabyblob`;
 
@@ -31,10 +31,10 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
         const fileExtension = fileName.split('.').pop();
         const encodedFilePath = encodeURIComponent(fullPath.split(`.${fileExtension}`)[0]);
         const url = `${containerUrl}/${encodedFilePath}.${fileExtension}`;
-        return { name: fileName, url, type: fileExtension };
+        const verifyUrl = `https://contentcredentials.org/verify/${encodedFilePath}.${fileExtension}`; // Setting the verify URL
+        return { name: fileName, url, verifyUrl, type: fileExtension };
       });
 
-      // Apply type filter from filterCriteria if specified
       if (filterCriteria.type) {
         const regex = filterCriteria.type === 'image' ? /\.(jpg|jpeg|png|gif)$/i :
             filterCriteria.type === 'audio' ? /\.(mp3|wav|aac)$/i :
@@ -44,7 +44,6 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
         }
       }
 
-      // Apply name filter
       if (nameFilter) {
         filesData = filesData.filter(file => file.name.toLowerCase().includes(nameFilter.toLowerCase()));
       }
@@ -55,7 +54,7 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
     } finally {
       setLoading(false);
     }
-  }, [tenant, filterCriteria, nameFilter, containerUrl]);  // Include nameFilter in dependencies
+  }, [tenant, filterCriteria, nameFilter, containerUrl]);
 
   useEffect(() => {
     if (userName) {
@@ -68,7 +67,7 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
   }, [fetchFiles]);
 
   useEffect(() => {
-    setCurrentPage(1);  // Reset to the first page whenever itemsPerPage or nameFilter changes
+    setCurrentPage(1);
   }, [itemsPerPage, nameFilter]);
 
   const handleTenantChange = (event) => {
@@ -89,9 +88,8 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
   };
 
   const getFileThumbnail = (file) => {
-    // Placeholder image for audio files
     if (file.type === 'mp3' || file.type === 'wav' || file.type === 'aac') {
-      return '/html/audio_placeholder.png';  // Adjust the path as needed
+      return '/audio_placeholder.png'; // Use the placeholder for audio files
     }
     return file.url;
   };
@@ -123,7 +121,7 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
               placeholder="Enter Your Name"
               disabled={!!userName}
           />
-          <input  // Name filter input
+          <input
               type="text"
               value={nameFilter}
               onChange={(e) => setNameFilter(e.target.value)}
@@ -133,24 +131,15 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
             {loading ? 'Loading...' : 'Search'}
           </button>
         </div>
-        <div className="pagination-controls">
-          <div className="items-per-page-selector">
-            <label htmlFor="itemsPerPage">Items per page:</label>
-            <select id="itemsPerPage" value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
-          </div>
-          <button onClick={handlePreviousClick} disabled={isFirstPage}>
-            Previous
-          </button>
-          <button onClick={handleNextClick} disabled={isLastPage}>
-            Next
-          </button>
+        <div className="items-per-page-selector">
+          <label htmlFor="itemsPerPage">Items per page:</label>
+          <select id="itemsPerPage" value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
         </div>
-
         <div className="file-gallery">
           {currentFiles.map((file, index) => (
               <div key={index} className="file-item">
@@ -158,6 +147,12 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
                   <img src={getFileThumbnail(file)} alt={file.name} />
                   <p>{file.name}</p>
                 </a>
+                <p>
+                  <a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">
+                    Verify
+                  </a>
+                </p>
+
                 <button onClick={() => handleShareClick(file.url)}>Share</button>
               </div>
           ))}
