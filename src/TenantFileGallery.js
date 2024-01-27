@@ -6,9 +6,9 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
   const [files, setFiles] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); // Adjust based on your preference
 
-  // Define the containerUrl outside of the useCallback hook if it does not change,
-  // or inside the hook if it depends on other stateful values.
   const containerUrl = `https://claimed.at.file.baby/filebabyblob`;
 
   const fetchFiles = useCallback(async () => {
@@ -40,12 +40,13 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
       });
 
       // Apply filters based on filterCriteria
-      if (filterCriteria.type === 'image') {
-        filesData = filesData.filter(file => file.name.match(/\.(jpg|jpeg|png|gif)$/i));
-      } else if (filterCriteria.type === 'audio') {
-        filesData = filesData.filter(file => file.name.match(/\.(mp3|wav|aac)$/i));
-      } else if (filterCriteria.type ==="video") {
-        filesData = filesData.filter(file => file.name.match(/\.(mp4|mov|avi)$/i));
+      if (filterCriteria.type) {
+        const regex = filterCriteria.type === 'image' ? /\.(jpg|jpeg|png|gif)$/i :
+            filterCriteria.type === 'audio' ? /\.(mp3|wav|aac)$/i :
+                filterCriteria.type === 'video' ? /\.(mp4|mov|avi)$/i : null;
+        if (regex) {
+          filesData = filesData.filter(file => file.name.match(regex));
+        }
       }
 
       setFiles(filesData);
@@ -55,7 +56,7 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
     } finally {
       setLoading(false);
     }
-  }, [tenant, filterCriteria, containerUrl]); // Included containerUrl in the dependency array
+  }, [tenant, filterCriteria, containerUrl]);
 
   useEffect(() => {
     if (userName) {
@@ -84,14 +85,20 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
     }
   };
 
-  const audioPlaceholder = './audio_placeholder.png'; // Path to your audio placeholder image
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentFiles = files.slice(indexOfFirstItem, indexOfLastItem);
 
-  const getFileThumbnail = (file) => {
-    if (file.name.endsWith('.mp3')) {
-      return audioPlaceholder;
-    }
-    return file.url;
+  const handlePreviousClick = () => {
+    setCurrentPage(currentPage - 1);
   };
+
+  const handleNextClick = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === Math.ceil(files.length / itemsPerPage);
 
   return (
       <div>
@@ -110,21 +117,23 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
           {error && <p className="error">{error}</p>}
         </div>
         <div className="file-gallery">
-          {files.map((file, index) => (
+          {currentFiles.map((file, index) => (
               <div key={index} className="file-item">
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
-
-                  <img src={getFileThumbnail(file)} alt={file.name} />
+                  <img src={file.url} alt={file.name} />
                   <p>{file.name}</p>
                 </a>
-                <p>
-                  <a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">
-                    Verify
-                  </a>
-                </p>
                 <button onClick={() => handleShareClick(file.url)}>Share</button>
               </div>
           ))}
+        </div>
+        <div className="pagination-controls">
+          <button onClick={handlePreviousClick} disabled={isFirstPage}>
+            Previous
+          </button>
+          <button onClick={handleNextClick} disabled={isLastPage}>
+            Next
+          </button>
         </div>
       </div>
   );
