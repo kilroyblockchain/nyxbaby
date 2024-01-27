@@ -38,7 +38,33 @@
 .tenant-input-container button:focus {
   background-color: #0056b3;
 }
+.filter-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
 
+.filter-container input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  width: 300px; /* Adjust as needed */
+  transition: border-color 0.3s ease-in-out;
+}
+
+.filter-container input[type="text"]:focus {
+  border-color: #007bff; /* Highlight input border when focused */
+  outline: none;
+}
+
+.items-per-page-selector {
+  font-size: .5em;
+  float:left;
+  width: 200px;
+}
+.filter-container {
+}
 .error {
   color: #dc3545;
   text-align: center;

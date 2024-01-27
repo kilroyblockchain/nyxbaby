@@ -1,23 +1,19 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './TenantFileGallery.css';
 
-function TenantFileGallery({ userName, filterCriteria = {} }) {
+function TenantFileGallery({ userName }) {
   const [tenant, setTenant] = useState('');
   const [files, setFiles] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(''); // Error state
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10); // Adjust based on your preference
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [nameFilter, setNameFilter] = useState('');
 
   const containerUrl = `https://claimed.at.file.baby/filebabyblob`;
 
   const fetchFiles = useCallback(async () => {
-    if (!tenant) {
-      setError('Please enter a tenant name.');
-      return;
-    }
-
-    setError('');
+    setError(''); // Reset error state
     setLoading(true);
     setFiles([]);
 
@@ -32,31 +28,17 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
       let filesData = blobs.map(blob => {
         const fullPath = blob.querySelector('Name').textContent;
         const fileName = fullPath.split('/').pop();
-        const fileExtension = fileName.split('.').pop();
-        const encodedFilePath = encodeURIComponent(fullPath.split(`.${fileExtension}`)[0]);
-        const url = `${containerUrl}/${encodedFilePath}.${fileExtension}`;
-        const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
-        return { name: fileName, url, verifyUrl };
+        const url = `${containerUrl}/${encodeURIComponent(fullPath)}`;
+        return { name: fileName, url };
       });
-
-      // Apply filters based on filterCriteria
-      if (filterCriteria.type) {
-        const regex = filterCriteria.type === 'image' ? /\.(jpg|jpeg|png|gif)$/i :
-            filterCriteria.type === 'audio' ? /\.(mp3|wav|aac)$/i :
-                filterCriteria.type === 'video' ? /\.(mp4|mov|avi)$/i : null;
-        if (regex) {
-          filesData = filesData.filter(file => file.name.match(regex));
-        }
-      }
 
       setFiles(filesData);
     } catch (e) {
-      console.error('Error fetching files:', e);
-      setError('Failed to load resources.');
+      setError(`Failed to load resources. ${e.message}`); // Set error message
     } finally {
       setLoading(false);
     }
-  }, [tenant, filterCriteria, containerUrl]);
+  }, [tenant, containerUrl]);
 
   useEffect(() => {
     if (userName) {
@@ -67,6 +49,10 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
   useEffect(() => {
     fetchFiles();
   }, [fetchFiles]);
+
+  useEffect(() => {
+    setCurrentPage(1); // Reset to the first page whenever itemsPerPage changes
+  }, [itemsPerPage, nameFilter]);
 
   const handleTenantChange = (event) => {
     setTenant(event.target.value);
@@ -85,9 +71,10 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
     }
   };
 
+  const filteredFiles = files.filter(file => file.name.toLowerCase().includes(nameFilter.toLowerCase()));
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentFiles = files.slice(indexOfFirstItem, indexOfLastItem);
+  const currentFiles = filteredFiles.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePreviousClick = () => {
     setCurrentPage(currentPage - 1);
@@ -98,11 +85,12 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
   };
 
   const isFirstPage = currentPage === 1;
-  const isLastPage = currentPage === Math.ceil(files.length / itemsPerPage);
+  const isLastPage = currentPage === Math.ceil(filteredFiles.length / itemsPerPage);
 
   return (
       <div>
         <h1>My Files</h1>
+        {error && <div className="error-message">{error}</div>} {/* Error message display */}
         <div className="tenant-input-container">
           <input
               type="text"
@@ -114,7 +102,27 @@ function TenantFileGallery({ userName, filterCriteria = {} }) {
           <button onClick={handleSearchClick} disabled={loading}>
             {loading ? 'Loading...' : 'Load My Files'}
           </button>
-          {error && <p className="error">{error}</p>}
+        </div>
+        <div className="filter-container">
+          <input
+              type="text"
+              value={nameFilter}
+              onChange={(e) => setNameFilter(e.target.value)}
+              placeholder="Filter by name"
+          />
+          <div className="items-per-page-selector">
+            <label htmlFor="itemsPerPage">Items per page:</label>
+            <select
+                id="itemsPerPage"
+                value={itemsPerPage}
+                onChange={(e) => setItemsPerPage(Number(e.target.value))}
+            >
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
         </div>
         <div className="file-gallery">
           {currentFiles.map((file, index) => (
