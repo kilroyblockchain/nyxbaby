@@ -46,9 +46,6 @@ function AppContent() {
                 ) : (
                     <SignInButton />
                 )}
-            <p>
-            <img src={caifb} alt="File Baby is a member of Content Authenticity Initiative" className="responsive" />
-        </p>
 
 
             <footer className="footer">
@@ -60,13 +57,20 @@ function AppContent() {
                     To inspect your content, use <a href="https://contentcredentials.org/verify" target="_blank" rel="noopener noreferrer">contentcredentials.org/verify</a>
                 </p>
                 <p>
+                    <img src={caifb} alt="File Baby is a member of Content Authenticity Initiative" className="responsive" />
+                </p>
+
+                <p>
                     &copy; Copyright 2024, <a href={"https://file.baby"} alt={"File Baby"}>File Baby</a>, All Rights Reserved
                 </p>
 
                 {/* Footer content */}
 
             </footer>
+
+
         </div>
+
     );
 }
 

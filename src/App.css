@@ -6,8 +6,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('/src/File_Baby_Background.png'); /* Path to your image */
-  background-position: center; /* Center the background image */
+  background-image: url('File_Baby_Background.png'); /* Path to your image */
+  background-size: cover; /* Center the background image */
+  background-attachment: fixed;
   background-color: #61dafb;
 
 }
@@ -144,10 +145,11 @@ margin: 20px;
   color: white;
 }
 .footer {
-  width:100%;
+  width: 500px;
+  font-size: .5em;
+  background-color: #61dafb;
 
 }
-
 .App-link {
   color: #61dafb;
 }
