@@ -27,7 +27,10 @@ form {
   max-width: 480px;
   margin: auto;
 }
-
+hr {
+  margin-top:40px;
+  color:white;
+}
 /* Style the input fields */
 input[type="text"],
 input[type="file"] {

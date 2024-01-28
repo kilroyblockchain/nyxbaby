@@ -36,12 +36,17 @@ function AppContent() {
             </header>
                 {isAuthenticated || isDevelopment ? (
                     <div>
-                        <Imagebot userName={userName} />
-                        <Chatbot setFilterCriteria={setFilterCriteria} /> {/* Passing setFilterCriteria */}
-                        <ManifestRetriever />
                         <TenantFileGallery userName={userName} filterCriteria={filterCriteria} /> {/* Passing filterCriteria */}
+                        <hr />
+                        <Imagebot userName={userName} />
+                        <hr />
+                        <ManifestRetriever />
+                        <hr />
                         <ManifestGenerator />
                         <FileUploadPage userName={userName} />
+                        <hr />
+                        <Chatbot setFilterCriteria={setFilterCriteria} /> {/* Passing setFilterCriteria */}
+
                     </div>
                 ) : (
                     <SignInButton />

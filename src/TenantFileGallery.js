@@ -101,6 +101,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
               placeholder="Enter Your Name"
               disabled={!!userName}
           />
+
         </div>
         <div className={"filter-container"}>
         <div className="pagination-controls">
@@ -144,6 +145,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
               </div>
           ))}
         </div>
+
         <div className="pagination-controls">
           <button onClick={handlePreviousClick} disabled={currentPage === 1}>
             Previous
