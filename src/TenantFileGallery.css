@@ -110,10 +110,10 @@
   .file-item {
     width: 100%; /* Full width for file items on very small screens */
   }
-
-  .file-search {
+  .filter-container {
     max-width:400px;
   }
+
     /* Adjust the footer and any other elements for smaller screens */
   .footer img.responsive {
     max-width: 80%; /* Adjust the width of footer images on very small screens */
@@ -130,8 +130,9 @@ img.responsive {
 /* Pagination Controls */
 .pagination-controls {
   display: flex;
-  justify-content: center;
   margin-top: 20px;
+  max-width:100%;
+
 }
 
 .pagination-controls button {
@@ -151,4 +152,29 @@ img.responsive {
 .pagination-controls button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+/* Adjust the tenant input container for smaller screens */
+.tenant-input-container {
+  display: block;
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+/* Responsive adjustments for the filter container and pagination controls */
+.filter-container, .pagination-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px; /* Add some space between elements */
+}
+
+/* Adjust the width of inputs and selectors to fit smaller screens */
+.filter-container input[type="text"], .items-per-page-selector select {
+  max-width: 500px; /* Ensure they don't exceed the container's width */
+  margin: 5px; /* Add some margin for spacing */
 }

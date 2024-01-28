@@ -109,7 +109,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
               disabled={!!userName}
           />
         </div>
-        <div className={"filter-filenames"}>
+        <div className={"filter-container"}>
         <div className="pagination-controls">
           <input
               className={"file-search"}
@@ -118,12 +118,11 @@ function TenantFileGallery({ userName, filterCriteria }) {
               onChange={(e) => setNameFilter(e.target.value)}
               placeholder="Filter by filename"
           />
-          <button onClick={handleSearchClick} disabled={loading}>
-            {loading ? 'Loading...' : 'Search'}  {/* Utilize loading state */}
-          </button>
+
           <div className="items-per-page-selector">
             <label htmlFor="itemsPerPage">Items per page:</label>
             <select id="itemsPerPage" value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
+              <option value="1">1</option>
               <option value="5">5</option>
               <option value="10">10</option>
               <option value="20">20</option>
