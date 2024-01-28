@@ -145,6 +145,7 @@ img.responsive {
   border-radius: 4px;
   width: 90px;
   cursor: pointer;
+
 }
 
 .pagination-controls button:hover {
@@ -157,6 +158,9 @@ img.responsive {
 }
 /* Adjust the tenant input container for smaller screens */
 .tenant-input-container {
+  color:black;
+  padding-bottom:10px;
+  font-size: 16px;
   display: block;
   max-width: 500px;
   margin: 30px auto;
@@ -174,9 +178,34 @@ img.responsive {
   justify-content: center;
   gap: 10px; /* Add some space between elements */
 }
+.pagination-controls {
+background-color: white;
+  color: black;
+  padding: 10px;
+  border-style: ridge;
+}
+.pagination-controls2 {
+  background-color: white;
+  display: flex;
+  color: black;
+  padding: 10px;
+  max-width: 250px;
+  height: 50px;
+  margin-left: 50%;
+  margin-right: auto;
+  background-color: #61dafb;
+  float:right;
+}
+.pagination-controls2 button {
+  height: 50px;
+  width: 100px;
+  margin-left:20px;
 
+
+}
 /* Adjust the width of inputs and selectors to fit smaller screens */
 .filter-container input[type="text"], .items-per-page-selector select {
   max-width: 500px; /* Ensure they don't exceed the container's width */
   margin: 5px; /* Add some margin for spacing */
+  background: white;
 }
