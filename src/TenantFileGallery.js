@@ -5,7 +5,6 @@ function TenantFileGallery({ userName, filterCriteria }) {
   const [tenant, setTenant] = useState(userName || '');
   const [files, setFiles] = useState([]);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);  // Utilize loading state
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [nameFilter, setNameFilter] = useState('');
@@ -14,7 +13,6 @@ function TenantFileGallery({ userName, filterCriteria }) {
 
   const fetchFiles = useCallback(async () => {
     setError('');
-    setLoading(true);  // Start loading
     setFiles([]);
 
     try {
@@ -48,7 +46,6 @@ function TenantFileGallery({ userName, filterCriteria }) {
     } catch (e) {
       setError(`Failed to load resources. ${e.message}`);
     } finally {
-      setLoading(false);  // End loading
     }
   }, [tenant, filterCriteria, nameFilter, containerUrl]);
 
@@ -62,10 +59,6 @@ function TenantFileGallery({ userName, filterCriteria }) {
 
   const handleTenantChange = (event) => {
     setTenant(event.target.value);
-  };
-
-  const handleSearchClick = () => {  // Implement search functionality
-    fetchFiles();
   };
 
   const handleShareClick = async (url) => {
