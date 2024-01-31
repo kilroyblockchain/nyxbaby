@@ -104,33 +104,36 @@ function TenantFileGallery({ userName, filterCriteria }) {
           />
         </div>
         <div className={"filter-container"}>
-        <div className="pagination-controls">
-          <input
-              className={"file-search"}
-              type="text"
-              value={nameFilter}
-              onChange={(e) => setNameFilter(e.target.value)}
-              placeholder="Filter by filename"
-          />
-
-          <div className="items-per-page-selector">
-            <label htmlFor="itemsPerPage">Items per page:</label>
-            <select id="itemsPerPage" value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
-              <option value="1">1</option>
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
+          <div className="pagination-controls">
+            <input
+                className={"file-search"}
+                type="text"
+                value={nameFilter}
+                onChange={(e) => setNameFilter(e.target.value)}
+                placeholder="Filter by filename"
+            />
+            <div className="items-per-page-selector">
+              <label htmlFor="itemsPerPage">Items per page:</label>
+              <select id="itemsPerPage" value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
+                <option value="1">1</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+            {/* Add the Reload Files button here */}
+            <button onClick={fetchFiles}>
+              Reload Files
+            </button>
+            <button onClick={handlePreviousClick} disabled={currentPage === 1}>
+              Previous
+            </button>
+            <button onClick={handleNextClick} disabled={currentPage === Math.ceil(files.length / itemsPerPage)}>
+              Next
+            </button>
           </div>
-          <button onClick={handlePreviousClick} disabled={currentPage === 1}>
-            Previous
-          </button>
-          <button onClick={handleNextClick} disabled={currentPage === Math.ceil(files.length / itemsPerPage)}>
-            Next
-          </button>
-        </div>
         </div>
 
         <div className="file-gallery">
@@ -145,14 +148,18 @@ function TenantFileGallery({ userName, filterCriteria }) {
               </div>
           ))}
         </div>
-
-        <div className="pagination-controls2">
+        <div className={"filter-container"}>
+        <div className="pagination-controls">
+          <button onClick={fetchFiles}>
+            Reload Files
+          </button>
           <button onClick={handlePreviousClick} disabled={currentPage === 1}>
             Previous
           </button>
           <button onClick={handleNextClick} disabled={currentPage === Math.ceil(files.length / itemsPerPage)}>
             Next
           </button>
+        </div>
         </div>
       </div>
   );
