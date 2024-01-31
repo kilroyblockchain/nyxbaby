@@ -100,17 +100,16 @@
 .file-search {
   max-width:400px;
 }
-.pagination-controls-mobile {
-  display:none;
-}
 
 @media (max-width: 768px) {
   .file-item {
     width: calc(50% - 8px); /* Adjust file items for smaller screens */
   }
   .file-search {
-   display:none;
     width:50px;
+  }
+  .pagination-controls {
+    width:500px;
   }
 }
 
