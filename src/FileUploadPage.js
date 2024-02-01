@@ -7,6 +7,7 @@ function FileUploadPage({ userName }) {
     const [imageFileType, setImageFileType] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [uploadResponse, setUploadResponse] = useState(null);
+    const [thumbnailUrl, setThumbnailUrl] = useState('');
     const [error, setError] = useState('');
     const [savedToFileBaby, setSavedToFileBaby] = useState(false);
 
@@ -54,6 +55,16 @@ function FileUploadPage({ userName }) {
 
             const responseData = await response.arrayBuffer();
             setUploadResponse(responseData);
+
+            // Check the type of the uploaded file and set the thumbnail accordingly
+            if (imageFileType.startsWith('audio/')) {
+                setThumbnailUrl('./audio_placeholder.png');
+            } else {
+                // For non-audio files, use the file's data to create a Blob URL
+                const blob = new Blob([responseData], { type: imageFileType });
+                setThumbnailUrl(URL.createObjectURL(blob));
+            }
+
             setManifestFile(null);
             setImageFile(null);
         } catch (error) {
@@ -63,6 +74,7 @@ function FileUploadPage({ userName }) {
             setIsLoading(false);
         }
     };
+
 
     const handleSaveToFileBaby = async () => {
         if (!userName) {
@@ -109,6 +121,14 @@ function FileUploadPage({ userName }) {
             setIsLoading(false);
         }
     };
+    useEffect(() => {
+        // This will run when the component unmounts or when thumbnailUrl changes
+        return () => {
+            if (thumbnailUrl.startsWith('blob:')) {
+                URL.revokeObjectURL(thumbnailUrl);
+            }
+        };
+    }, [thumbnailUrl]);
 
     useEffect(() => {
         if (savedToFileBaby) {
@@ -119,7 +139,7 @@ function FileUploadPage({ userName }) {
     }, [savedToFileBaby]);
 
     return (
-        <div>
+        <div className={'manifestUpload'}>
             <h3>2. Upload Manifest and Image, Audio or Video</h3>
             <form onSubmit={handleSubmit}>
                 <div>
@@ -151,7 +171,7 @@ function FileUploadPage({ userName }) {
             {error && <p className="error">{error}</p>}
             {uploadResponse && !savedToFileBaby && (
                 <div className={"signed"}>
-                    <img src={URL.createObjectURL(new Blob([uploadResponse]))} alt="Processed" className={"signed"} />
+                    <img src={thumbnailUrl} alt="Processed" className={"signed"} />
                     <button onClick={handleSaveToFileBaby} disabled={isLoading}>
                         Save to File Baby
                     </button>
