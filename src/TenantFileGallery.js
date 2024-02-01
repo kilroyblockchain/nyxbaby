@@ -72,7 +72,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
 
   const getFileThumbnail = (file) => {
     if (file.type.match(/(mp3|wav|aac)$/i)) {
-      return '/html/audio_placeholder.png'; // Adjust the path as needed
+      return './audio_placeholder.png'; // Adjust the path as needed
     }
     return file.url;
   };
