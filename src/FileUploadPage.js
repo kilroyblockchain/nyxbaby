@@ -137,7 +137,7 @@ function FileUploadPage({ userName }) {
                         id="imageFile"
                         type="file"
                         onChange={handleImageFileChange}
-                        accept="image/jpeg,image/png"
+                        accept="image/jpeg, image/png, audio/wav, audio/mp3, video/mp4, video/quicktime, video/mpeg"
                     />
                 </div>
                 <button
