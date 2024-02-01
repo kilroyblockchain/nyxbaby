@@ -120,7 +120,7 @@ function FileUploadPage({ userName }) {
 
     return (
         <div>
-            <h1>2. Upload Manifest and Image</h1>
+            <h3>2. Upload Manifest and Image, Audio or Video</h3>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="manifestFile">Manifest File:</label>
@@ -132,7 +132,7 @@ function FileUploadPage({ userName }) {
                     />
                 </div>
                 <div>
-                    <label htmlFor="imageFile">Image File:</label>
+                    <label htmlFor="imageFile">Image, Audio or Video File:</label>
                     <input
                         id="imageFile"
                         type="file"
