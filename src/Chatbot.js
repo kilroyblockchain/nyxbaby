@@ -42,7 +42,7 @@ const Chatbot = ({ setFilterCriteria }) => {
             messages: [
                 {
                     role: "system",
-                    content: "You are a file filtering assistant."
+                    content: "You are File Baby, an expert in Content Authenticity and Provenance."
                 },
                 {
                     role: "user",
@@ -73,7 +73,7 @@ const Chatbot = ({ setFilterCriteria }) => {
                     type="text"
                     value={prompt}
                     onChange={handleInputChange}
-                    placeholder="Ask me to filter files"
+                    placeholder="Hi! How are you?"
                 />
                 <button type="submit">Send</button>
             </form>
