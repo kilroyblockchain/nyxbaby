@@ -157,8 +157,10 @@ function FileUploadPage({ userName }) {
                         id="imageFile"
                         type="file"
                         onChange={handleImageFileChange}
-                        accept="image/jpeg, image/png, audio/wav, audio/mp3, video/mp4, video/quicktime, video/mpeg"
+                        accept="image/avif, image/jpeg, image/png, image/tiff, image/webp, image/svg+xml, audio/mpeg, audio/mp4, audio/wav, video/avi, video/mp4, video/quicktime, video/mpeg, application/pdf"
                     />
+                </div>
+                <div className="footnote">Supports .avif, .jpeg, .jpg, .png, .tiff, .webp, .svg, .mp3, .m4a, .wav, .avi, .mp4, .mov, .mpeg
                 </div>
                 <button
                     type="submit"

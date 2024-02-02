@@ -159,6 +159,10 @@ margin: 20px;
   background-color: #61dafb;
 
 }
+.footnote {
+  font-size: 12px;
+  margin-bottom:10px;
+}
 .App-link {
   color: #61dafb;
 }
