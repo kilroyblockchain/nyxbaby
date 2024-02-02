@@ -9,16 +9,20 @@ function SharedGallery() {
     const location = useLocation();
 
     useEffect(() => {
-        const baseUrl = "https://claimed.at.file.baby/filebabyblob"; // Replace with your actual URL
+        const baseUrl = "https://claimed.at.file.baby/filebabyblob"; // Replace with your actual base URL
+        const userFolder = "kilroy@uark.edu"; // Dynamically match the logged-in user's email or folder name
 
         const fetchFilesByIds = (fileNames) => {
             return fileNames.map(encodedFileName => {
                 const decodedFileName = decodeURIComponent(encodedFileName);
                 const safeFileName = decodedFileName.split('/').pop().replace(/\s/g, '%20');
+                const thumbnailUrl = `${baseUrl}/${encodeURIComponent(userFolder)}/${safeFileName}`; // Correctly form the thumbnail URL
+                const url = `${baseUrl}/${userFolder}/${safeFileName}`; // Adjusted URL for full-sized image
                 return {
                     id: decodedFileName,
-                    name: decodedFileName,
-                    thumbnailUrl: `${baseUrl}${safeFileName}`
+                    name: safeFileName,
+                    url: url, // Use the adjusted URL
+                    thumbnailUrl: thumbnailUrl
                 };
             });
         };
@@ -28,7 +32,6 @@ function SharedGallery() {
 
         if (fileNames.length) {
             setIsLoading(true);
-            // As fetchFilesByIds is not asynchronous, no need for then/catch or async/await
             const fetchedFiles = fetchFilesByIds(fileNames);
             setFiles(fetchedFiles);
             setIsLoading(false);
@@ -50,15 +53,16 @@ function SharedGallery() {
         <div className="shared-gallery">
             <h2>Shared Gallery</h2>
             <div className="files">
-                {Array.isArray(files) && files.map(file => ( // Ensure 'files' is an array
+                {files.map(file => (
                     <div key={file.id} className="file-item">
-                        <img src={file.thumbnailUrl} alt={file.name} className="file-thumbnail" />
-                        <p>{file.name}</p>
+                        <a href={file.url} target="_blank" rel="noopener noreferrer">
+                            <img src={file.thumbnailUrl} alt={file.name} className="file-thumbnail" />
+                        </a>
+                        <p>
+                            <a href={file.url} target="_blank" rel="noopener noreferrer">{file.name}</a>
+                        </p>
                     </div>
                 ))}
-            </div>
-            <div className="claim-files">
-                <a href="https://file.baby" className="claim-files-button">Claim my files at File Baby</a>
             </div>
         </div>
     );

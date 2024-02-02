@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react"; // Updated import
+import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import msalInstance from "./authConfig";
 import TenantFileGallery from './TenantFileGallery';
+import SharedGallery from './SharedGallery'; // Make sure this import is correct
 import FileUploadPage from './FileUploadPage';
 import ManifestGenerator from "./ManifestGenerator";
 import ManifestRetriever from "./ManifestRetriever";
@@ -24,7 +25,6 @@ function SignInButton() {
 }
 
 function AppContent() {
-    // Assuming useIsAuthenticated and other hooks are defined elsewhere
     const isAuthenticated = useIsAuthenticated();
     const { accounts } = useMsal();
     const isDevelopment = process.env.NODE_ENV === 'development';
@@ -37,18 +37,25 @@ function AppContent() {
                 <img src={logo} alt="my.file.baby... MINE!" className="responsive"/>
             </header>
             {isAuthenticated || isDevelopment ? (
-                <div>
-                    <TenantFileGallery userName={userName} filterCriteria={filterCriteria} />
-                    <hr />
-                    <Imagebot userName={userName} />
-                    <hr />
-                    <ManifestRetriever />
-                    <hr />
-                    <ManifestGenerator />
-                    <FileUploadPage userName={userName} />
-                    <hr />
-                    <Chatbot setFilterCriteria={setFilterCriteria} />
-                </div>
+                <>
+                    <Routes>
+                        <Route path="/" element={
+                            <>
+                                <TenantFileGallery userName={userName} filterCriteria={filterCriteria} />
+                                <hr />
+                                <Imagebot userName={userName} />
+                                <hr />
+                                <ManifestRetriever />
+                                <hr />
+                                <ManifestGenerator />
+                                <FileUploadPage userName={userName} />
+                                <hr />
+                                <Chatbot setFilterCriteria={setFilterCriteria} />
+                            </>
+                        } />
+                        <Route path="/shared-gallery" element={<SharedGallery />} />
+                    </Routes>
+                </>
             ) : (
                 <SignInButton />
             )}
@@ -66,10 +73,7 @@ function App() {
     return (
         <MsalProvider instance={msalInstance}>
             <Router>
-                <Routes>
-                    <Route path="/" element={<AppContent />} />
-                    {/* Add more Route components as needed for other paths */}
-                </Routes>
+                <AppContent />
             </Router>
         </MsalProvider>
     );
