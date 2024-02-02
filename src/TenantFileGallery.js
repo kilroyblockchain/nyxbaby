@@ -4,6 +4,7 @@ import './TenantFileGallery.css';
 function TenantFileGallery({ userName, filterCriteria }) {
   const [tenant, setTenant] = useState(userName || '');
   const [files, setFiles] = useState([]);
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const [error, setError] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -27,8 +28,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
         const fullPath = blob.querySelector('Name').textContent;
         const fileName = fullPath.split('/').pop();
         const fileExtension = fileName.split('.').pop();
-        const encodedFilePath = encodeURIComponent(fullPath.split(`.${fileExtension}`)[0]);
-        const url = `${containerUrl}/${encodedFilePath}.${fileExtension}`;
+        const url = `${containerUrl}/${encodeURIComponent(fullPath)}`;
         const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
         return { name: fileName, url, verifyUrl, type: fileExtension };
       });
@@ -45,7 +45,6 @@ function TenantFileGallery({ userName, filterCriteria }) {
       setFiles(filesData);
     } catch (e) {
       setError(`Failed to load resources. ${e.message}`);
-    } finally {
     }
   }, [tenant, filterCriteria, nameFilter, containerUrl]);
 
@@ -61,20 +60,30 @@ function TenantFileGallery({ userName, filterCriteria }) {
     setTenant(event.target.value);
   };
 
-  const handleShareClick = async (url) => {
-    try {
-      await navigator.clipboard.writeText(url);
-      alert('URL Copied to Clipboard!');
-    } catch (err) {
-      console.error('Failed to copy:', err);
-    }
-  };
-
   const getFileThumbnail = (file) => {
     if (file.type.match(/(mp3|wav|aac)$/i)) {
       return './audio_placeholder.png'; // Adjust the path as needed
     }
     return file.url;
+  };
+
+  const handleFileSelection = (fileName, isSelected) => {
+    if (isSelected) {
+      setSelectedFiles([...selectedFiles, fileName]);
+    } else {
+      setSelectedFiles(selectedFiles.filter(file => file !== fileName));
+    }
+  };
+
+  const handleShareGallery = async () => {
+    const encodedFileNames = selectedFiles.map(file => encodeURIComponent(file)).join(',');
+    const shareUrl = `${window.location.origin}/shared-gallery?files=${encodedFileNames}`;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      alert('Gallery URL copied to clipboard!');
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
   };
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -103,10 +112,10 @@ function TenantFileGallery({ userName, filterCriteria }) {
               disabled={!!userName}
           />
         </div>
-        <div className={"filter-container"}>
+        <div className="filter-container">
           <div className="pagination-controls">
             <input
-                className={"file-search"}
+                className="file-search"
                 type="text"
                 value={nameFilter}
                 onChange={(e) => setNameFilter(e.target.value)}
@@ -123,44 +132,29 @@ function TenantFileGallery({ userName, filterCriteria }) {
                 <option value="100">100</option>
               </select>
             </div>
-            {/* Add the Reload Files button here */}
-            <button onClick={fetchFiles}>
-              Reload Files
-            </button>
-            <button onClick={handlePreviousClick} disabled={currentPage === 1}>
-              Previous
-            </button>
-            <button onClick={handleNextClick} disabled={currentPage === Math.ceil(files.length / itemsPerPage)}>
-              Next
-            </button>
+            <button onClick={fetchFiles}>Reload Files</button>
+            <button onClick={handlePreviousClick} disabled={currentPage === 1}>Previous</button>
+            <button onClick={handleNextClick} disabled={currentPage === Math.ceil(files.length / itemsPerPage)}>Next</button>
           </div>
         </div>
 
         <div className="file-gallery">
           {currentFiles.map((file, index) => (
               <div key={index} className="file-item">
+                <input
+                    type="checkbox"
+                    checked={selectedFiles.includes(file.name)}
+                    onChange={(e) => handleFileSelection(file.name, e.target.checked)}
+                />
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
                   <img src={getFileThumbnail(file)} alt={file.name} className="file-thumbnail" />
-                  <p>{file.name}</p>
                 </a>
+                <p>{file.name}</p>
                 <p><a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">Verify</a></p>
-                <button onClick={() => handleShareClick(file.url)}>Share</button>
               </div>
           ))}
         </div>
-        <div className={"filter-container"}>
-        <div className="pagination-controls">
-          <button onClick={fetchFiles}>
-            Reload Files
-          </button>
-          <button onClick={handlePreviousClick} disabled={currentPage === 1}>
-            Previous
-          </button>
-          <button onClick={handleNextClick} disabled={currentPage === Math.ceil(files.length / itemsPerPage)}>
-            Next
-          </button>
-        </div>
-        </div>
+        <button onClick={handleShareGallery}>Share This Gallery</button>
       </div>
   );
 }
