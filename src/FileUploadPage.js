@@ -145,7 +145,7 @@ function FileUploadPage({ userName }) {
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="manifestFile">Manifest File</label>
-                    <div className="footnote">Choose the manifest you downloaded in Step 1.
+                    <div className="footnote">
                     </div>
                     <input
                         id="manifestFile"
@@ -156,7 +156,7 @@ function FileUploadPage({ userName }) {
                 </div>
                 <div>
                     <label htmlFor="imageFile">Image, Audio or Video File</label>
-                    <div className="footnote">Choose the file you want to sign. Supported are .jpeg, .jpg, .png, .tiff, .webp, .svg, .mp3, .m4a, .wav, .avi, avif, .mp4, .mov, or .mpeg. 100 megabyte limit.
+                    <div className="footnote">Supported are .jpeg, .jpg, .png, .tiff, .webp, .svg, .mp3, .m4a, .wav, .avi, avif, .mp4, .mov, or .mpeg. 100 megabyte limit.
                     </div>
                     <input
                         id="imageFile"

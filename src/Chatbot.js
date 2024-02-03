@@ -64,7 +64,7 @@ const Chatbot = ({ setFilterCriteria }) => {
     };
 
     return (
-        <div>
+        <div className={"chatFB"}>
 
             <h1>Chat with File Baby</h1>
 
