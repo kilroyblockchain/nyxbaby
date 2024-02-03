@@ -60,6 +60,8 @@ input[type="submit"] {
   border-radius: 4px;
   transition: background-color 0.3s ease;
 }
+
+
 .filter-filenames {
   justify-self: center;
 }
@@ -204,11 +206,11 @@ margin: 20px;
   display:none;
 }
 .manifestUpload form {
-  background-color: #61dafb;
-  border-style: solid;
+  background-color: #ffffff;
+  border-style: none;
   border-width:10px;
   border-color: white;
-  color: white;
+  color: darkgrey;
   font-weight: bold;
 
 }
