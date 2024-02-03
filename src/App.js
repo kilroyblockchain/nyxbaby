@@ -1,10 +1,8 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import msalInstance from "./authConfig";
 import TenantFileGallery from './TenantFileGallery';
-import SharedGallery from './SharedGallery'; // Make sure this import is correct
 import FileUploadPage from './FileUploadPage';
 import ManifestGenerator from "./ManifestGenerator";
 import ManifestRetriever from "./ManifestRetriever";
@@ -38,9 +36,6 @@ function AppContent() {
             </header>
             {isAuthenticated || isDevelopment ? (
                 <>
-                    <Routes>
-                        <Route path="/" element={
-                            <>
                                 <TenantFileGallery userName={userName} filterCriteria={filterCriteria} />
                                 <hr />
                                 <Imagebot userName={userName} />
@@ -51,10 +46,7 @@ function AppContent() {
                                 <FileUploadPage userName={userName} />
                                 <hr />
                                 <Chatbot setFilterCriteria={setFilterCriteria} />
-                            </>
                         } />
-                        <Route path="/shared-gallery" element={<SharedGallery />} />
-                    </Routes>
                 </>
             ) : (
                 <SignInButton />
@@ -72,9 +64,7 @@ function AppContent() {
 function App() {
     return (
         <MsalProvider instance={msalInstance}>
-            <Router>
                 <AppContent />
-            </Router>
         </MsalProvider>
     );
 }
