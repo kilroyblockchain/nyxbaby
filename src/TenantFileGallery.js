@@ -28,7 +28,9 @@ function TenantFileGallery({ userName, filterCriteria }) {
         const fullPath = blob.querySelector('Name').textContent;
         const fileName = fullPath.split('/').pop();
         const url = `${containerUrl}/${encodeURIComponent(fullPath)}`;
-        return { name: fileName, url, type: fileName.split('.').pop() };
+        const fileExtension = fileName.split('.').pop();
+        const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
+        return { name: fileName, url, verifyUrl, type: fileExtension };
       });
 
       if (nameFilter) {
@@ -129,11 +131,32 @@ function TenantFileGallery({ userName, filterCriteria }) {
                   <img src={getFileThumbnail(file)} alt={file.name} className="file-thumbnail" />
                 </a>
                 <p>{file.name}</p>
+                <p><a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">Verify</a></p>
                 <button onClick={() => handleShareFile(file.url)}>Share File</button>
               </div>
           ))}
         </div>
-        <button onClick={handleShareGallery}>Share This Gallery</button>
+        <div className="filter-container">
+        <div className="pagination-controls">
+          <input className="file-search" type="text" value={nameFilter} onChange={(e) => setNameFilter(e.target.value)} placeholder="Filter by filename" />
+          <div className="items-per-page-selector">
+            <label htmlFor="itemsPerPage">Items per page:</label>
+            <select id="itemsPerPage" value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
+              <option value="1">1</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <button onClick={fetchFiles}>Reload Files</button>
+          <button onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))} disabled={currentPage === 1}>Previous</button>
+          <button onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(files.length / itemsPerPage)))} disabled={currentPage === Math.ceil(files.length / itemsPerPage)}>Next</button>
+        </div>
+        </div>
+        <div className={"shareSelected"}>
+          <button onClick={handleShareGallery}>Share Selected Files</button></div>
       </div>
   );
 }
