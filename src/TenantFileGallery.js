@@ -27,10 +27,8 @@ function TenantFileGallery({ userName, filterCriteria }) {
       let filesData = blobs.map(blob => {
         const fullPath = blob.querySelector('Name').textContent;
         const fileName = fullPath.split('/').pop();
-        const fileExtension = fileName.split('.').pop();
         const url = `${containerUrl}/${encodeURIComponent(fullPath)}`;
-        const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
-        return { name: fileName, url, verifyUrl, type: fileExtension };
+        return { name: fileName, url, type: fileName.split('.').pop() };
       });
 
       if (nameFilter) {
@@ -53,7 +51,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
   }, [fetchFiles]);
 
   useEffect(() => {
-    setCurrentPage(1); // Reset to the first page whenever itemsPerPage or nameFilter changes
+    setCurrentPage(1);
   }, [itemsPerPage, nameFilter]);
 
   const handleTenantChange = (event) => {
@@ -61,23 +59,20 @@ function TenantFileGallery({ userName, filterCriteria }) {
   };
 
   const getFileThumbnail = (file) => {
-    if (file.type.match(/(mp3|wav|aac)$/i)) {
-      return './audio_placeholder.png'; // Adjust the path as needed
-    }
-    return file.url;
+    return file.type.match(/(mp3|wav|aac)$/i) ? './audio_placeholder.png' : file.url;
   };
 
   const handleFileSelection = (fileName, isSelected) => {
     if (isSelected) {
-      setSelectedFiles([...selectedFiles, fileName]);
+      setSelectedFiles(prev => [...prev, files.find(file => file.name === fileName)]);
     } else {
-      setSelectedFiles(selectedFiles.filter(file => file !== fileName));
+      setSelectedFiles(prev => prev.filter(file => file.name !== fileName));
     }
   };
 
   const handleShareGallery = async () => {
-    const encodedFileNames = selectedFiles.map(file => encodeURIComponent(file)).join(',');
-    const shareUrl = `${window.location.origin}/shared-gallery?files=${encodedFileNames}`;
+    const encodedFileUrls = selectedFiles.map(file => encodeURIComponent(file.url)).join(',');
+    const shareUrl = `https://share.at.file.baby/?files=${encodedFileUrls}`;
     try {
       await navigator.clipboard.writeText(shareUrl);
       alert('Gallery URL copied to clipboard!');
@@ -86,7 +81,6 @@ function TenantFileGallery({ userName, filterCriteria }) {
     }
   };
 
-  // Function to handle sharing a single file
   const handleShareFile = async (fileUrl) => {
     try {
       await navigator.clipboard.writeText(fileUrl);
@@ -100,37 +94,17 @@ function TenantFileGallery({ userName, filterCriteria }) {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentFiles = files.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handlePreviousClick = () => {
-    setCurrentPage(prevPage => Math.max(prevPage - 1, 1));
-  };
-
-  const handleNextClick = () => {
-    setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(files.length / itemsPerPage)));
-  };
-
   return (
       <div>
         <h1>My Files</h1>
         {error && <p className="error">{error}</p>}
         <div className="tenant-input-container">
           <p>Logged in as:</p>
-          <input
-              type="text"
-              value={tenant}
-              onChange={handleTenantChange}
-              placeholder="Enter Your Name"
-              disabled={!!userName}
-          />
+          <input type="text" value={tenant} onChange={handleTenantChange} placeholder="Enter Your Name" disabled={!!userName} />
         </div>
         <div className="filter-container">
           <div className="pagination-controls">
-            <input
-                className="file-search"
-                type="text"
-                value={nameFilter}
-                onChange={(e) => setNameFilter(e.target.value)}
-                placeholder="Filter by filename"
-            />
+            <input className="file-search" type="text" value={nameFilter} onChange={(e) => setNameFilter(e.target.value)} placeholder="Filter by filename" />
             <div className="items-per-page-selector">
               <label htmlFor="itemsPerPage">Items per page:</label>
               <select id="itemsPerPage" value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
@@ -143,52 +117,21 @@ function TenantFileGallery({ userName, filterCriteria }) {
               </select>
             </div>
             <button onClick={fetchFiles}>Reload Files</button>
-            <button onClick={handlePreviousClick} disabled={currentPage === 1}>Previous</button>
-            <button onClick={handleNextClick} disabled={currentPage === Math.ceil(files.length / itemsPerPage)}>Next</button>
+            <button onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))} disabled={currentPage === 1}>Previous</button>
+            <button onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(files.length / itemsPerPage)))} disabled={currentPage === Math.ceil(files.length / itemsPerPage)}>Next</button>
           </div>
         </div>
-
         <div className="file-gallery">
           {currentFiles.map((file, index) => (
               <div key={index} className="file-item">
-                <input
-                    type="checkbox"
-                    checked={selectedFiles.includes(file.name)}
-                    onChange={(e) => handleFileSelection(file.name, e.target.checked)}
-                />
+                <input type="checkbox" checked={selectedFiles.includes(file)} onChange={(e) => handleFileSelection(file.name, e.target.checked)} />
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
                   <img src={getFileThumbnail(file)} alt={file.name} className="file-thumbnail" />
                 </a>
                 <p>{file.name}</p>
-                <button onClick={() => handleShareFile(file.url)}>Share File</button> {/* Share File button added */}
-                <p><a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">Verify</a></p>
+                <button onClick={() => handleShareFile(file.url)}>Share File</button>
               </div>
           ))}
-        </div>
-        <div className="filter-container">
-          <div className="pagination-controls">
-            <input
-                className="file-search"
-                type="text"
-                value={nameFilter}
-                onChange={(e) => setNameFilter(e.target.value)}
-                placeholder="Filter by filename"
-            />
-            <div className="items-per-page-selector">
-              <label htmlFor="itemsPerPage">Items per page:</label>
-              <select id="itemsPerPage" value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
-                <option value="1">1</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-              </select>
-            </div>
-            <button onClick={fetchFiles}>Reload Files</button>
-            <button onClick={handlePreviousClick} disabled={currentPage === 1}>Previous</button>
-            <button onClick={handleNextClick} disabled={currentPage === Math.ceil(files.length / itemsPerPage)}>Next</button>
-          </div>
         </div>
         <button onClick={handleShareGallery}>Share This Gallery</button>
       </div>
