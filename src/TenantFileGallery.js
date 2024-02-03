@@ -86,6 +86,16 @@ function TenantFileGallery({ userName, filterCriteria }) {
     }
   };
 
+  // Function to handle sharing a single file
+  const handleShareFile = async (fileUrl) => {
+    try {
+      await navigator.clipboard.writeText(fileUrl);
+      alert('File URL copied to clipboard!');
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentFiles = files.slice(indexOfFirstItem, indexOfLastItem);
@@ -150,6 +160,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
                   <img src={getFileThumbnail(file)} alt={file.name} className="file-thumbnail" />
                 </a>
                 <p>{file.name}</p>
+                <button onClick={() => handleShareFile(file.url)}>Share File</button> {/* Share File button added */}
                 <p><a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">Verify</a></p>
               </div>
           ))}

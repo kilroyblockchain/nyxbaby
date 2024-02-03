@@ -46,7 +46,6 @@ function AppContent() {
                                 <FileUploadPage userName={userName} />
                                 <hr />
                                 <Chatbot setFilterCriteria={setFilterCriteria} />
-                        } />
                 </>
             ) : (
                 <SignInButton />

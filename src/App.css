@@ -30,7 +30,9 @@ form {
 hr {
   margin-top:40px;
   color:white;
+  width: 100%;
 }
+
 /* Style the input fields */
 input[type="text"],
 input[type="file"] {
@@ -201,6 +203,20 @@ margin: 20px;
 .retrievedmanifest label {
   display:none;
 }
+.manifestUpload form {
+  background-color: #61dafb;
+  border-style: solid;
+  border-width:10px;
+  border-color: white;
+  color: white;
+  font-weight: bold;
+
+}
+.manifestUpload form input {
+  background-color: white;
+  color: #666666;
+}
+
 .generator {
   max-width: 900px; /* Default max width for larger screens */
   text-align: center;

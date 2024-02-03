@@ -143,7 +143,7 @@ function FileUploadPage({ userName }) {
             <h3>2. Upload Manifest and Image, Audio or Video</h3>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="manifestFile">Manifest File:</label>
+                    <label htmlFor="manifestFile">Manifest File</label>
                     <input
                         id="manifestFile"
                         type="file"
@@ -152,7 +152,7 @@ function FileUploadPage({ userName }) {
                     />
                 </div>
                 <div>
-                    <label htmlFor="imageFile">Image, Audio or Video File:</label>
+                    <label htmlFor="imageFile">Image, Audio or Video File</label>
                     <input
                         id="imageFile"
                         type="file"
@@ -160,7 +160,7 @@ function FileUploadPage({ userName }) {
                         accept="image/avif, image/jpeg, image/png, image/tiff, image/webp, image/svg+xml, audio/mpeg, audio/mp4, audio/wav, video/avi, video/mp4, video/quicktime, video/mpeg, application/pdf"
                     />
                 </div>
-                <div className="footnote">Supports .avif, .jpeg, .jpg, .png, .tiff, .webp, .svg, .mp3, .m4a, .wav, .avi, .mp4, .mov, .mpeg
+                <div className="footnote">.avif, .jpeg, .jpg, .png, .tiff, .webp, .svg, .mp3, .m4a, .wav, .avi, .mp4, .mov, or .mpeg
                 </div>
                 <button
                     type="submit"
