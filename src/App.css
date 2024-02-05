@@ -240,7 +240,9 @@ margin: 20px;
   font-size: 24px;
   animation: flash 1s linear infinite;
 }
-
+.promptLibrary img {
+  margin: 50px;
+}
 @keyframes flash {
   50% { opacity: 0; }
 }
