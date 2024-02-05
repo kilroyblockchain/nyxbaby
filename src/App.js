@@ -8,7 +8,6 @@ import ManifestGenerator from "./ManifestGenerator";
 import ManifestRetriever from "./ManifestRetriever";
 import Imagebot from "./Imagebot";
 import Chatbot from "./Chatbot";
-import Blip from "./Blip";
 import logo from './logo.png';
 import caifb from './CAI-FB-800.png';
 import PromptLibrary from "./PromptLibrary";
@@ -40,16 +39,16 @@ function AppContent() {
                 <>
                                 <TenantFileGallery userName={userName} filterCriteria={filterCriteria} />
                                 <hr />
-                                <Imagebot userName={userName} />
-                                <hr />
                                 <ManifestRetriever />
                                 <hr />
                                 <ManifestGenerator />
                                 <FileUploadPage userName={userName} />
                                 <hr />
                                 <Chatbot setFilterCriteria={setFilterCriteria} />
-                                <Blip />
-                                <PromptLibrary />
+                    <hr />
+                    <PromptLibrary userName={userName}/>
+                    <hr />
+                    <Imagebot userName={userName} />
                 </>
             ) : (
                 <SignInButton />
