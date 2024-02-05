@@ -242,6 +242,8 @@ margin: 20px;
 }
 .promptLibrary img {
   margin: 50px;
+  display: block;
+  max-width:1000px;
 }
 @keyframes flash {
   50% { opacity: 0; }
@@ -249,6 +251,11 @@ margin: 20px;
 @media screen and (max-width: 600px) {
   .generator {
     max-width: 525px; /* Smaller max width for phone screens */
+  }
+  .promptLibrary img {
+    margin: 50px;
+    display: block;
+    width:500px;
   }
 }
 @keyframes App-logo-spin {
