@@ -61,7 +61,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
   };
 
   const getFileThumbnail = (file) => {
-    return file.type.match(/(mp3|wav|aac)$/i) ? './audio_placeholder.png' : file.url;
+    return file.type.match(/(mp3|wav|aac|mp4)$/i) ? './audio_placeholder.png' : file.url;
   };
 
   const handleFileSelection = (fileName, isSelected) => {
