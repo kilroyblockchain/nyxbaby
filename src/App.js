@@ -11,6 +11,7 @@ import Chatbot from "./Chatbot";
 import Blip from "./Blip";
 import logo from './logo.png';
 import caifb from './CAI-FB-800.png';
+import PromptLibrary from "./PromptLibrary";
 
 function SignInButton() {
     const { instance } = useMsal();
@@ -48,6 +49,7 @@ function AppContent() {
                                 <hr />
                                 <Chatbot setFilterCriteria={setFilterCriteria} />
                                 <Blip />
+                                <PromptLibrary />
                 </>
             ) : (
                 <SignInButton />

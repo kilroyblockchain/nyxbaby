@@ -162,7 +162,7 @@ function FileUploadPage({ userName }) {
                         id="imageFile"
                         type="file"
                         onChange={handleImageFileChange}
-                        accept="image/avif, image/jpeg, image/png, image/tiff, image/webp, image/svg+xml, audio/mpeg, audio/mp4, audio/wav, video/avi, video/mp4, video/quicktime, video/mpeg, application/pdf"
+                        accept="image/avif, image/jpeg, image/png, image/tiff, image/webp, image/svg+xml, audio/mpeg, audio/mp4, audio/wav, video/avi, video/mp4, video/quicktime, video/mpeg, text/plain"
                     />
                 </div>
 
