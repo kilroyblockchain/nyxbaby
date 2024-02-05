@@ -140,6 +140,13 @@ label {
   font-size:1em;
 margin: 20px;
 }
+.chatFB {
+  min-width:600px;
+}
+
+.inspectFile {
+  min-width:600px;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

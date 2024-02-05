@@ -44,7 +44,7 @@ function ManifestRetriever() {
     };
 
     return (
-        <div>
+        <div className={"inspectFile"}>
             <h1>Inspect a File</h1>
             <form onSubmit={handleSubmit}>
                 <div className="retrievedmanifest">

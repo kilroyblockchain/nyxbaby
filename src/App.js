@@ -49,6 +49,7 @@ function AppContent() {
                     <PromptLibrary userName={userName}/>
                     <hr />
                     <Imagebot userName={userName} />
+                    <hr />
                 </>
             ) : (
                 <SignInButton />
