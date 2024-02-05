@@ -57,7 +57,7 @@ const PromptLibrary = () => {
     };
 
     return (
-        <div>
+        <div className={"chatFB"}>
             <h1>Prompt Library</h1>
             <form onSubmit={handleSubmit}>
         <textarea

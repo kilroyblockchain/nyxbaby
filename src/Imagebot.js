@@ -110,7 +110,7 @@ const Imagebot = ({ userName }) => {
     };
 
     return (
-        <div>
+        <div className={"chatFB"}>
             <h1>AI Image Generator</h1>
             <form onSubmit={handleSubmit}>
                 <input
