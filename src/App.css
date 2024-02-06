@@ -181,10 +181,15 @@ margin: 20px;
   max-width: 300px;
   height: auto;
 }
-.generated {
-  display: inline-block;
+.generated  {
+  width: auto;
+  display: block;
+  text-align:center;
+  align-content: center;
   justify-content: center;
-  margin-bottom: 5px;
+  justify-self: center;
+  margin-bottom:20px;
+
 }
 .signed {
   display: flex;

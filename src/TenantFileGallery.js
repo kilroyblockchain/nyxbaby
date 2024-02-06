@@ -130,11 +130,16 @@ function TenantFileGallery({ userName, filterCriteria }) {
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
                   <img src={getFileThumbnail(file)} alt={file.name} className="file-thumbnail" />
                 </a>
+                {/* Use file.name and file.url directly */}
+                <a href={file.url} target="_blank" rel="noopener noreferrer" className="file-name">
+                  {file.name}
+                </a>
                 <p><a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">Verify</a></p>
                 <button onClick={() => handleShareFile(file.url)}>Share File</button>
               </div>
           ))}
         </div>
+
         <div className="filter-container">
         <div className="pagination-controls">
           <input className="file-search" type="text" value={nameFilter} onChange={(e) => setNameFilter(e.target.value)} placeholder="Filter by filename" />
