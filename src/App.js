@@ -11,6 +11,7 @@ import Chatbot from "./Chatbot";
 import logo from './logo.png';
 import caifb from './CAI-FB-800.png';
 import PromptLibrary from "./PromptLibrary";
+import TextToImage from "./TextToImage";
 
 function SignInButton() {
     const { instance } = useMsal();
@@ -49,6 +50,8 @@ function AppContent() {
                     <PromptLibrary userName={userName}/>
                     <hr />
                     <Imagebot userName={userName} />
+                    <hr />
+                    <TextToImage />
                     <hr />
                 </>
             ) : (
