@@ -130,6 +130,10 @@ function TenantFileGallery({ userName, filterCriteria }) {
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
                   <img src={getFileThumbnail(file)} alt={file.name} className="file-thumbnail" />
                 </a>
+                {/* Add the file name as a link below the image */}
+                <a href={file.url} target="_blank" rel="noopener noreferrer" className="file-name">
+                  {file.name}
+                </a>
                 <p><a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">Verify</a></p>
                 <button onClick={() => handleShareFile(file.url)}>Share File</button>
               </div>

@@ -9,23 +9,30 @@ const PromptLibrary = () => {
         setPrompt(e.target.value);
     };
 
-    const wrapText = (context, text, x, y, maxWidth, lineHeight) => {
-        const words = text.split(' ');
-        let line = '';
+    const sanitizeFileName = (text) => {
+        return text.replace(/[^a-zA-Z0-9-_]/g, '_').substring(0, 25); // Sanitize and limit to first 25 characters
+    };
 
-        for (let n = 0; n < words.length; n++) {
-            const testLine = line + words[n] + ' ';
-            const metrics = context.measureText(testLine);
-            const testWidth = metrics.width;
-            if (testWidth > maxWidth && n > 0) {
-                context.fillText(line, x, y);
-                line = words[n] + ' ';
-                y += lineHeight;
-            } else {
-                line = testLine;
+    const wrapText = (context, text, x, y, maxWidth, lineHeight) => {
+        text.split('\n').forEach((paragraph) => {
+            const words = paragraph.split(' ');
+            let line = '';
+
+            for (let n = 0; n < words.length; n++) {
+                const testLine = line + words[n] + ' ';
+                const metrics = context.measureText(testLine);
+                const testWidth = metrics.width;
+                if (testWidth > maxWidth && n > 0) {
+                    context.fillText(line, x, y);
+                    line = words[n] + ' ';
+                    y += lineHeight;
+                } else {
+                    line = testLine;
+                }
             }
-        }
-        context.fillText(line, x, y);
+            context.fillText(line, x, y);
+            y += lineHeight; // Add an extra space between paragraphs
+        });
     };
 
     const storePrompt = () => {
@@ -47,7 +54,7 @@ const PromptLibrary = () => {
 
         // Save the image data
         const imageData = canvas.toDataURL('image/png');
-        setPrompts([...prompts, imageData]);
+        setPrompts([...prompts, { imageData, text: prompt }]);
     };
 
     const handleSubmit = (e) => {
@@ -57,23 +64,23 @@ const PromptLibrary = () => {
     };
 
     return (
-        <div className={"chatFB"}>
+        <div className="chatFB">
             <h1>Prompt Library</h1>
             <form onSubmit={handleSubmit}>
-        <textarea
-            value={prompt}
-            onChange={handlePromptChange}
-            placeholder="Enter your prompt"
-            rows="4"
-            cols="50"
-        />
+                <textarea
+                    value={prompt}
+                    onChange={handlePromptChange}
+                    placeholder="Enter your prompt"
+                    rows="4"
+                    cols="50"
+                />
                 <button type="submit">Store Prompt</button>
             </form>
-            <div className={"promptLibrary"}>
-                {prompts.map((imageData, index) => (
+            <div className="promptLibrary">
+                {prompts.map(({ imageData, text }, index) => (
                     <div key={index}>
                         <img src={imageData} alt={`Prompt ${index + 1}`} />
-                        <a href={imageData} download={`prompt-${index + 1}.png`}>
+                        <a href={imageData} download={`prompt-${sanitizeFileName(text)}.png`}>
                             Download Prompt {index + 1}
                         </a>
                     </div>
