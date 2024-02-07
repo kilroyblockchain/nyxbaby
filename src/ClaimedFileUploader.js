@@ -85,7 +85,7 @@ const ClaimedFileUploader = ({ userName }) => {
     };
 
     return (
-        <div className="claimedFileUploader">
+        <div className="chatFB">
             <h1>Upload Claimed File</h1>
             <form onSubmit={handleSubmit}>
                 <div>
