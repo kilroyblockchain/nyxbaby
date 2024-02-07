@@ -12,6 +12,7 @@ import logo from './logo.png';
 import caifb from './CAI-FB-800.png';
 import PromptLibrary from "./PromptLibrary";
 import TextToImage from "./TextToImage";
+import ClaimedFileUploader from "./ClaimedFileUploader";
 
 function SignInButton() {
     const { instance } = useMsal();
@@ -38,14 +39,14 @@ function AppContent() {
             </header>
             {isAuthenticated || isDevelopment ? (
                 <>
-                                <TenantFileGallery userName={userName} filterCriteria={filterCriteria} />
-                                <hr />
-                                <ManifestRetriever />
-                                <hr />
-                                <ManifestGenerator />
-                                <FileUploadPage userName={userName} />
-                                <hr />
-                                <Chatbot setFilterCriteria={setFilterCriteria} />
+                    <TenantFileGallery userName={userName} filterCriteria={filterCriteria} />
+                    <hr />
+                    <ManifestRetriever />
+                    <hr />
+                    <ManifestGenerator />
+                    <FileUploadPage userName={userName} />
+                    <hr />
+                    <Chatbot setFilterCriteria={setFilterCriteria} />
                     <hr />
                     <PromptLibrary userName={userName}/>
                     <hr />
@@ -53,6 +54,8 @@ function AppContent() {
                     <hr />
                     <TextToImage />
                     <hr />
+                    <ClaimedFileUploader userName={userName} />
+                     <hr />
                 </>
             ) : (
                 <SignInButton />
@@ -70,9 +73,10 @@ function AppContent() {
 function App() {
     return (
         <MsalProvider instance={msalInstance}>
-                <AppContent />
+            <AppContent />
         </MsalProvider>
     );
 }
 
 export default App;
+
