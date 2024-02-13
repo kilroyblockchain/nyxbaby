@@ -3,7 +3,7 @@ import axios from 'axios';
 import tooltipIcon from './file_baby_tooltip_20px.png'; // Replace with the correct path
 
 const TooltipIcon = ({ title }) => (
-    <img src={tooltipIcon} alt="Tooltip" title={title} className="tooltip-icon" />
+    <img tabIndex={"0"} src={tooltipIcon} alt="Tooltip" title={title} className="tooltip-icon" />
 );
 const Chatbot = ({ setFilterCriteria }) => {
     const [prompt, setPrompt] = useState('');
