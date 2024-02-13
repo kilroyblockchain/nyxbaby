@@ -271,6 +271,9 @@ margin: 20px;
   50% { opacity: 0; }
 }
 @media screen and (max-width: 600px) {
+  body {
+    max-width:600px;
+  }
   .generator {
     max-width: 525px; /* Smaller max width for phone screens */
   }
