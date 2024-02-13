@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
+import tooltipIcon from './file_baby_tooltip_20px.png'; // Replace with the correct path
 
+const TooltipIcon = ({ title }) => (
+    <img src={tooltipIcon} alt="Tooltip" title={title} className="tooltip-icon" />
+);
 function ManifestUpload() {
     const [tenant, setTenant] = useState('');
     const [files, setFiles] = useState([]);

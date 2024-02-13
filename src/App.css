@@ -258,6 +258,9 @@ margin: 20px;
   display: block;
   max-width:1000px;
 }
+.tooltip-icon {
+  float:right;
+}
 @keyframes flash {
   50% { opacity: 0; }
 }

@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
+import tooltipIcon from './file_baby_tooltip_20px.png'; // Replace with the correct path
 
+const TooltipIcon = ({ title }) => (
+    <img src={tooltipIcon} alt="Tooltip" title={title} className="tooltip-icon" />
+);
 const ManifestGenerator = () => {
     const [formData, setFormData] = useState({
         author: '',
@@ -79,9 +83,10 @@ const ManifestGenerator = () => {
     };
 
     return (
-        <div className="generator">
+        <div className="chatFB">
             <h2>Claim My File</h2>
             <h3>1. Generate Manifest</h3>
+            <TooltipIcon title="Create and download a C2PA manifest for claiming ownership of a file." />
             {!manifest ? (
                 <div className={"form-container"}>
                     <input

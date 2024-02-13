@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import tooltipIcon from './file_baby_tooltip_20px.png'; // Replace with the correct path
 
+const TooltipIcon = ({ title }) => (
+    <img src={tooltipIcon} alt="Tooltip" title={title} className="tooltip-icon" />
+);
 function FileUploadPage({ userName }) {
     const [manifestFile, setManifestFile] = useState(null);
     const [imageFile, setImageFile] = useState(null);
@@ -141,7 +145,7 @@ function FileUploadPage({ userName }) {
     return (
         <div className={'manifestUpload'}>
             <h3>2. Upload Manifest and Image, Audio or Video</h3>
-
+            <TooltipIcon title="Submit your file and its manifest to claim ownership." />
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="manifestFile">Manifest File</label>

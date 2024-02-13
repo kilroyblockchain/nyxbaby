@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import tooltipIcon from './file_baby_tooltip_20px.png'; // Replace with the correct path
 
+const TooltipIcon = ({ title }) => (
+    <img src={tooltipIcon} alt="Tooltip" title={title} className="tooltip-icon" />
+);
 const Chatbot = ({ setFilterCriteria }) => {
     const [prompt, setPrompt] = useState('');
     const [response, setResponse] = useState([]);
@@ -66,8 +70,8 @@ const Chatbot = ({ setFilterCriteria }) => {
     return (
         <div className={"chatFB"}>
 
-            <h1>Chat with File Baby</h1>
-
+            <h1>Chat with File Baby AI</h1>
+            <TooltipIcon title="Ask File Baby AI (ChatGPT3.5 Turbo) for prompts to use in the AI Image Generator, or for more info about C2PA." />
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"

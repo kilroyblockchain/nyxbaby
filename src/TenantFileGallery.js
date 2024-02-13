@@ -160,7 +160,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
           </div>
         </div>
         <div className={"shareSelected"}>
-          <button onClick={handleShareGallery}>Share Selected Files</button></div>
+          <button onClick={handleShareGallery} title="Select up to 10 files to share with others. Use https://tinyurl.com to shorten the Shared Gallery URL.">Share Selected Files</button></div>
       </div>
   );
 }

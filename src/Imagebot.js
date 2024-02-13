@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import tooltipIcon from './file_baby_tooltip_20px.png'; // Replace with the correct path
+
+const TooltipIcon = ({ title }) => (
+    <img src={tooltipIcon} alt="Tooltip" title={title} className="tooltip-icon" />
+);
+
 
 const Imagebot = ({ userName }) => {
     const [prompt, setPrompt] = useState('');
@@ -111,7 +117,7 @@ const Imagebot = ({ userName }) => {
 
     return (
         <div className={"chatFB"}>
-            <h1>AI Image Generator</h1>
+            <h1>AI Image Generator</h1><TooltipIcon title="Generate images from AI based on your text descriptions. Uses DALL-E 2. Generated images are signed by Microsoft Responsible AI. Chat with File Baby AI for prompt ideas." />
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -125,7 +131,7 @@ const Imagebot = ({ userName }) => {
             {error && <p className="error">{error}</p>}
             {imageUrl && !savedToFileBaby && (
                 <div>
-                        <h2>Generated Image:</h2>
+                    <h2>Generated Image:</h2>
 
                     <img className={"generated"} src={imageUrl} alt="Generated" style={{ maxWidth: '100%', maxHeight: '500px' }} />
                     <button onClick={handleSaveToFileBaby} disabled={isLoading}>

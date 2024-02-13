@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
+import tooltipIcon from './file_baby_tooltip_20px.png'; // Replace with the correct path
 
+const TooltipIcon = ({ title }) => (
+    <img src={tooltipIcon} alt="Tooltip" title={title} className="tooltip-icon" />
+);
 const ClaimedFileUploader = ({ userName }) => {
     const [file, setFile] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -87,6 +91,7 @@ const ClaimedFileUploader = ({ userName }) => {
     return (
         <div className="chatFB">
             <h1>Upload Claimed File</h1>
+            <TooltipIcon title="Upload a previously claimed file to File Baby, keeping C2PA credentials intact. Example: File generated form DALL-E, or Adobe Photoshop." />
             <form onSubmit={handleSubmit}>
                 <div>
                     <input

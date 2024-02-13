@@ -1,4 +1,9 @@
 import React, { useState, useRef } from 'react';
+import tooltipIcon from './file_baby_tooltip_20px.png'; // Replace with the correct path
+
+const TooltipIcon = ({ title }) => (
+    <img src={tooltipIcon} alt="Tooltip" title={title} className="tooltip-icon" />
+);
 
 const PromptLibrary = () => {
     const [prompt, setPrompt] = useState('');
@@ -66,6 +71,7 @@ const PromptLibrary = () => {
     return (
         <div className={"chatFB"}>
             <h1>Save Prompt</h1>
+            <TooltipIcon title="Claim, store and retrieve your creative prompts. After your prompt is an image, claim it by creating a manifest for it and uploading to File Baby. (File names begin with 'prompt-')." />
             <form onSubmit={handleSubmit}>
                 <textarea
                     value={prompt}

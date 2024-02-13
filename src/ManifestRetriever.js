@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import tooltipIcon from './file_baby_tooltip_20px.png'; // Replace with the correct path
+
+const TooltipIcon = ({ title }) => (
+    <img src={tooltipIcon} alt="Tooltip" title={title} className="tooltip-icon" />
+);
 
 function ManifestRetriever() {
     const [file, setFile] = useState(null);
@@ -46,6 +51,7 @@ function ManifestRetriever() {
     return (
         <div className={"inspectFile"}>
             <h1>Inspect a File</h1>
+            <TooltipIcon title="Check any file for a C2PA manifest and display the JSON." />
             <form onSubmit={handleSubmit}>
                 <div className="retrievedmanifest">
                     <label htmlFor="file">File:</label>

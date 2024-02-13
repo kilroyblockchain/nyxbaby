@@ -1,4 +1,9 @@
 import React, { useState, useRef } from 'react';
+import tooltipIcon from './file_baby_tooltip_20px.png'; // Replace with the correct path
+
+const TooltipIcon = ({ title }) => (
+    <img src={tooltipIcon} alt="Tooltip" title={title} className="tooltip-icon" />
+);
 
 const TextToImage = () => {
     const [prompt, setPrompt] = useState('');
@@ -66,6 +71,7 @@ const TextToImage = () => {
     return (
         <div className={"chatFB"}>
             <h1>Save Text as Image</h1>
+            <TooltipIcon title="Create an image file from text and download it; then create a manifest and upload to claim. (File names begin with 'text-')." />
             <form onSubmit={handleSubmit}>
                 <textarea
                     value={prompt}
