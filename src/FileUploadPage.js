@@ -173,6 +173,7 @@ function FileUploadPage({ userName }) {
                 </div>
 
                 <button
+                    tabIndex={"0"}
                     type="submit"
                     title={"Upload Selected Manifest and File to be Claimed"}
                     disabled={isLoading || !manifestFile || !imageFile}>

@@ -81,7 +81,7 @@ const TextToImage = () => {
                     rows="4"
                     cols="50"
                 />
-                <button type="submit" title={"Save Text to Image"}>Save Text as Image</button>
+                <button tabIndex={"0"} type="submit" title={"Save Text to Image"}>Save Text as Image</button>
             </form>
             <div className={"promptLibrary"}>
                 {prompts.map(({ imageData, text }, index) => (

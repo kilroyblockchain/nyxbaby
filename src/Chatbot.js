@@ -80,7 +80,7 @@ const Chatbot = ({ setFilterCriteria }) => {
                     onChange={handleInputChange}
                     placeholder="Hi! How are you?"
                 />
-                <button type="submit" title={"Send to File Baby AI"}>Send</button>
+                <button tabIndex={"0"} type="submit" title={"Send to File Baby AI"}>Send</button>
             </form>
             <div>
                 {response.map((exchange, index) => (

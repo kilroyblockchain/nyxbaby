@@ -118,15 +118,15 @@ function TenantFileGallery({ userName, filterCriteria }) {
                 <option value="100">100</option>
               </select>
             </div>
-            <button onClick={fetchFiles} title={"Reload files from File Baby storage"}>Reload Files</button>
-            <button onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))} disabled={currentPage === 1} title={"List Previous"}>Previous</button>
-            <button onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(files.length / itemsPerPage)))} disabled={currentPage === Math.ceil(files.length / itemsPerPage)} title={"List Next"}>Next</button>
+            <button tabIndex={"0"} onClick={fetchFiles} title={"Reload files from File Baby storage"}>Reload Files</button>
+            <button tabIndex={"0"} onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))} disabled={currentPage === 1} title={"List Previous"}>Previous</button>
+            <button tabIndex={"0"} onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(files.length / itemsPerPage)))} disabled={currentPage === Math.ceil(files.length / itemsPerPage)} title={"List Next"}>Next</button>
           </div>
         </div>
         <div className="file-gallery">
           {currentFiles.map((file, index) => (
               <div key={index} className="file-item">
-                <input type="checkbox" checked={selectedFiles.includes(file)} onChange={(e) => handleFileSelection(file.name, e.target.checked)} />
+                <input tabIndex={"0"} title="Select to include File in Shared Gallery" type="checkbox" checked={selectedFiles.includes(file)} onChange={(e) => handleFileSelection(file.name, e.target.checked)} />
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
                   <img src={getFileThumbnail(file)} alt={file.name} title={file.name} className="file-thumbnail" />
 
@@ -136,7 +136,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
                   {file.name}
                 </a>
                 <p><a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">Verify</a></p>
-                <button onClick={() => handleShareFile(file.url)} title={"Copy the URL to your clipboard; paste to share."}>Share File</button>
+                <button tabIndex={"0"} onClick={() => handleShareFile(file.url)} title={"Copy the URL to your clipboard; paste to share."}>Share File</button>
               </div>
           ))}
         </div>
@@ -155,13 +155,13 @@ function TenantFileGallery({ userName, filterCriteria }) {
                 <option value="100">100</option>
               </select>
             </div>
-            <button onClick={fetchFiles} title={"Reload files from File Baby storage"}>Reload Files</button>
-            <button onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))} disabled={currentPage === 1} title={"List Previous"}>Previous</button>
-            <button onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(files.length / itemsPerPage)))} disabled={currentPage === Math.ceil(files.length / itemsPerPage)} title={"List Next"}>Next</button>
+            <button tabIndex={"0"} onClick={fetchFiles} title={"Reload files from File Baby storage"}>Reload Files</button>
+            <button tabIndex={"0"} onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))} disabled={currentPage === 1} title={"List Previous"}>Previous</button>
+            <button tabIndex={"0"} onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(files.length / itemsPerPage)))} disabled={currentPage === Math.ceil(files.length / itemsPerPage)} title={"List Next"}>Next</button>
           </div>
         </div>
         <div className={"shareSelected"}>
-          <button onClick={handleShareGallery} title="Select up to 10 files to share with others. Use https://tinyurl.com to shorten the Shared Gallery URL.">Share Selected Files</button></div>
+          <button tabIndex={"0"} onClick={handleShareGallery} title="Select up to 10 files to share with others. Use https://tinyurl.com to shorten the Shared Gallery URL.">Share Selected Files</button></div>
       </div>
   );
 }

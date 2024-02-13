@@ -110,7 +110,7 @@ const ManifestGenerator = () => {
                         onChange={handleChange}
                         placeholder="LinkedIn, Instagram or Behance Profile URL"
                     />
-                    <button onClick={generateManifest}>Generate Manifest</button>
+                    <button tabIndex={"0"} onClick={generateManifest}>Generate Manifest</button>
                 </div>
             ) : (
                 <div>

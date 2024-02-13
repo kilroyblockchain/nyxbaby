@@ -135,7 +135,7 @@ const Imagebot = ({ userName }) => {
                     <h2>Generated Image:</h2>
 
                     <img className={"generated"} src={imageUrl} alt="Generated" style={{ maxWidth: '100%', maxHeight: '500px' }} />
-                    <button onClick={handleSaveToFileBaby} disabled={isLoading}>
+                    <button tabIndex={"0"} onClick={handleSaveToFileBaby} disabled={isLoading}>
                         Save to File Baby
                     </button>
                 </div>

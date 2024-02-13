@@ -102,7 +102,7 @@ const ClaimedFileUploader = ({ userName }) => {
                         disabled={isLoading}
                         title={"Choose any File Containing C2PA Credentials"}
                     />
-                    <button type="submit" title="Upload File to File Baby" disabled={isLoading || !file}>Upload File</button>
+                    <button tabIndex={"0"} type="submit" title="Upload File to File Baby" disabled={isLoading || !file}>Upload File</button>
                 </div>
             </form>
 

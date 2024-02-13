@@ -63,6 +63,7 @@ function ManifestRetriever() {
                     />
                 </div>
                 <button
+                    tabIndex={"0"}
                     type="submit"
                     disabled={isLoading || !file}>
                     Retrieve Manifest
