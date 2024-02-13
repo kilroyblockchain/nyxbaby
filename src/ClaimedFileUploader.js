@@ -95,6 +95,7 @@ const ClaimedFileUploader = ({ userName }) => {
                 <TooltipIcon title="Upload a previously C2PA claimed file to File Baby, keeping C2PA credentials intact. Example: File generated form DALL-E, or Adobe Photoshop." />
                 <div>
                     <input
+                        tabIndex={"0"}
                         id="fileInput"
                         type="file"
                         onChange={handleFileChange}

@@ -59,6 +59,7 @@ function ManifestRetriever() {
                         id="file"
                         type="file"
                         onChange={handleFileChange}
+                        tabIndex={"0"}
                     />
                 </div>
                 <button
