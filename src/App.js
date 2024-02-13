@@ -63,8 +63,8 @@ function AppContent() {
             <footer className="footer">
                 <p><a href="https://file.baby">Privacy Policy & Terms of Use</a></p>
                 <p>To inspect your content, use <a href="https://contentcredentials.org/verify" target="_blank" rel="noopener noreferrer">contentcredentials.org/verify</a></p>
-                <p><img src={caifb} alt="File Baby is a member of Content Authenticity Initiative" className="responsive" /></p>
-                <p>&copy; Copyright 2024, <a href="https://file.baby" alt="File Baby">File Baby</a>, All Rights Reserved</p>
+                <p><img src={caifb} title="CAI and File Baby" alt="File Baby is a member of Content Authenticity Initiative" className="responsive" /></p>
+                <p>&copy; Copyright 2024, <a href="https://file.baby" alt="File Baby" title={"File Baby"}>File Baby</a>, All Rights Reserved</p>
             </footer>
         </div>
     );

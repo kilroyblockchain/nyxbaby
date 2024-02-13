@@ -127,7 +127,7 @@ const Imagebot = ({ userName }) => {
                     placeholder="Describe the image you want to generate"
                     disabled={isLoading}
                 />
-                <button type="submit" disabled={isLoading}>Generate</button>
+                <button type="submit" title="Generate Image" disabled={isLoading}>Generate</button>
             </form>
             {error && <p className="error">{error}</p>}
             {imageUrl && !savedToFileBaby && (

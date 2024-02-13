@@ -80,7 +80,7 @@ const PromptLibrary = () => {
                     rows="4"
                     cols="50"
                 />
-                <button type="submit">Save Prompt as Image</button>
+                <button type="submit" title={"Save Prompt as Image"}>Save Prompt as Image</button>
             </form>
             <div className={"promptLibrary"}>
                 {prompts.map(({ imageData, text }, index) => (

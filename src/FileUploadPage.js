@@ -156,6 +156,7 @@ function FileUploadPage({ userName }) {
                         type="file"
                         onChange={handleManifestFileChange}
                         accept=".json"
+                        title={"Select a Manifest File"}
                     />
                 </div>
                 <div>
@@ -167,11 +168,13 @@ function FileUploadPage({ userName }) {
                         type="file"
                         onChange={handleImageFileChange}
                         accept="image/avif, image/jpeg, image/png, image/tiff, image/webp, image/svg+xml, audio/mpeg, audio/mp4, audio/wav, video/avi, video/mp4, video/quicktime, video/mpeg, text/plain"
+                        title={"Select a File to Claim"}
                     />
                 </div>
 
                 <button
                     type="submit"
+                    title={"Upload Selected Manifest and File to be Claimed"}
                     disabled={isLoading || !manifestFile || !imageFile}>
                     Upload Files
                 </button>

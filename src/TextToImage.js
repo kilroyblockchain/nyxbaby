@@ -81,14 +81,14 @@ const TextToImage = () => {
                     rows="4"
                     cols="50"
                 />
-                <button type="submit">Save Text as Image</button>
+                <button type="submit" title={"Save Text to Image"}>Save Text as Image</button>
             </form>
             <div className={"promptLibrary"}>
                 {prompts.map(({ imageData, text }, index) => (
                     <div key={index}>
                         <img src={imageData} alt={`Prompt ${index + 1}`} />
                         <a href={imageData} download={`Text-${sanitizeFileName(text.substring(0, 25))}.png`}>
-                            Download Text to Image {index + 1}
+                            Download Text as Image {index + 1}
                         </a>
                     </div>
                 ))}
