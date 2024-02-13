@@ -152,6 +152,7 @@ function FileUploadPage({ userName }) {
                     <div className="footnote">
                     </div>
                     <input
+                        tabIndex={"0"}
                         id="manifestFile"
                         type="file"
                         onChange={handleManifestFileChange}
@@ -164,6 +165,7 @@ function FileUploadPage({ userName }) {
                     <div className="footnote">Supported are .jpeg, .jpg, .png, .tiff, .webp, .svg, .mp3, .m4a, .wav, .avi, avif, .mp4, .mov, or .mpeg. 100 megabyte limit.
                     </div>
                     <input
+                        tabIndex={"0"}
                         id="imageFile"
                         type="file"
                         onChange={handleImageFileChange}
