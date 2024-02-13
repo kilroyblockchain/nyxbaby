@@ -26,6 +26,14 @@ form {
   width: 100%;
   max-width: 480px;
   margin: auto;
+  background-color: white; /* This ensures the boxes have a white background */
+  border-radius: 8px; /* Consistent border-radius for all boxes */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow for depth */
+
+}
+.tooltip-icon {
+float:left;
+
 }
 hr {
   margin-top:40px;
@@ -258,9 +266,7 @@ margin: 20px;
   display: block;
   max-width:1000px;
 }
-.tooltip-icon {
-  float:right;
-}
+
 @keyframes flash {
   50% { opacity: 0; }
 }

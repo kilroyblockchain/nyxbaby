@@ -117,8 +117,9 @@ const Imagebot = ({ userName }) => {
 
     return (
         <div className={"chatFB"}>
-            <h1>AI Image Generator</h1><TooltipIcon title="Generate images from AI based on your text descriptions. Uses DALL-E 2. Generated images are signed by Microsoft Responsible AI. Chat with File Baby AI for prompt ideas." />
+            <h1>AI Image Generator</h1>
             <form onSubmit={handleSubmit}>
+                <TooltipIcon title="Generate images from AI based on your text descriptions. Uses DALL-E 2. Generated images are signed by Microsoft Responsible AI. Chat with File Baby AI for prompt ideas." />
                 <input
                     type="text"
                     value={prompt}

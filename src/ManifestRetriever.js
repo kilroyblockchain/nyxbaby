@@ -51,8 +51,8 @@ function ManifestRetriever() {
     return (
         <div className={"inspectFile"}>
             <h1>Inspect a File</h1>
-            <TooltipIcon title="Check any file for a C2PA manifest and display the JSON." />
             <form onSubmit={handleSubmit}>
+                <TooltipIcon title="Check any file for a C2PA manifest and display the JSON." />
                 <div className="retrievedmanifest">
                     <label htmlFor="file">File:</label>
                     <input

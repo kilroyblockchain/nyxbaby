@@ -71,8 +71,9 @@ const TextToImage = () => {
     return (
         <div className={"chatFB"}>
             <h1>Save Text as Image</h1>
-            <TooltipIcon title="Create an image file from text and download it; then create a manifest and upload to claim. (File names begin with 'text-')." />
+
             <form onSubmit={handleSubmit}>
+                <TooltipIcon title="Create an image file from text and download it; then create a manifest and upload to claim. (File names begin with 'text-')." />
                 <textarea
                     value={prompt}
                     onChange={handlePromptChange}

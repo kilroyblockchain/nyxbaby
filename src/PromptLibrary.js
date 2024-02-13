@@ -71,8 +71,8 @@ const PromptLibrary = () => {
     return (
         <div className={"chatFB"}>
             <h1>Save Prompt</h1>
-            <TooltipIcon title="Claim, store and retrieve your creative prompts. After your prompt is an image, claim it by creating a manifest for it and uploading to File Baby. (File names begin with 'prompt-')." />
             <form onSubmit={handleSubmit}>
+                <TooltipIcon title="Claim, store and retrieve your creative prompts. After your prompt is an image, claim it by creating a manifest for it and uploading to File Baby. (File names begin with 'prompt-')." />
                 <textarea
                     value={prompt}
                     onChange={handlePromptChange}

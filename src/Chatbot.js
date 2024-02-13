@@ -71,8 +71,9 @@ const Chatbot = ({ setFilterCriteria }) => {
         <div className={"chatFB"}>
 
             <h1>Chat with File Baby AI</h1>
-            <TooltipIcon title="Ask File Baby AI (ChatGPT3.5 Turbo) for prompts to use in the AI Image Generator, or for more info about C2PA." />
+
             <form onSubmit={handleSubmit}>
+                <TooltipIcon title="Ask File Baby AI (ChatGPT3.5 Turbo) for prompts to use in the AI Image Generator, or for more info about C2PA." />
                 <input
                     type="text"
                     value={prompt}

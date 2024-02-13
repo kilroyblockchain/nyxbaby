@@ -91,8 +91,8 @@ const ClaimedFileUploader = ({ userName }) => {
     return (
         <div className="chatFB">
             <h1>Upload Claimed File</h1>
-            <TooltipIcon title="Upload a previously claimed file to File Baby, keeping C2PA credentials intact. Example: File generated form DALL-E, or Adobe Photoshop." />
             <form onSubmit={handleSubmit}>
+                <TooltipIcon title="Upload a previously claimed file to File Baby, keeping C2PA credentials intact. Example: File generated form DALL-E, or Adobe Photoshop." />
                 <div>
                     <input
                         id="fileInput"

@@ -145,8 +145,8 @@ function FileUploadPage({ userName }) {
     return (
         <div className={'manifestUpload'}>
             <h3>2. Upload Manifest and Image, Audio or Video</h3>
-            <TooltipIcon title="Submit your file and its manifest to claim ownership." />
             <form onSubmit={handleSubmit}>
+                <TooltipIcon title="Submit your file and its manifest to claim ownership. Refresh your browser page between file uploads." />
                 <div>
                     <label htmlFor="manifestFile">Manifest File</label>
                     <div className="footnote">
