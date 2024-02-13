@@ -108,8 +108,8 @@ function TenantFileGallery({ userName, filterCriteria }) {
           <div className="pagination-controls">
             <input className="file-search" type="text" value={nameFilter} onChange={(e) => setNameFilter(e.target.value)} placeholder="Filter by filename" />
             <div className="items-per-page-selector">
-              <label htmlFor="itemsPerPage">Items per page:</label>
-              <select id="itemsPerPage" value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
+              <label htmlFor="itemsPerPage" >Items per page:</label>
+              <select id="itemsPerPage" title={"Select number of items to be displayed"} value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
                 <option value="1">1</option>
                 <option value="5">5</option>
                 <option value="10">10</option>
@@ -118,9 +118,9 @@ function TenantFileGallery({ userName, filterCriteria }) {
                 <option value="100">100</option>
               </select>
             </div>
-            <button onClick={fetchFiles}>Reload Files</button>
-            <button onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))} disabled={currentPage === 1}>Previous</button>
-            <button onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(files.length / itemsPerPage)))} disabled={currentPage === Math.ceil(files.length / itemsPerPage)}>Next</button>
+            <button onClick={fetchFiles} title={"Reload files from File Baby storage"}>Reload Files</button>
+            <button onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))} disabled={currentPage === 1} title={"List Previous"}>Previous</button>
+            <button onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(files.length / itemsPerPage)))} disabled={currentPage === Math.ceil(files.length / itemsPerPage)} title={"List Next"}>Next</button>
           </div>
         </div>
         <div className="file-gallery">
@@ -128,14 +128,15 @@ function TenantFileGallery({ userName, filterCriteria }) {
               <div key={index} className="file-item">
                 <input type="checkbox" checked={selectedFiles.includes(file)} onChange={(e) => handleFileSelection(file.name, e.target.checked)} />
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
-                  <img src={getFileThumbnail(file)} alt={file.name} className="file-thumbnail" />
+                  <img src={getFileThumbnail(file)} alt={file.name} title={file.name} className="file-thumbnail" />
+
                 </a>
                 {/* Use file.name and file.url directly */}
                 <a href={file.url} target="_blank" rel="noopener noreferrer" className="file-name">
                   {file.name}
                 </a>
                 <p><a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">Verify</a></p>
-                <button onClick={() => handleShareFile(file.url)}>Share File</button>
+                <button onClick={() => handleShareFile(file.url)} title={"Copy the URL to your clipboard; paste to share."}>Share File</button>
               </div>
           ))}
         </div>
@@ -145,7 +146,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
             <input className="file-search" type="text" value={nameFilter} onChange={(e) => setNameFilter(e.target.value)} placeholder="Filter by filename" />
             <div className="items-per-page-selector">
               <label htmlFor="itemsPerPage">Items per page:</label>
-              <select id="itemsPerPage" value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
+              <select id="itemsPerPage" title={"Select number of items to be displayed"} value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
                 <option value="1">1</option>
                 <option value="5">5</option>
                 <option value="10">10</option>
@@ -154,9 +155,9 @@ function TenantFileGallery({ userName, filterCriteria }) {
                 <option value="100">100</option>
               </select>
             </div>
-            <button onClick={fetchFiles}>Reload Files</button>
-            <button onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))} disabled={currentPage === 1}>Previous</button>
-            <button onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(files.length / itemsPerPage)))} disabled={currentPage === Math.ceil(files.length / itemsPerPage)}>Next</button>
+            <button onClick={fetchFiles} title={"Reload files from File Baby storage"}>Reload Files</button>
+            <button onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))} disabled={currentPage === 1} title={"List Previous"}>Previous</button>
+            <button onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(files.length / itemsPerPage)))} disabled={currentPage === Math.ceil(files.length / itemsPerPage)} title={"List Next"}>Next</button>
           </div>
         </div>
         <div className={"shareSelected"}>
