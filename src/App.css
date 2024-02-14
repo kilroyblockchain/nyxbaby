@@ -188,6 +188,7 @@ margin: 20px;
 .responsive {
   max-width: 300px;
   height: auto;
+  margin-bottom:20px;
 }
 .generated  {
   width: auto;
