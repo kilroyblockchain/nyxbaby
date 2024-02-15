@@ -92,7 +92,7 @@ const ClaimedFileUploader = ({ userName }) => {
         <div className="chatFB">
             <h1>Upload Claimed File</h1>
             <form onSubmit={handleSubmit}>
-                <TooltipIcon title="Upload a previously C2PA claimed file to File Baby, keeping C2PA credentials intact. Example: File generated form DALL-E, or Adobe Photoshop." />
+                <TooltipIcon title="Upload a previously C2PA claimed file to File Baby, keeping C2PA credentials intact. Example: File generated form DALL-E, or Adobe Photoshop. 100MB maximum file size." />
                 <div>
                     <input
                         tabIndex={"0"}

@@ -146,7 +146,7 @@ function FileUploadPage({ userName }) {
         <div className={'manifestUpload'}>
             <h3>2. Upload Manifest and Image, Audio or Video</h3>
             <form onSubmit={handleSubmit}>
-                <TooltipIcon title="Submit your file and its manifest to claim ownership, then click Save to File Baby to store and share it. Refresh your browser page between file uploads." />
+                <TooltipIcon title="Submit your file and its manifest to claim ownership, then click Save to File Baby to store and share it. Refresh your browser page between file uploads. 100MB maximum file size." />
                 <div>
                     <label htmlFor="manifestFile">Manifest File</label>
                     <div className="footnote">
