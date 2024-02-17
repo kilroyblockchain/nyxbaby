@@ -13,6 +13,7 @@ import caifb from './CAI-FB-800.png';
 import PromptLibrary from "./PromptLibrary";
 import TextToImage from "./TextToImage";
 import ClaimedFileUploader from "./ClaimedFileUploader";
+import SignInImage from "./ms_signin.png";
 
 function SignInButton() {
     const { instance } = useMsal();
@@ -22,7 +23,7 @@ function SignInButton() {
         });
     };
 
-    return <button onClick={handleLogin}>Sign In</button>;
+    return <button onClick={handleLogin}><img src={SignInImage} alt={"Sign in with Microsoft"} />Sign In></button>;
 }
 
 function AppContent() {
