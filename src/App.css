@@ -12,7 +12,9 @@ body {
   background-color: #61dafb;
 
 }
-
+.msbutton btn {
+  border-style: none;
+}
 h1 {
   font-size: 1.5em;
 }
