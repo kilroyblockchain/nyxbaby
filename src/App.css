@@ -82,6 +82,10 @@ input[type="submit"]:hover {
 button.msbutton {
   background-color: transparent;
 }
+button.msbutton:hover {
+  opacity: 90%;
+  background-color: transparent;
+}
 /* Make sure the file input also looks like the button */
 input[type="file"]::file-selector-button {
   background-color: #007bff;
