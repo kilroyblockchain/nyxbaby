@@ -15,7 +15,7 @@ body {
 button.msbutton {
   background-color: none;
   border-style: none;
-  padding-none;
+  padding:none;
 }
 h1 {
   font-size: 1.5em;
