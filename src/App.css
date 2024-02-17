@@ -12,8 +12,10 @@ body {
   background-color: #61dafb;
 
 }
-button .msbutton {
+button.msbutton {
   background-color: none;
+  border-style: none;
+  padding-none;
 }
 h1 {
   font-size: 1.5em;
