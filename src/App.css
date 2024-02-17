@@ -194,6 +194,7 @@ margin: 20px;
 .responsive  {
 display:block;
   width:auto;
+  margin: 20px;
 }
 .generated  {
   width: auto;
