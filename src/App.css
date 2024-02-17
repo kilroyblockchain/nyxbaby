@@ -292,6 +292,9 @@ margin: 20px;
   .App-header img {
     width: 50%;
   }
+  .responsive img {
+    width: 50%;
+  }
 }
 @keyframes App-logo-spin {
   from {
