@@ -23,7 +23,7 @@ function SignInButton() {
         });
     };
 
-    return <button onClick={handleLogin}><img src={SignInImage} alt={"Sign in with Microsoft"} />Sign In></button>;
+    return <button onClick={handleLogin}><img src={SignInImage} alt={"Sign in to File Baby with Microsoft"} /></button>;
 }
 
 function AppContent() {
