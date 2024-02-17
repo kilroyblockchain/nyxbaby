@@ -12,11 +12,7 @@ body {
   background-color: #61dafb;
 
 }
-button.msbutton {
-  background-color: none;
-  border-style: none;
-  padding:none;
-}
+
 h1 {
   font-size: 1.5em;
 }
@@ -83,7 +79,9 @@ button:hover,
 input[type="submit"]:hover {
   background-color: #0056b3; /* A darker blue */
 }
-
+button.msbutton {
+  background-color: transparent;
+}
 /* Make sure the file input also looks like the button */
 input[type="file"]::file-selector-button {
   background-color: #007bff;
