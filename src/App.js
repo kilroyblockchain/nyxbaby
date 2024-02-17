@@ -65,7 +65,6 @@ function AppContent() {
                 <p><a href="https://file.baby">Privacy Policy & Terms of Use</a></p>
                 <p><a href="https://contentcredentials.org/verify" target="_blank" rel="noopener noreferrer">Validate Files at Content Authenticity Initiative</a></p>
                 <p>Need a Login? <a href={"https://subscribe.file.baby"}>Subscribe here.</a></p>
-                <p><img src={caifb} title="CAI and File Baby" alt="File Baby is a member of Content Authenticity Initiative" className="responsive" /></p>
                 <p>&copy; Copyright 2024, <a href="https://file.baby" alt="File Baby" title={"File Baby"}>File Baby</a>, All Rights Reserved</p>
             </footer>
         </div>
