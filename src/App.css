@@ -191,10 +191,9 @@ margin: 20px;
 .App-link {
   color: #61dafb;
 }
-.responsive {
-  max-width: 300px;
-  height: auto;
-  margin-bottom:20px;
+.responsive  {
+display:block;
+  width:auto;
 }
 .generated  {
   width: auto;
@@ -292,9 +291,7 @@ margin: 20px;
   .App-header img {
     width: 50%;
   }
-  .responsive img {
-    width: 50%;
-  }
+
 }
 @keyframes App-logo-spin {
   from {
