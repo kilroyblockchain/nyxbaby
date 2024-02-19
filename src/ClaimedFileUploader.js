@@ -90,9 +90,9 @@ const ClaimedFileUploader = ({ userName }) => {
 
     return (
         <div className="chatFB">
-            <h1>Upload Claimed File</h1>
+            <h1>Upload Claimed Image File*</h1>
             <form onSubmit={handleSubmit}>
-                <TooltipIcon title="Upload a previously C2PA claimed file to File Baby, keeping C2PA credentials intact. Example: File generated form DALL-E, or Adobe Photoshop. 100MB maximum file size." />
+                <TooltipIcon title="Upload a previously C2PA claimed image file to File Baby, keeping C2PA credentials intact. Example: File generated form DALL-E, or Adobe Photoshop. 100MB maximum file size." />
                 <div>
                     <input
                         tabIndex={"0"}
@@ -100,9 +100,10 @@ const ClaimedFileUploader = ({ userName }) => {
                         type="file"
                         onChange={handleFileChange}
                         disabled={isLoading}
-                        title={"Choose any File Containing C2PA Credentials"}
+                        title={"Choose any Image File Containing C2PA Credentials"}
+                        accept="image/*" // This line limits the file input to image files only
                     />
-                    <button tabIndex={"0"} type="submit" title="Upload File to File Baby" disabled={isLoading || !file}>Upload File</button>
+                    <button tabIndex={"0"} type="submit" title="Upload Image File to File Baby" disabled={isLoading || !file}>Upload File</button>
                 </div>
             </form>
 
