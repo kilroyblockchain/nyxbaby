@@ -90,6 +90,15 @@
   background-color: #ced4da;
   font-size: 12px;
 }
+.file-name {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 90%; /* Adjust the width as necessary */
+  margin: 0 auto; /* Center the filename if desired */
+}
+
 
 .file-item img {
   max-width: 100%;
@@ -104,6 +113,14 @@
 @media (max-width: 768px) {
   .file-item {
     width: calc(50% - 8px); /* Adjust file items for smaller screens */
+  }
+  .file-name {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 90%; /* Adjust the width as necessary */
+    margin: 0 auto; /* Center the filename if desired */
   }
   .file-search {
     width:50px;

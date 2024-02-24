@@ -128,11 +128,11 @@ function TenantFileGallery({ userName, filterCriteria }) {
               <div key={index} className="file-item">
                 <input tabIndex={"0"} title="Select to include File in Shared Gallery" type="checkbox" checked={selectedFiles.includes(file)} onChange={(e) => handleFileSelection(file.name, e.target.checked)} />
                 <a href={file.url} target="_blank" rel="noopener noreferrer">
-                  <img src={getFileThumbnail(file)} alt={file.name} title={file.name} className="file-thumbnail" />
+                  <img src={getFileThumbnail(file)} alt={file.name} className="file-thumbnail" />
 
                 </a>
                 {/* Use file.name and file.url directly */}
-                <a href={file.url} target="_blank" rel="noopener noreferrer" className="file-name">
+                <a href={file.url} target="_blank" rel="noopener noreferrer" className="file-name" title={file.name}>
                   {file.name}
                 </a>
                 <p><a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">Verify</a></p>
