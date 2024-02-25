@@ -142,7 +142,9 @@
 }
 
 @media (max-width: 400px) {
-
+  body {
+    max-width:400px;
+  }
   .file-item {
     width: 30%; /* Full width for file items on very small screens */
   }
