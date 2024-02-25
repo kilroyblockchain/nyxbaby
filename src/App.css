@@ -295,7 +295,9 @@ display:block;
   form, form textarea {
     width: 300px;
   }
-
+  input[type="text"].file-search {
+  width:50px;
+  }
   .form-container {
     width: 300px;
   }
@@ -304,12 +306,15 @@ display:block;
     font-size: 14px;
   }
 
-  .pagination-controls {
-     border: 1px solid #ced4da;
+  .pagination-controls form {
     border-radius: 4px;
-    min-width: 200px;
-    transition: border-color 0.3s ease-in-out;
+    min-width: 80px;
   }
+  .file-search {
+    display: block;
+    width:10px;
+  }
+
 }
 @keyframes App-logo-spin {
   from {
