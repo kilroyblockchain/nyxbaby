@@ -155,6 +155,15 @@
     max-width: 80%; /* Adjust the width of footer images on very small screens */
     height: auto;
   }
+  .file-gallery {
+    display:flex;
+    min-width:300px;
+    max-width:400px;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    padding: 16px;
+  }
 }
 
 /* Ensure images are responsive */
