@@ -98,7 +98,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
 
   return (
       <div>
-        <h1>My Files</h1>
+        <h1>My File Gallery</h1>
         {error && <p className="error">{error}</p>}
         <div className="tenant-input-container">
           <p className={"tenant"}>Logged in as:</p>
