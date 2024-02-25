@@ -293,15 +293,23 @@ display:block;
 }
 @media screen and (max-width: 400px) {
   form, form textarea {
-  width:300px;
-}
-  .form-container {
-    width:300px;
-  }
-  .manifestUpload h3 {
-    font-size:14px;
+    width: 300px;
   }
 
+  .form-container {
+    width: 300px;
+  }
+
+  .manifestUpload h3 {
+    font-size: 14px;
+  }
+
+  .pagination-controls {
+     border: 1px solid #ced4da;
+    border-radius: 4px;
+    min-width: 200px;
+    transition: border-color 0.3s ease-in-out;
+  }
 }
 @keyframes App-logo-spin {
   from {
