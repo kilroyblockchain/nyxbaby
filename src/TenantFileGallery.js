@@ -102,10 +102,10 @@ function TenantFileGallery({ userName, filterCriteria }) {
         {error && <p className="error">{error}</p>}
         <div className="tenant-input-container">
           <p>Logged in as:</p>
-          <input type="text" value={tenant} onChange={handleTenantChange} placeholder="Enter Your Name" disabled={!!userName} />
+          <input value={tenant} onChange={handleTenantChange} placeholder="Enter Your Name" disabled={!!userName} />
         </div>
         <div class={"mobile-input-container"}>
-        <input type="text" className="file-search-mobile" type="text" value={nameFilter} onChange={(e) => setNameFilter(e.target.value)} placeholder="Filter by filename" />
+        <input className="file-search-mobile" type="text" value={nameFilter} onChange={(e) => setNameFilter(e.target.value)} placeholder="Filter by filename" />
         </div>
         <div className="filter-container">
           <div className="pagination-controls">
