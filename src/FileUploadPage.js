@@ -160,6 +160,7 @@ function FileUploadPage({ userName }) {
                         title={"Select a Manifest File"}
                     />
                 </div>
+                <b>AND</b>
                 <div>
                     <label htmlFor="imageFile">Image, Audio or Video File</label>
                     <div className="footnote">Supported are .jpeg, .jpg, .png, .tiff, .webp, .svg, .mp3, .m4a, .wav, .avi, avif, .mp4, .mov, or .mpeg. 100 megabyte limit.
