@@ -117,9 +117,7 @@
   .file-item {
     width: calc(50% - 8px); /* Adjust file items for smaller screens */
   }
-  .file-search {
-    width:50px;
-  }
+
   .pagination-controls {
     width:500px;
   }
@@ -160,6 +158,17 @@
   }
   .manifest-upload {
     width:300px;
+  }
+  .tenant-input-container {
+    color:black;
+    font-size: 16px;
+    width: 300px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
   }
 
 
