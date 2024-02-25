@@ -115,8 +115,21 @@
 
 @media (max-width: 768px) {
   .file-item {
-    width: calc(50% - 8px); /* Adjust file items for smaller screens */
+  width:100px;
+    display:block;
   }
+  .file-item img {
+    width: 300px;
+  }
+  .file-gallery {
+    display:flex;
+    min-width:500px;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    padding: 16px;
+  }
+
   .file-name {
     display: block;
     white-space: nowrap;
@@ -134,12 +147,7 @@
 }
 
 @media (max-width: 400px) {
-  .file-item {
-    width: 100%; /* Full width for file items on very small screens */
-  }
-  .filter-container {
-    max-width:400px;
-  }
+
 
     /* Adjust the footer and any other elements for smaller screens */
   .footer img.responsive {
