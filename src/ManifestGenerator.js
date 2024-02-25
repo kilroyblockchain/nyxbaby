@@ -83,7 +83,7 @@ const ManifestGenerator = () => {
     };
 
     return (
-        <div className="chatFB">
+        <div>
             <h2>Claim My File</h2>
             <h3>1. Generate Manifest</h3>
             <TooltipIcon title="Create and download a C2PA manifest for claiming ownership of a file." />

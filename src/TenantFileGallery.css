@@ -156,8 +156,7 @@
     min-width:300px;
     max-width:400px;
     flex-wrap: wrap;
-    gap: 5px;
-    padding: 5px;
+
   }
   .manifest-upload {
     width:300px;

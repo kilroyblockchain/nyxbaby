@@ -293,8 +293,11 @@ display:block;
 }
 @media screen and (max-width: 400px) {
   form, form textarea {
-  width:350px;
+  width:300px;
 }
+  .form-container {
+    width:300px;
+  }
 
 }
 @keyframes App-logo-spin {
