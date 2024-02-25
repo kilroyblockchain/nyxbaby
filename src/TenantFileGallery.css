@@ -143,13 +143,24 @@
 
 @media (max-width: 400px) {
 
-
   .file-item {
-    width: 100%; /* Full width for file items on very small screens */
+    width: 30%; /* Full width for file items on very small screens */
   }
   .filter-container {
     max-width:400px;
   }
+  .file-gallery {
+    display:flex;
+    min-width:300px;
+    max-width:400px;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 5px;
+  }
+  .manifest-upload {
+    width:300px;
+  }
+
 
   /* Adjust the footer and any other elements for smaller screens */
   .footer img.responsive {
