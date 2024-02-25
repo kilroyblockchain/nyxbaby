@@ -292,12 +292,10 @@ display:block;
 
 }
 @media screen and (max-width: 400px) {
-  form {
+  form, form textarea {
   width:350px;
 }
-  .FBchat {
-    width:300px;
-  }
+
 }
 @keyframes App-logo-spin {
   from {
