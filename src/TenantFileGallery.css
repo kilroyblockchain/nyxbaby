@@ -38,6 +38,7 @@
 .tenant-input-container button:focus {
   background-color: #0056b3;
 }
+
 .filter-container {
   display: flex;
   justify-content: center;
@@ -49,7 +50,7 @@
   font-size: 16px;
   border: 1px solid #ced4da;
   border-radius: 4px;
-  min-width:200px;
+  min-width: 200px;
   max-width: 300px; /* Adjust as needed */
   transition: border-color 0.3s ease-in-out;
 }
@@ -61,19 +62,17 @@
 
 .items-per-page-selector {
   font-size: .5em;
-  float:left;
+  float: left;
   width: 200px;
 }
-.filter-container {
-}
+
 .error {
   color: #dc3545;
   text-align: center;
 }
 
 .file-gallery {
-  display:flex;
-  min-width:950px;
+  display: flex;
   flex-wrap: wrap;
   gap: 16px;
   justify-content: center;
@@ -84,12 +83,20 @@
   border: 1px solid #ccc;
   padding: 8px;
   border-radius: 8px;
-  width: 200px;
+  width: calc(25% - 32px); /* Adjust width, accounting for gap */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
   background-color: #ced4da;
   font-size: 12px;
 }
+
+.file-item img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 8px;
+}
+
 .file-name {
   display: block; /* Block display to allow width specification */
   white-space: normal; /* Allow whitespace to behave normally */
@@ -103,33 +110,23 @@
   padding: 4px 0; /* Add some padding to the top and bottom */
 }
 
-.file-item img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin-bottom: 8px;
-}
 .file-search {
-  max-width:400px;
+  max-width: 400px;
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .file-item {
-    width: calc(50% - 8px); /* Adjust file items for smaller screens */
+    width: calc(50% - 32px); /* Adjust to take half the width minus the gap */
   }
-  .file-name {
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 90%; /* Adjust the width as necessary */
-    margin: 0 auto; /* Center the filename if desired */
+
+  .file-item img {
+    width: auto; /* Ensure image width is responsive */
   }
-  .file-search {
-    width:50px;
-  }
+
+  .file-search,
   .pagination-controls {
-    width:500px;
+    width: 100%; /* Full width for controls */
   }
 }
 
@@ -137,14 +134,26 @@
   .file-item {
     width: 100%; /* Full width for file items on very small screens */
   }
-  .filter-container {
-    max-width:400px;
+
+  .filter-container,
+  .tenant-input-container,
+  .items-per-page-selector,
+  .pagination-controls {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center-align the stacked elements */
+    width: 100%; /* Full width for containers */
+    margin: 10px 0; /* Add some margin around controls */
   }
 
-    /* Adjust the footer and any other elements for smaller screens */
-  .footer img.responsive {
-    max-width: 80%; /* Adjust the width of footer images on very small screens */
-    height: auto;
+  .tenant-input-container input[type="text"],
+  .tenant-input-container button,
+  .filter-container input[type="text"] {
+    width: calc(100% - 20px); /* Full width minus padding for inputs and buttons */
+  }
+
+  .pagination-controls button,
+  .items-per-page-selector select {
+    width: auto; /* Allow the select and buttons to size according to content */
   }
 }
 
@@ -157,13 +166,12 @@ img.responsive {
 /* Pagination Controls */
 .pagination-controls {
   display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 20px;
-  max-width:100%;
-  height:50px;
+  max-width: 100%;
+  height: 50px;
   margin-bottom: 20px;
-}
-.shareSelected {
-  display: block;
 }
 
 .pagination-controls button {
@@ -173,9 +181,8 @@ img.responsive {
   color: white;
   border: none;
   border-radius: 4px;
-  width: 90px;
+  width: auto;
   cursor: pointer;
-
 }
 
 .pagination-controls button:hover {
@@ -186,25 +193,9 @@ img.responsive {
   background-color: #ccc;
   cursor: not-allowed;
 }
-/* Adjust the tenant input container for smaller screens */
-.tenant-input-container {
-  color:black;
-  font-size: 16px;
-  display: block;
-  max-width: 500px;
-  margin: 30px auto;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
-}
 
-/* Responsive adjustments for the filter container and pagination controls */
-.filter-container {
-    margin-top: 30px;
-    padding: 20px;
-    background: #61dafb;
-    border-radius: 5px;
-    color: black;
+.shareSelected {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
 }
