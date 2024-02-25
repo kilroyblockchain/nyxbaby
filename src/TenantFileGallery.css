@@ -198,32 +198,48 @@ img.responsive {
     width:500px;
   }
 }
-
+@media screen and (min-width: 401px) {
+  .file-search {
+    width: 400px; /* Specific width on larger screens */
+  }
+  .file-search-mobile {
+    display:none;
+  }
+  div.mobile-input-container {
+    display:none;
+  }
+}
 @media screen and (max-width: 400px) {
   body {
-    max-width:400px;
+    max-width: 350px;
   }
+
   form {
-    max-width:350px;
+    max-width: 350px;
   }
+
   .file-item {
     width: 30%; /* Full width for file items on very small screens */
   }
+
   .filter-container {
-    max-width:400px;
+    max-width: 400px;
   }
+
   .file-gallery {
-    display:flex;
-    min-width:300px;
-    max-width:400px;
+    display: flex;
+    min-width: 300px;
+    max-width: 400px;
     flex-wrap: wrap;
 
   }
+
   .manifest-upload {
-    width:300px;
+    width: 300px;
   }
+
   .tenant-input-container {
-    color:black;
+    color: black;
     font-size: 16px;
     width: 300px;
     margin: 30px auto;
@@ -233,25 +249,46 @@ img.responsive {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
   }
-
+  .mobile-input-container {
+    display: block;
+    max-width: 300px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+  }
 
   /* Adjust the footer and any other elements for smaller screens */
   .footer img.responsive {
     max-width: 80%; /* Adjust the width of footer images on very small screens */
     height: auto;
   }
+
   .files img {
-    width:400px;
-  }
-  input[type="text"] {
-    width: 100%; /* Make the search box take the full width */
-    margin-bottom: 10px; /* Add some margin at the bottom */
+    width: 400px;
   }
 
-  /* Optional: Ensure the form containing the search box takes full width */
-  form {
-    width: 100%; /* Adjust the form width to take full available width */
-    padding: 10px; /* Adjust padding as needed */
+  .file-search {
+    display: none;
+
   }
-}
+  .items-per-page-selector {
+    width:100px;
+    margin-left:10px;
+  }
+  .file-search-mobile {
+    display:block;
+    border:none;
+    max-width: 200px;
+    margin-left:20px;
+  }
+  .filter-container {
+    max-width:370px;
+    border-style: none;
+    align-self: center;
+    }
+  }
+
 

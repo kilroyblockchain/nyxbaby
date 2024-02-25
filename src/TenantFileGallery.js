@@ -104,6 +104,9 @@ function TenantFileGallery({ userName, filterCriteria }) {
           <p>Logged in as:</p>
           <input type="text" value={tenant} onChange={handleTenantChange} placeholder="Enter Your Name" disabled={!!userName} />
         </div>
+        <div class={"mobile-input-container"}>
+        <input type="text" className="file-search-mobile" type="text" value={nameFilter} onChange={(e) => setNameFilter(e.target.value)} placeholder="Filter by filename" />
+        </div>
         <div className="filter-container">
           <div className="pagination-controls">
             <input className="file-search" type="text" value={nameFilter} onChange={(e) => setNameFilter(e.target.value)} placeholder="Filter by filename" />
@@ -122,7 +125,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
             <button tabIndex={"0"} onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))} disabled={currentPage === 1} title={"List Previous"}>Previous</button>
             <button tabIndex={"0"} onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(files.length / itemsPerPage)))} disabled={currentPage === Math.ceil(files.length / itemsPerPage)} title={"List Next"}>Next</button>
           </div>
-        </div>
+          </div>
         <div className="file-gallery">
           {currentFiles.map((file, index) => (
               <div key={index} className="file-item">
@@ -160,6 +163,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
             <button tabIndex={"0"} onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(files.length / itemsPerPage)))} disabled={currentPage === Math.ceil(files.length / itemsPerPage)} title={"List Next"}>Next</button>
           </div>
         </div>
+
         <div className={"shareSelected"}>
           <button tabIndex={"0"} onClick={handleShareGallery} title="Select up to 10 files to share with others. Use https://tinyurl.com to shorten the Shared Gallery URL.">Share Selected Files</button></div>
       </div>
