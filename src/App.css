@@ -295,6 +295,9 @@ display:block;
   form {
   width:350px;
 }
+  .FBchat {
+    width:300px;
+  }
 }
 @keyframes App-logo-spin {
   from {
