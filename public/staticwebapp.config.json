@@ -2,7 +2,7 @@
   "routes": [
     {
       "route": "/",
-      "allowedRoles": ["FileBabyBasicUsers"]
+      "allowedRoles": ["authenticated"]
     }
   ],
   "responseOverrides": {
