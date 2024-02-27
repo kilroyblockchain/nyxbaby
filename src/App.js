@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import msalInstance from "./authConfig";
 import TenantFileGallery from './TenantFileGallery';
+import FileUploadPage from './FileUploadPage';
+import ManifestGenerator from "./ManifestGenerator";
 import ManifestRetriever from "./ManifestRetriever";
+import Imagebot from "./Imagebot";
+import Chatbot from "./Chatbot";
 import logo from './logo.png';
+import PromptLibrary from "./PromptLibrary";
+import TextToImage from "./TextToImage";
 import ClaimedFileUploader from "./ClaimedFileUploader";
 import SignInImage from "./ms_signin.png";
 import { SignOutButton } from './SignOutButton'; // Import the SignOutButton component
@@ -21,20 +27,13 @@ function SignInButton() {
                                                                      alt={"Sign in to File Baby with Microsoft"}/>
     </button>;
 }
+
 function AppContent() {
     const isAuthenticated = useIsAuthenticated();
     const { accounts } = useMsal();
     const isDevelopment = process.env.NODE_ENV === 'development';
+    const [filterCriteria, setFilterCriteria] = React.useState({});
     const userName = isDevelopment ? "kilroy@uark.edu" : accounts?.[0]?.username;
-
-
-    // State to hold the search/filter criteria
-    const [filterCriteria, setFilterCriteria] = useState('');
-
-    // Function to handle search input changes (assuming you have an input field for search)
-    const handleSearchChange = (event) => {
-        setFilterCriteria(event.target.value);
-    };
 
     return (
         <div className="App">
@@ -44,15 +43,23 @@ function AppContent() {
             </header>
             {isAuthenticated || isDevelopment ? (
                 <>
-                    {/* Assuming you want a search input field */}
-                    <input type="hidden" value={filterCriteria} onChange={handleSearchChange} placeholder="Search..." />
                     <TenantFileGallery userName={userName} filterCriteria={filterCriteria} />
                     <hr />
                     <ManifestRetriever />
                     <hr />
+                    <ManifestGenerator />
+                    <FileUploadPage userName={userName} />
+                    <hr />
+                    <Chatbot setFilterCriteria={setFilterCriteria} />
+                    <hr />
+                    <PromptLibrary userName={userName}/>
+                    <hr />
+                    <Imagebot userName={userName} />
+                    <hr />
+                    <TextToImage />
+                    <hr />
                     <ClaimedFileUploader userName={userName} />
                     <hr />
-                    <p>*You are using File Baby Basic, which has limited features and allows image files only. To upload claimed audio and video, as well as enjoy other File Baby features like issuing credits for your own non-claimed files; File Baby AI Image Generator; File Baby AI Chatbot; File Baby Prompt Library, and more–upgrade to File Baby Pro.</p>
                 </>
             ) : (
                 <SignInButton />
