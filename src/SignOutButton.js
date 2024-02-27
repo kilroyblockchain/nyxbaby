@@ -6,7 +6,7 @@ export const SignOutButton = () => {
 
     const handleLogout = () => {
         instance.logoutRedirect({
-            postLogoutRedirectUri: "/",
+            postLogoutRedirectUri: "https://basic-my.file.baby",
         });
     };
 
