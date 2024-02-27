@@ -7,6 +7,7 @@ import ManifestGenerator from "./ManifestGenerator";
 import caifoj from "./cai-foj-800.png";
 import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import msalInstance from "./authConfig";
+import {SignOutButton} from "./SignOutButton";
 
 function SignInButton() {
     const { instance } = useMsal();

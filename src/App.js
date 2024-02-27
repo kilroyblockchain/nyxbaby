@@ -7,24 +7,26 @@ import ManifestRetriever from "./ManifestRetriever";
 import logo from './logo.png';
 import ClaimedFileUploader from "./ClaimedFileUploader";
 import SignInImage from "./ms_signin.png";
-
+import { SignOutButton } from './SignOutButton'; // Import the SignOutButton component
 
 function SignInButton() {
-    const { instance } = useMsal();
+    const {instance} = useMsal();
     const handleLogin = () => {
         instance.loginRedirect().catch(e => {
             console.error(e);
         });
     };
 
-    return <button className={"msbutton"} onClick={handleLogin}><img src={SignInImage} alt={"Sign in to File Baby with Microsoft" } /></button>;
+    return <button className={"msbutton"} onClick={handleLogin}><img src={SignInImage}
+                                                                     alt={"Sign in to File Baby with Microsoft"}/>
+    </button>;
 }
-
 function AppContent() {
     const isAuthenticated = useIsAuthenticated();
     const { accounts } = useMsal();
     const isDevelopment = process.env.NODE_ENV === 'development';
     const userName = isDevelopment ? "kilroy@uark.edu" : accounts?.[0]?.username;
+
 
     // State to hold the search/filter criteria
     const [filterCriteria, setFilterCriteria] = useState('');
@@ -38,6 +40,7 @@ function AppContent() {
         <div className="App">
             <header className="App-header">
                 <img src={logo} alt="my.file.baby... MINE!" className="responsive"/>
+                {isAuthenticated && <SignOutButton />}
             </header>
             {isAuthenticated || isDevelopment ? (
                 <>
