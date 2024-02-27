@@ -282,9 +282,10 @@ display:block;
     max-width:600px;
   }
   .promptLibrary img {
-    margin: 50px;
-    display: block;
-    width:500px;
+    width: 350px;
+    justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
   }
   .App-header img {
     width: 50%;
