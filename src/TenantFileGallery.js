@@ -95,6 +95,11 @@ function TenantFileGallery({ userName, filterCriteria }) {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentFiles = files.slice(indexOfFirstItem, indexOfLastItem);
+  const handleLogout = () => {
+    window.location.href = '/.auth/logout';
+  };
+
+
 
   return (
       <div>
@@ -103,6 +108,9 @@ function TenantFileGallery({ userName, filterCriteria }) {
         <div className="tenant-input-container">
           <p>Logged in as:</p>
           <input type="text" value={tenant} onChange={handleTenantChange} placeholder="Enter Your Name" disabled={!!userName} />
+
+          <button onClick={handleLogout}>Logout</button>
+
         </div>
         <div className="filter-container">
           <div className="pagination-controls">
