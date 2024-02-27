@@ -28,6 +28,8 @@ function AppContent() {
         <div className="App">
             <header className="App-header">
                 <img src={logo} alt="my.file.baby... MINE!" className="responsive"/>
+                {isAuthenticated && <SignOutButton />}
+            </header>
                 {isAuthenticated ? (
                     <>
                         <TenantFileGallery userName={userName} />
@@ -41,7 +43,7 @@ function AppContent() {
                 ) : (
                     <SignInButton />
                 )}
-            </header>
+
             <footer className="footer">
                 <p>
                     <a href="https://file.baby">About File Baby</a>
