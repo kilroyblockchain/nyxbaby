@@ -96,6 +96,8 @@ function TenantFileGallery({ userName, filterCriteria }) {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentFiles = files.slice(indexOfFirstItem, indexOfLastItem);
 
+
+
   return (
       <div>
         <h1>My Gallery</h1>
