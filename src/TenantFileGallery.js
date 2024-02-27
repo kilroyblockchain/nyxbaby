@@ -105,7 +105,9 @@ function TenantFileGallery({ userName, filterCriteria }) {
           <p className={"tenant"}>Signed In as</p>
           <input value={tenant} onChange={handleTenantChange} placeholder="Enter Your Name" disabled={!!userName} />
         </div>
-        <h1>My Gallery</h1>
+        <hr />
+        <div className={"myGallery"}>
+          <h1>My Gallery</h1></div>
         <div className={"mobile-input-container"}>
         <input className="file-search-mobile" type="text" value={nameFilter} onChange={(e) => setNameFilter(e.target.value)} placeholder="Filter by filename" />
         </div>
