@@ -277,6 +277,14 @@ display:block;
 @keyframes flash {
   50% { opacity: 0; }
 }
+@media screen and (min-width: 601px){
+  .promptLibrary img {
+    width: 500px;
+    justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
 @media screen and (max-width: 600px) {
   body {
     max-width:600px;
