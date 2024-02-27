@@ -12,7 +12,7 @@ import logo from './logo.png';
 import PromptLibrary from "./PromptLibrary";
 import TextToImage from "./TextToImage";
 import ClaimedFileUploader from "./ClaimedFileUploader";
-import SignInImage from "./ms_signin.png";
+import SignInImage from "./ms_signin_dark.png";
 import { SignOutButton } from './SignOutButton'; // Import the SignOutButton component
 
 function SignInButton() {
