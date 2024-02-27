@@ -102,7 +102,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
       <div>
         {error && <p className="error">{error}</p>}
         <div className="tenant-input-container">
-          <p className={"tenant"}>Logged in as:</p>
+          <p className={"tenant"}>You are Logged In as</p>
           <input value={tenant} onChange={handleTenantChange} placeholder="Enter Your Name" disabled={!!userName} />
         </div>
         <h1>My Gallery</h1>

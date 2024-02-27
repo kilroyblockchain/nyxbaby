@@ -1,6 +1,6 @@
 /* Base styles */
 .tenant-input-container {
-  display: block;
+  display: none;
   max-width: 500px;
   margin: 30px auto;
   padding: 20px;
@@ -160,12 +160,12 @@ img.responsive {
   color:black;
   font-size: 16px;
   display: block;
+  background-color: transparent;
   max-width: 500px;
   margin: 30px auto;
   padding: 20px;
-  background-color: #f8f9fa;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
   box-sizing: border-box;
 }
 
@@ -249,9 +249,8 @@ img.responsive {
     width: 300px;
     margin: 30px auto;
     padding: 20px;
-    background-color: #f8f9fa;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: none;
     box-sizing: border-box;
   }
   .mobile-input-container {
