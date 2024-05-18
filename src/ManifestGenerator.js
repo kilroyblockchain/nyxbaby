@@ -23,7 +23,7 @@ const ManifestGenerator = () => {
             alg: "ps256",
             ta_url: "http://timestamp.digicert.com",
             claim_generator: "my.file.baby",
-            title: "Claimed at File.Baby",
+            title: formData.description,
             assertions: [
                 {
                     label: "stds.schema-org.CreativeWork",
@@ -39,7 +39,7 @@ const ManifestGenerator = () => {
                         ]
                     }
                 },
-                {
+/*                {
                     label: "c2pa.actions",
                     data: {
                         "actions": [
@@ -49,8 +49,8 @@ const ManifestGenerator = () => {
                             }
                         ]
                     }
-                },
-                // The following assertion seems static, so it is hardcoded here.
+                },*/
+                // The following assertion is static, so it is hardcoded here.
                 // If it needs to be dynamic, similar inputs can be created as shown above.
                 {
                     label: "c2pa.training-mining",
