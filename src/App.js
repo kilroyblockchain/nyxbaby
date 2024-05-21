@@ -13,7 +13,8 @@ import PromptLibrary from "./PromptLibrary";
 import TextToImage from "./TextToImage";
 import ClaimedFileUploader from "./ClaimedFileUploader";
 import SignInImage from "./ms_signin_dark.png";
-import { SignOutButton } from './SignOutButton'; // Import the SignOutButton component
+import { SignOutButton } from './SignOutButton';
+import DragAndDropMediaPlayer from "./DragAndDropMediaPlayer"; // Import the SignOutButton component
 
 function SignInButton() {
     const {instance} = useMsal();
@@ -59,6 +60,8 @@ function AppContent() {
                     <TextToImage />
                     <hr />
                     <ClaimedFileUploader userName={userName} />
+                    <hr />
+                    <DragAndDropMediaPlayer />
                     <hr />
                 </>
             ) : (
