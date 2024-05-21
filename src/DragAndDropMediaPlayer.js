@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import CustomAudioPlayer from "./CustomAudioPlayer";
 import TooltipIcon from './TooltipIcon';
 import './controlstyles.css'; // Ensure this import is correct
@@ -9,6 +9,7 @@ const DragAndDropMediaPlayer = () => {
     const [manifest, setManifest] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+    const fileInputRef = useRef(null);
 
     useEffect(() => {
         if (files.length > 0) {
@@ -28,6 +29,10 @@ const DragAndDropMediaPlayer = () => {
 
     const handleFileChange = (event) => {
         setFiles([...files, ...Array.from(event.target.files)]);
+    };
+
+    const handleButtonClick = () => {
+        fileInputRef.current.click();
     };
 
     const handleSubmit = async (event) => {
@@ -73,15 +78,22 @@ const DragAndDropMediaPlayer = () => {
 
     return (
         <div className="drag-drop-media-player">
-            <h1>Drag and Drop Audio Player</h1>
+            <h1>Drag and Drop Media Player</h1>
             <div
                 className="drop-zone"
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
                 style={{ border: '2px dashed #007bff', borderRadius: '10px', padding: '20px', textAlign: 'center' }}
+                onClick={handleButtonClick} // Make the drop zone clickable
             >
                 <p>Drag & drop files here, or click to select files</p>
-                <input type="file" onChange={handleFileChange} multiple />
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    multiple
+                    style={{ display: 'none' }}
+                />
             </div>
 
             {files.length > 0 && (
@@ -96,7 +108,7 @@ const DragAndDropMediaPlayer = () => {
                         />
                     </div>
                     <form onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
-                        <TooltipIcon title="Check any file for a C2PA manifest and display the JSON." />
+                        <TooltipIcon title="Check currently playing file for a C2PA manifest and display the JSON." />
                         <button type="submit" disabled={isLoading || !files.length}>
                             Retrieve Manifest
                         </button>

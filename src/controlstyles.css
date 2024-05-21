@@ -1,4 +1,4 @@
-/* styles.css */
+/* controlstyles.css */
 .audio-controls {
     display: flex;
     justify-content: center;
@@ -42,4 +42,9 @@
 
 .error {
     color: red;
+}
+
+.tooltip-icon {
+    margin-left: 10px;
+    cursor: pointer;
 }
