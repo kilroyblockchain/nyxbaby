@@ -20,7 +20,9 @@ const DragAndDropMediaPlayer = () => {
 
     const handleDrop = (event) => {
         event.preventDefault();
-        setFiles([...files, ...Array.from(event.dataTransfer.files)]);
+        const audioFiles = Array.from(event.dataTransfer.files).filter(file => file.type.startsWith('audio/'));
+        setFiles(audioFiles); // Replace current files with new ones
+        setCurrentIndex(0); // Reset the current index
     };
 
     const handleDragOver = (event) => {
@@ -28,7 +30,9 @@ const DragAndDropMediaPlayer = () => {
     };
 
     const handleFileChange = (event) => {
-        setFiles([...files, ...Array.from(event.target.files)]);
+        const audioFiles = Array.from(event.target.files).filter(file => file.type.startsWith('audio/'));
+        setFiles(audioFiles); // Replace current files with new ones
+        setCurrentIndex(0); // Reset the current index
     };
 
     const handleButtonClick = () => {
@@ -78,7 +82,7 @@ const DragAndDropMediaPlayer = () => {
 
     return (
         <div className="drag-drop-media-player">
-            <h1>Drag and Drop Media Player</h1>
+            <h1>Drag and Drop Audio Player</h1>
             <div
                 className="drop-zone"
                 onDrop={handleDrop}
@@ -86,12 +90,13 @@ const DragAndDropMediaPlayer = () => {
                 style={{ border: '2px dashed #007bff', borderRadius: '10px', padding: '20px', textAlign: 'center' }}
                 onClick={handleButtonClick} // Make the drop zone clickable
             >
-                <p>Drag & drop files here, or click to select files</p>
+                <p>Drag & drop audio files here, or click to select files</p>
                 <input
                     type="file"
                     ref={fileInputRef}
                     onChange={handleFileChange}
                     multiple
+                    accept="audio/*"
                     style={{ display: 'none' }}
                 />
             </div>
