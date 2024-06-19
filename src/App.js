@@ -7,7 +7,7 @@ import FileUploadPage from './FileUploadPage';
 import ManifestGenerator from "./ManifestGenerator";
 import ManifestRetriever from "./ManifestRetriever";
 import Imagebot from "./Imagebot";
-import Chatbot from "./Chatbot";
+import ChatbotNYX from "./ChatbotNYX";
 import logo from './logo.png';
 import PromptLibrary from "./PromptLibrary";
 import TextToImage from "./TextToImage";
@@ -51,7 +51,7 @@ function AppContent() {
                     <ManifestGenerator />
                     <FileUploadPage userName={userName} />
                     <hr />
-                    <Chatbot setFilterCriteria={setFilterCriteria} />
+                    <ChatbotNYX setFilterCriteria={setFilterCriteria} />
                     <hr />
                     <PromptLibrary userName={userName}/>
                     <hr />
