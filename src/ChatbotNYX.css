@@ -8,8 +8,9 @@
     border: 1px solid #4859a6;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
-    width: 200px;
-    max-width: 200px;
+    width: 300px;
+    margin-right: 20px;
+    max-width: 300px;
     max-height: 600px;
     display: flex;
     flex-direction: column;
@@ -69,14 +70,13 @@
 
 .loading-indicator {
     text-align: center;
-    font-size: .8em;
+    font-size: 13px;
     font-weight: bold;
     color: white;
     background-color: transparent;
     animation: blinker 2s linear infinite;
     margin-bottom: 65px;
 }
-
 .response-container {
     flex-grow: 1;
     overflow-y: auto;

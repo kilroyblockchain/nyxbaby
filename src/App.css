@@ -1,32 +1,44 @@
-/* Apply a general styling to the body for a nice background */
-body {
-  font-family: 'Arial', sans-serif;
-  margin: 25px;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* App.css */
 
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Arial', sans-serif;
 }
+
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
 .page-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 20px; /* Add top margin */
+  margin-top: 20px;
   padding: 20px;
   box-sizing: border-box;
   max-width: 100%;
   overflow: hidden;
 }
+
 .tenant {
   color: white;
-  font-weight:bold;
+  font-weight: bold;
 }
+
 h1 {
   font-size: 1.5em;
 }
-/* Style the form to look more modern */
+
 form {
   background-color: white;
   color: #000;
@@ -36,29 +48,29 @@ form {
   width: 100%;
   max-width: 480px;
   margin: auto;
-  background-color: white; /* This ensures the boxes have a white background */
-  border-radius: 8px; /* Consistent border-radius for all boxes */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow for depth */
-
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
+
 .file-baby-background {
-  background-image: url('File_Baby_Background.png'); /* Path to your image */
-  background-size: cover; /* Center the background image */
+  background-image: url('File_Baby_Background.png');
+  background-size: cover;
   background-attachment: fixed;
   background-color: #61dafb;
-
 }
+
 .tooltip-icon {
-float:left;
-
+  float: left;
 }
+
 hr {
-  margin-top:40px;
-  color:white;
+  margin-top: 40px;
+  color: white;
   width: 100%;
 }
+
 .generator {
-  max-width: 900px; /* Default max width for larger screens */
+  max-width: 900px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -71,7 +83,7 @@ hr {
 .generator h1 {
   margin-bottom: 0px;
 }
-/* Style the input fields */
+
 input[type="text"],
 input[type="file"] {
   width: calc(100% - 20px);
@@ -79,16 +91,16 @@ input[type="file"] {
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  box-sizing: border-box; /* To include padding in width */
-}
-input [class="file-search"] {
-max-width:200px;
+  box-sizing: border-box;
 }
 
-/* Style the buttons to make them stand out */
+input[class="file-search"] {
+  max-width: 200px;
+}
+
 button,
 input[type="submit"] {
-  background-color: #007bff; /* A nice blue */
+  background-color: #007bff;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -103,19 +115,20 @@ input[type="submit"] {
   justify-self: center;
 }
 
-/* Hover state for buttons */
 button:hover,
 input[type="submit"]:hover {
-  background-color: #0056b3; /* A darker blue */
+  background-color: #0056b3;
 }
+
 button.msbutton {
   background-color: transparent;
 }
+
 button.msbutton:hover {
   opacity: 90%;
   background-color: transparent;
 }
-/* Make sure the file input also looks like the button */
+
 input[type="file"]::file-selector-button {
   background-color: #007bff;
   color: white;
@@ -127,28 +140,24 @@ input[type="file"]::file-selector-button {
   margin-right: 4px;
 }
 
-/* Align items in the form */
 .form-item {
   margin-bottom: 15px;
 }
 
-/* Label styling */
 label {
   display: block;
   margin-bottom: 5px;
 }
 
-/* Style for the container of the form */
 .form-container {
   margin-top: 30px;
-  width:480px;
+  width: 480px;
   padding: 20px;
   background: #fff;
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Style for the header of the form */
 .form-header {
   font-size: 24px;
   color: #333;
@@ -156,42 +165,36 @@ label {
   text-align: center;
 }
 
-/* Style for descriptions and other text */
 .text-description {
   color: #666;
   font-size: 14px;
   margin-bottom: 10px;
-}
-.App {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+
 .user {
   color: blue;
 }
+
 .shareSelected button {
   margin: 20px;
 }
+
 .chat {
-  font-size:1em;
-margin: 20px;
+  font-size: 1em;
+  margin: 20px;
 }
+
 .chatFB {
-  width:500px;
+  width: 500px;
 }
 
 .inspectFile {
-  min-width:600px;
+  min-width: 600px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -201,7 +204,6 @@ margin: 20px;
 }
 
 .App-header {
-
   background-color: #61dafb;
   display: flex;
   flex-direction: column;
@@ -210,74 +212,76 @@ margin: 20px;
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
 .footer {
   width: 500px;
   font-size: .5em;
   background-color: #61dafb;
-
 }
+
 .footnote {
   font-size: 12px;
-  margin-bottom:10px;
+  margin-bottom: 10px;
 }
+
 .App-link {
   color: #61dafb;
 }
-.responsive  {
-display:block;
-  width:auto;
+
+.responsive {
+  display: block;
+  width: auto;
   margin: 20px;
 }
-.generated  {
+
+.generated {
   width: auto;
   display: block;
-  text-align:center;
+  text-align: center;
   align-content: center;
   justify-content: center;
   justify-self: center;
-  margin-bottom:20px;
-
+  margin-bottom: 20px;
 }
+
 .signed {
   display: flex;
-  justify-content: center; /* Centers the content horizontally */
-  flex-direction: column; /* Stacks items vertically */
-  align-items: center; /* Centers the items along the cross-axis */
-  text-align: center; /* Centers the text inside the container */
-
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .signed img {
-  /* Add styles for your image if needed */
   display: flex;
-  max-width: 100%; /* Makes the image responsive */
-  height: auto; /* Maintains the aspect ratio of the image */
-  margin-top:40px;
-  margin-bottom:20px;
+  max-width: 100%;
+  height: auto;
+  margin-top: 40px;
+  margin-bottom: 20px;
 }
 
-/* Additional styles for the button if needed */
 .button {
-  margin-top: 10px; /* Adds some space above the button */
-  /* other button styles */
+  margin-top: 10px;
 }
+
 .retrievedmanifest label {
-  display:none;
+  display: none;
 }
+
 .manifestUpload form {
   background-color: #ffffff;
   border-style: none;
-  border-width:10px;
+  border-width: 10px;
   border-color: white;
   color: darkgrey;
   font-weight: bold;
-
 }
+
 .manifestUpload form input {
   background-color: white;
   color: #666666;
 }
-/* styles.css */
+
 .audio-controls {
   display: flex;
   justify-content: center;
@@ -323,16 +327,18 @@ display:block;
   font-size: 24px;
   animation: flash 1s linear infinite;
 }
+
 .promptLibrary img {
   margin: 50px;
   display: block;
-  max-width:1000px;
+  max-width: 1000px;
 }
 
 @keyframes flash {
   50% { opacity: 0; }
 }
-@media screen and (min-width: 601px){
+
+@media screen and (min-width: 601px) {
   .promptLibrary img {
     width: 500px;
     justify-content: center;
@@ -340,9 +346,10 @@ display:block;
     margin-left: auto;
   }
 }
+
 @media screen and (max-width: 600px) {
   body {
-    max-width:600px;
+    max-width: 600px;
   }
   .promptLibrary img {
     width: 350px;
@@ -353,34 +360,32 @@ display:block;
   .App-header img {
     width: 50%;
   }
-
 }
+
 @media screen and (max-width: 400px) {
   form, form textarea {
     width: 300px;
   }
   input[type="text"].file-search {
-  width:50px;
+    width: 50px;
   }
   .form-container {
     width: 300px;
   }
-
   .manifestUpload h3 {
     font-size: 14px;
   }
-
   .pagination-controls form {
     border-radius: 4px;
     min-width: 80px;
-    width:300px;
+    width: 300px;
   }
   .file-search {
     display: block;
-    width:10px;
+    width: 10px;
   }
-
 }
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -388,4 +393,16 @@ display:block;
   to {
     transform: rotate(360deg);
   }
+}
+
+.file-baby-home {
+  background-color: #61dafb; /* Blue background */
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
