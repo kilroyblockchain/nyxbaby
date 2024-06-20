@@ -11,13 +11,12 @@ const searchEndpoint = `https://${searchServiceName}.search.windows.net`;
 
 const searchClient = new SearchClient(searchEndpoint, indexName, new AzureKeyCredential(searchApiKey));
 
-const ChatbotNYX = ({ setPageContent, selectedFileUrls, includeFilesInChat }) => {
+const ChatbotNYX = ({ setPageContent, selectedFileUrls, includeFilesInChat, setIncludeFilesInChat }) => {
     const [prompt, setPrompt] = useState('');
     const [response, setResponse] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const responseEndRef = useRef(null);
-    const chatPopupRef = useRef(null);
 
     const handleInputChange = (e) => {
         setPrompt(e.target.value);
@@ -109,22 +108,13 @@ const ChatbotNYX = ({ setPageContent, selectedFileUrls, includeFilesInChat }) =>
         };
 
         try {
-            console.log('Sending request to API:', apiEndpoint);
-            console.log('Request headers:', headers);
-            console.log('Request data:', JSON.stringify(data, null, 2));
-
             const apiResponse = await axios.post(apiEndpoint, data, { headers });
-
-            console.log('API Response:', apiResponse.data); // Log the full response for debugging
             const gptResponse = apiResponse.data.choices[0].message.content;
 
             // Check if the response is HTML content
-            console.log('Received response:', gptResponse);
             if (gptResponse.startsWith("<!DOCTYPE html>") || gptResponse.startsWith("<html>")) {
-                console.log('HTML content detected');
                 setPageContent(gptResponse);
             } else {
-                console.log('Text content detected');
                 setResponse(prevResponses => [...prevResponses, { question: prompt, answer: gptResponse }]);
             }
         } catch (error) {
@@ -157,6 +147,10 @@ const ChatbotNYX = ({ setPageContent, selectedFileUrls, includeFilesInChat }) =>
         setIsOpen(!isOpen);
     };
 
+    const handleThumbnailClick = (url) => {
+        setPrompt(url);
+    };
+
     useEffect(() => {
         const chatContainer = document.querySelector('.chat-container');
         if (isOpen && window.innerWidth >= 768) {
@@ -172,10 +166,33 @@ const ChatbotNYX = ({ setPageContent, selectedFileUrls, includeFilesInChat }) =>
                 {isOpen ? 'Hide NYX' : 'Create a web page with NYX'}
             </button>
             {isOpen && (
-                <div className="chat-popup" ref={chatPopupRef}>
+                <div className="chat-popup">
                     <div className="chat-title-bar nyx">ASK NYX TO CREATE A PAGE</div>
                     <div className={`loading-overlay ${isLoading ? 'visible' : ''}`}>
                         <div className="loading-indicator">Generating Response _</div>
+                    </div>
+
+                    <div className="selected-files">
+                        <h3>Selected Files:</h3>
+                        <div className="file-thumbnails">
+                            {selectedFileUrls.map((url, index) => (
+                                <img
+                                    src={url}
+                                    alt={`Selected File ${index + 1}`}
+                                    className="thumbnail"
+                                    onClick={() => handleThumbnailClick(url)}
+                                    key={index}
+                                />
+                            ))}
+                        </div>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={includeFilesInChat}
+                                onChange={() => setIncludeFilesInChat(!includeFilesInChat)}
+                            />
+                            Include files in chat
+                        </label>
                     </div>
 
                     <div className="response-container">

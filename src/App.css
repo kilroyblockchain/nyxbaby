@@ -6,11 +6,18 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('File_Baby_Background.png'); /* Path to your image */
-  background-size: cover; /* Center the background image */
-  background-attachment: fixed;
-  background-color: #61dafb;
 
+}
+.page-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px; /* Add top margin */
+  padding: 20px;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow: hidden;
 }
 .tenant {
   color: white;
@@ -32,6 +39,13 @@ form {
   background-color: white; /* This ensures the boxes have a white background */
   border-radius: 8px; /* Consistent border-radius for all boxes */
   box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow for depth */
+
+}
+.file-baby-background {
+  background-image: url('File_Baby_Background.png'); /* Path to your image */
+  background-size: cover; /* Center the background image */
+  background-attachment: fixed;
+  background-color: #61dafb;
 
 }
 .tooltip-icon {

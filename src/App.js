@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import msalInstance from "./authConfig";
@@ -16,7 +16,7 @@ import SignInImage from "./ms_signin_dark.png";
 import DragAndDropMediaPlayer from "./DragAndDropMediaPlayer";
 import UseWithNyxPage from './UseWithNyxPage';
 import NyxFileBabyModule from './NyxFileBabyModule';
-
+import FooterSection from "./FooterSection";
 
 function SignInButton() {
     const { instance } = useMsal();
@@ -31,7 +31,7 @@ function SignInButton() {
 
 function HomePage({ isAuthenticated, isDevelopment, userName }) {
     return (
-        <>  <HeaderSection />
+        <>
             <TenantFileGallery userName={userName} />
             <hr />
             <ManifestRetriever />
@@ -60,15 +60,22 @@ function AppContent() {
     const isDevelopment = process.env.NODE_ENV === 'development';
     const userName = isDevelopment ? "kilroy@uark.edu" : accounts?.[0]?.username;
 
+    const location = useLocation(); // To get the current route
+
     return (
         <div className="App">
+            {/* Conditionally render header and footer */}
+            {location.pathname !== "/use-with-nyx" && <HeaderSection />}
 
             <Routes>
                 <Route
                     path="/"
                     element={
                         isAuthenticated || isDevelopment ? (
-                            <HomePage isAuthenticated={isAuthenticated} isDevelopment={isDevelopment} userName={userName} />
+                            <>
+                                <HomePage isAuthenticated={isAuthenticated} isDevelopment={isDevelopment} userName={userName} />
+                                <TenantFileGallery userName={userName} />
+                            </>
                         ) : (
                             <SignInButton />
                         )
@@ -77,6 +84,7 @@ function AppContent() {
                 <Route path="/use-with-nyx" element={<UseWithNyxPage />} />
             </Routes>
 
+            {location.pathname !== "/use-with-nyx" && <FooterSection />}
         </div>
     );
 }

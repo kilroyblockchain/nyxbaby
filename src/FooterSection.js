@@ -1,8 +1,8 @@
 import React from 'react';
-import { useIsAuthenticated } from "@azure/msal-react";
+//import { useIsAuthenticated } from "@azure/msal-react";
 
 function FooterSection() {
-    const isAuthenticated = useIsAuthenticated();
+    //const isAuthenticated = useIsAuthenticated();
 
     return (
         <footer className="footer">

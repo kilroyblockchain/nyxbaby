@@ -23,45 +23,35 @@ function SignInButton() {
 function AppContent() {
     const isAuthenticated = useIsAuthenticated();
     const { accounts } = useMsal();
-    const userName = accounts?.[0]?.username; // Retrieve the username of the signed-in user
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const userName = isDevelopment ? "kilroy@uark.edu" : accounts?.[0]?.username;
+
+    const location = useLocation(); // To get the current route
 
     return (
         <div className="App">
-            <header className="App-header">
-                <img src={logo} alt="my.file.baby... MINE!" className="responsive"/>
-                {isAuthenticated && <SignOutButton />}
-            </header>
-                {isAuthenticated ? (
-                    <>
-                        <TenantFileGallery userName={userName} />
-                        <ManifestGenerator />
-                        {userName ? (
-                            <FileUploadPage userName={userName} />
-                        ) : (
-                            <p>Please sign in to use the File Upload feature.</p>
-                        )}
-                    </>
-                ) : (
-                    <SignInButton />
-                )}
+            {/* Conditionally render header and footer */}
+            {location.pathname !== "/use-with-nyx" && <HeaderSection />}
 
-            <footer className="footer">
-                <p>
-                    <a href="https://file.baby">About File Baby</a>
-                </p>
-                <p>
-                    <img src={caifoj} alt="Friends of Justin" className="responsive" />
-                </p>
-                <p>
-                    To inspect your content, use <a href="https://contentcredentials.org/verify" target="_blank" rel="noopener noreferrer">contentcredentials.org/verify</a>
-                </p>
-                <p>
-                    &copy; 2023-2024, <a href="https://friendsofjustin.knowbots.org">Friends of Justin</a>
-                </p>
-            </footer>
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        isAuthenticated || isDevelopment ? (
+                            <HomePage isAuthenticated={isAuthenticated} isDevelopment={isDevelopment} userName={userName} />
+                        ) : (
+                            <SignInButton />
+                        )
+                    }
+                />
+                <Route path="/use-with-nyx" element={<UseWithNyxPage />} />
+            </Routes>
+
+            {location.pathname !== "/use-with-nyx" && <FooterSection />}
         </div>
     );
 }
+
 
 function App() {
     return (

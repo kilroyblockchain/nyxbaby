@@ -5,23 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="351c5aa2-9427-4c8d-8e42-fab32051235d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/ChatSetup-NYX.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MyComponent.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/NyxChat.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UseWithNyxPage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fonts/VTCMarsha-Bold.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fonts/VTCMarsha-Bold.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fonts/VTCMarsha-Bold.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/img/Nyx Goddess of Night1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppContent.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GeneratedPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/GeneratedPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TenantFileGallery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/TenantFileGallery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FooterSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/FooterSection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UseWithNyxPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/UseWithNyxPage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UseWithNyxPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/UseWithNyxPage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +91,9 @@
       <updated>1718824842618</updated>
       <workItem from="1718824843719" duration="6361000" />
       <workItem from="1718835276478" duration="621000" />
-      <workItem from="1718836462855" duration="3043000" />
+      <workItem from="1718836462855" duration="12130000" />
+      <workItem from="1718854898109" duration="2690000" />
+      <workItem from="1718883459966" duration="2515000" />
     </task>
     <servers />
   </component>
