@@ -98,7 +98,7 @@ const ChatbotNYX = ({ setPageContent, selectedFileUrls, includeFilesInChat, setI
             messages: [
                 { role: "system", content: "You are NYX, a web page creator named for Nyx, Goddess of the Night. You help create web pages with short prompts, and ALWAYS display them in the browser. Always start web pages with <DOCTYPE html> so they display in the browser, never in the chat window. Always use light fonts when using dark themes. Use available information for content or create accurate content if necessary. Your web pages are visually appealing, with readable fonts that contrast with the background, and always complete. ALWAYS update the background image so your own picture does not show. You were created by Karen Kilroy and are the first of your kind." },
                 { role: "user", content: prompt },
-                { role: "assistant", content: `${searchResults}\nImage URL: ${imageUrl}\n${includeFilesInChat ? selectedFileUrls.join(' ') : ''}` }  // Include search results, image URL, and optionally file URLs as context
+                { role: "assistant", content: `${searchResults}\nImage URL: ${imageUrl}\n${selectedFileUrls.join(' ')}` }  // Include search results, image URL, and file URLs as context
             ],
             max_tokens: chatConfig.chatParameters.maxResponseLength,
             temperature: chatConfig.chatParameters.temperature,
@@ -173,7 +173,7 @@ const ChatbotNYX = ({ setPageContent, selectedFileUrls, includeFilesInChat, setI
                     </div>
 
                     <div className="selected-files">
-                        <h3>Selected Files:</h3>
+                        <h3>Click images to include in the prompt:</h3>
                         <div className="file-thumbnails">
                             {selectedFileUrls.map((url, index) => (
                                 <img
@@ -185,14 +185,6 @@ const ChatbotNYX = ({ setPageContent, selectedFileUrls, includeFilesInChat, setI
                                 />
                             ))}
                         </div>
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={includeFilesInChat}
-                                onChange={() => setIncludeFilesInChat(!includeFilesInChat)}
-                            />
-                            Include files in chat
-                        </label>
                     </div>
 
                     <div className="response-container">
