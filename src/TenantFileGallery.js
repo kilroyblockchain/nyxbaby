@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './TenantFileGallery.css';
 
 function TenantFileGallery({ userName, filterCriteria }) {
@@ -11,6 +12,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
   const [nameFilter, setNameFilter] = useState('');
 
   const containerUrl = `https://claimed.at.file.baby/filebabyblob`;
+  const navigate = useNavigate();
 
   const fetchFiles = useCallback(async () => {
     setError('');
@@ -92,11 +94,14 @@ function TenantFileGallery({ userName, filterCriteria }) {
     }
   };
 
+  const handleUseWithNYX = () => {
+    const selectedFileUrls = selectedFiles.map(file => file.url);
+    navigate('/use-with-nyx', { state: { selectedFileUrls } });
+  };
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentFiles = files.slice(indexOfFirstItem, indexOfLastItem);
-
-
 
   return (
       <div>
@@ -109,45 +114,8 @@ function TenantFileGallery({ userName, filterCriteria }) {
         <div className={"myGallery"}>
           <h1>My Gallery</h1></div>
         <div className={"mobile-input-container"}>
-        <input className="file-search-mobile" type="text" value={nameFilter} onChange={(e) => setNameFilter(e.target.value)} placeholder="Filter by filename" />
+          <input className="file-search-mobile" type="text" value={nameFilter} onChange={(e) => setNameFilter(e.target.value)} placeholder="Filter by filename" />
         </div>
-        <div className="filter-container">
-          <div className="pagination-controls">
-            <input className="file-search" type="text" value={nameFilter} onChange={(e) => setNameFilter(e.target.value)} placeholder="Filter by filename" />
-            <div className="items-per-page-selector">
-              <label htmlFor="itemsPerPage" >Items per page:</label>
-              <select id="itemsPerPage" title={"Select number of items to be displayed"} value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
-                <option value="1">1</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-              </select>
-            </div>
-            <button tabIndex={"0"} onClick={fetchFiles} title={"Reload files from File Baby storage"}>Reload Files</button>
-            <button tabIndex={"0"} onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))} disabled={currentPage === 1} title={"List Previous"}>Previous</button>
-            <button tabIndex={"0"} onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(files.length / itemsPerPage)))} disabled={currentPage === Math.ceil(files.length / itemsPerPage)} title={"List Next"}>Next</button>
-          </div>
-          </div>
-        <div className="file-gallery">
-          {currentFiles.map((file, index) => (
-              <div key={index} className="file-item">
-                <input tabIndex={"0"} title="Select to include File in Shared Gallery" type="checkbox" checked={selectedFiles.includes(file)} onChange={(e) => handleFileSelection(file.name, e.target.checked)} />
-                <a href={file.url} target="_blank" rel="noopener noreferrer">
-                  <img src={getFileThumbnail(file)} alt={file.name} className="file-thumbnail" />
-
-                </a>
-                {/* Use file.name and file.url directly */}
-                <a href={file.url} target="_blank" rel="noopener noreferrer" className="file-name" title={file.name}>
-                  {file.name}
-                </a>
-                <p><a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">Verify</a></p>
-                <button tabIndex={"0"} onClick={() => handleShareFile(file.url)} title={"Copy the URL to your clipboard; paste to share."}>Share File</button>
-              </div>
-          ))}
-        </div>
-
         <div className="filter-container">
           <div className="pagination-controls">
             <input className="file-search" type="text" value={nameFilter} onChange={(e) => setNameFilter(e.target.value)} placeholder="Filter by filename" />
@@ -167,12 +135,47 @@ function TenantFileGallery({ userName, filterCriteria }) {
             <button tabIndex={"0"} onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(files.length / itemsPerPage)))} disabled={currentPage === Math.ceil(files.length / itemsPerPage)} title={"List Next"}>Next</button>
           </div>
         </div>
-
+        <div className="file-gallery">
+          {currentFiles.map((file, index) => (
+              <div key={index} className="file-item">
+                <input tabIndex={"0"} title="Select to include File in Shared Gallery" type="checkbox" checked={selectedFiles.includes(file)} onChange={(e) => handleFileSelection(file.name, e.target.checked)} />
+                <a href={file.url} target="_blank" rel="noopener noreferrer">
+                  <img src={getFileThumbnail(file)} alt={file.name} className="file-thumbnail" />
+                </a>
+                {/* Use file.name and file.url directly */}
+                <a href={file.url} target="_blank" rel="noopener noreferrer" className="file-name" title={file.name}>
+                  {file.name}
+                </a>
+                <p><a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">Verify</a></p>
+                <button tabIndex={"0"} onClick={() => handleShareFile(file.url)} title={"Copy the URL to your clipboard; paste to share."}>Share File</button>
+              </div>
+          ))}
+        </div>
+        <div className="filter-container">
+          <div className="pagination-controls">
+            <input className="file-search" type="text" value={nameFilter} onChange={(e) => setNameFilter(e.target.value)} placeholder="Filter by filename" />
+            <div className="items-per-page-selector">
+              <label htmlFor="itemsPerPage">Items per page:</label>
+              <select id="itemsPerPage" title={"Select number of items to be displayed"} value={itemsPerPage} onChange={(e) => setItemsPerPage(Number(e.target.value))}>
+                <option value="1">1</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+            <button tabIndex={"0"} onClick={fetchFiles} title={"Reload files from File Baby storage"}>Reload Files</button>
+            <button tabIndex={"0"} onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))} disabled={currentPage === 1} title={"List Previous"}>Previous</button>
+            <button tabIndex={"0"} onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(files.length / itemsPerPage)))} disabled={currentPage === Math.ceil(files.length / itemsPerPage)} title={"List Next"}>Next</button>
+          </div>
+        </div>
         <div className={"shareSelected"}>
-          <button tabIndex={"0"} onClick={handleShareGallery} title="Select up to 10 files to share with others. Use https://tinyurl.com to shorten the Shared Gallery URL.">Share Selected Files</button></div>
+          <button tabIndex={"0"} onClick={handleShareGallery} title="Select up to 10 files to share with others. Use https://tinyurl.com to shorten the Shared Gallery URL.">Share Selected Files</button>
+          <button tabIndex={"0"} onClick={handleUseWithNYX} title="Use Selected Files with NYX">Use Selected Files with NYX</button>
+        </div>
       </div>
   );
 }
 
 export default TenantFileGallery;
-

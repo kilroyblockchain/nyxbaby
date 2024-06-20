@@ -9,9 +9,13 @@ const indexName = "nyx-index";
 const searchApiKey = process.env.REACT_APP_AZURE_SEARCH_API_KEY;
 const searchEndpoint = `https://${searchServiceName}.search.windows.net`;
 
+if (!searchApiKey) {
+    throw new Error('REACT_APP_AZURE_SEARCH_API_KEY is not defined in the environment variables.');
+}
+
 const searchClient = new SearchClient(searchEndpoint, indexName, new AzureKeyCredential(searchApiKey));
 
-const ChatbotNYX = ({ setPageContent }) => {
+const ChatbotNYX = ({ setGeneratedContent }) => {
     const [prompt, setPrompt] = useState('');
     const [response, setResponse] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -122,7 +126,7 @@ const ChatbotNYX = ({ setPageContent }) => {
             console.log('Received response:', gptResponse);
             if (gptResponse.startsWith("<!DOCTYPE html>") || gptResponse.startsWith("<html>")) {
                 console.log('HTML content detected');
-                setPageContent(gptResponse); // Add response to page content
+                setGeneratedContent(gptResponse); // Add response to page content
             } else {
                 console.log('Text content detected');
                 setResponse(prevResponses => [...prevResponses, { question: prompt, answer: gptResponse }]);
@@ -139,7 +143,7 @@ const ChatbotNYX = ({ setPageContent }) => {
     const handleClearChat = () => {
         setResponse([]);
         setPrompt(''); // Clear the input field
-        setPageContent(''); // Clear the generated page content
+        setGeneratedContent(''); // Clear the generated page content
     };
 
     const handleCopyChat = () => {

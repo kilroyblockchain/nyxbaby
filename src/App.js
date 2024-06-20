@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import msalInstance from "./authConfig";
@@ -7,66 +8,77 @@ import FileUploadPage from './FileUploadPage';
 import ManifestGenerator from "./ManifestGenerator";
 import ManifestRetriever from "./ManifestRetriever";
 import Imagebot from "./Imagebot";
-import ChatbotNYX from "./ChatbotNYX";
 import logo from './logo.png';
 import PromptLibrary from "./PromptLibrary";
 import TextToImage from "./TextToImage";
 import ClaimedFileUploader from "./ClaimedFileUploader";
 import SignInImage from "./ms_signin_dark.png";
 import { SignOutButton } from './SignOutButton';
-import DragAndDropMediaPlayer from "./DragAndDropMediaPlayer"; // Import the SignOutButton component
+import DragAndDropMediaPlayer from "./DragAndDropMediaPlayer";
+import UseWithNyxPage from './UseWithNyxPage';
+import NyxFileBabyModule from './NyxFileBabyModule';
 
 function SignInButton() {
-    const {instance} = useMsal();
+    const { instance } = useMsal();
     const handleLogin = () => {
         instance.loginRedirect().catch(e => {
             console.error(e);
         });
     };
 
-    return <button className={"msbutton"} onClick={handleLogin}><img src={SignInImage}
-                                                                     alt={"Sign in to File Baby with Microsoft"}/>
-    </button>;
+    return <button className={"msbutton"} onClick={handleLogin}><img src={SignInImage} alt={"Sign in to File Baby with Microsoft"} /></button>;
+}
+
+function HomePage({ isAuthenticated, isDevelopment, userName }) {
+    return (
+        <>
+            <TenantFileGallery userName={userName} />
+            <hr />
+            <ManifestRetriever />
+            <hr />
+            <ManifestGenerator />
+            <FileUploadPage userName={userName} />
+            <hr />
+            <PromptLibrary userName={userName} />
+            <hr />
+            <Imagebot userName={userName} />
+            <hr />
+            <TextToImage />
+            <hr />
+            <ClaimedFileUploader userName={userName} />
+            <hr />
+            <DragAndDropMediaPlayer />
+            <hr />
+            <NyxFileBabyModule userName={userName} />
+        </>
+    );
 }
 
 function AppContent() {
     const isAuthenticated = useIsAuthenticated();
     const { accounts } = useMsal();
     const isDevelopment = process.env.NODE_ENV === 'development';
-    const [filterCriteria, setFilterCriteria] = React.useState({});
     const userName = isDevelopment ? "kilroy@uark.edu" : accounts?.[0]?.username;
 
     return (
         <div className="App">
             <header className="App-header">
-                <img src={logo} alt="my.file.baby... MINE!" className="responsive"/>
+                <img src={logo} alt="my.file.baby... MINE!" className="responsive" />
                 {isAuthenticated && <SignOutButton />}
             </header>
-            {isAuthenticated || isDevelopment ? (
-                <>
-                    <TenantFileGallery userName={userName} filterCriteria={filterCriteria} />
-                    <hr />
-                    <ManifestRetriever />
-                    <hr />
-                    <ManifestGenerator />
-                    <FileUploadPage userName={userName} />
-                    <hr />
-                    <ChatbotNYX setFilterCriteria={setFilterCriteria} />
-                    <hr />
-                    <PromptLibrary userName={userName}/>
-                    <hr />
-                    <Imagebot userName={userName} />
-                    <hr />
-                    <TextToImage />
-                    <hr />
-                    <ClaimedFileUploader userName={userName} />
-                    <hr />
-                    <DragAndDropMediaPlayer />
-                    <hr />
-                </>
-            ) : (
-                <SignInButton />
-            )}
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        isAuthenticated || isDevelopment ? (
+                            <HomePage isAuthenticated={isAuthenticated} isDevelopment={isDevelopment} userName={userName} />
+                        ) : (
+                            <SignInButton />
+                        )
+                    }
+                />
+                <Route path="/use-with-nyx" element={<UseWithNyxPage />} />
+            </Routes>
             <footer className="footer">
                 <p><a href="https://file.baby">Privacy Policy & Terms of Use</a></p>
                 <p><a href="https://contentcredentials.org/verify" target="_blank" rel="noopener noreferrer">Validate Files at Content Authenticity Initiative</a></p>
@@ -80,10 +92,11 @@ function AppContent() {
 function App() {
     return (
         <MsalProvider instance={msalInstance}>
-            <AppContent />
+            <Router>
+                <AppContent />
+            </Router>
         </MsalProvider>
     );
 }
 
 export default App;
-
