@@ -96,7 +96,8 @@ function TenantFileGallery({ userName, filterCriteria }) {
 
   const handleUseWithNYX = () => {
     const selectedFileUrls = selectedFiles.map(file => file.url);
-    navigate('/use-with-nyx', { state: { selectedFileUrls } });
+    const selectedFileNames = selectedFiles.map(file => file.name);
+    navigate('/use-with-nyx', { state: { selectedFileUrls, selectedFileNames } });
   };
 
   const indexOfLastItem = currentPage * itemsPerPage;

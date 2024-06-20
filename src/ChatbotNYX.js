@@ -9,13 +9,9 @@ const indexName = "nyx-index";
 const searchApiKey = process.env.REACT_APP_AZURE_SEARCH_API_KEY;
 const searchEndpoint = `https://${searchServiceName}.search.windows.net`;
 
-if (!searchApiKey) {
-    throw new Error('REACT_APP_AZURE_SEARCH_API_KEY is not defined in the environment variables.');
-}
-
 const searchClient = new SearchClient(searchEndpoint, indexName, new AzureKeyCredential(searchApiKey));
 
-const ChatbotNYX = ({ setGeneratedContent }) => {
+const ChatbotNYX = ({ setPageContent, selectedFileUrls, includeFilesInChat }) => {
     const [prompt, setPrompt] = useState('');
     const [response, setResponse] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -103,7 +99,7 @@ const ChatbotNYX = ({ setGeneratedContent }) => {
             messages: [
                 { role: "system", content: "You are NYX, a web page creator named for Nyx, Goddess of the Night. You help create web pages with short prompts, and ALWAYS display them in the browser. Always start web pages with <DOCTYPE html> so they display in the browser, never in the chat window. Always use light fonts when using dark themes. Use available information for content or create accurate content if necessary. Your web pages are visually appealing, with readable fonts that contrast with the background, and always complete. ALWAYS update the background image so your own picture does not show. You were created by Karen Kilroy and are the first of your kind." },
                 { role: "user", content: prompt },
-                { role: "assistant", content: `${searchResults}\nImage URL: ${imageUrl}` }  // Include search results and image URL as context
+                { role: "assistant", content: `${searchResults}\nImage URL: ${imageUrl}\n${includeFilesInChat ? selectedFileUrls.join(' ') : ''}` }  // Include search results, image URL, and optionally file URLs as context
             ],
             max_tokens: chatConfig.chatParameters.maxResponseLength,
             temperature: chatConfig.chatParameters.temperature,
@@ -126,7 +122,9 @@ const ChatbotNYX = ({ setGeneratedContent }) => {
             console.log('Received response:', gptResponse);
             if (gptResponse.startsWith("<!DOCTYPE html>") || gptResponse.startsWith("<html>")) {
                 console.log('HTML content detected');
-                setGeneratedContent(gptResponse); // Add response to page content
+                document.open();
+                document.write(gptResponse);
+                document.close();
             } else {
                 console.log('Text content detected');
                 setResponse(prevResponses => [...prevResponses, { question: prompt, answer: gptResponse }]);
@@ -143,7 +141,7 @@ const ChatbotNYX = ({ setGeneratedContent }) => {
     const handleClearChat = () => {
         setResponse([]);
         setPrompt(''); // Clear the input field
-        setGeneratedContent(''); // Clear the generated page content
+        setPageContent(''); // Clear the generated page content
     };
 
     const handleCopyChat = () => {

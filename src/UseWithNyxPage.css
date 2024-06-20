@@ -1,0 +1,34 @@
+.nyx-page {
+    background-color: black;
+    color: white;
+    text-align: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.nyx-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.nyx-content {
+    margin-top: 20px;
+}
+
+.selected-files ul {
+    list-style: none;
+    padding: 0;
+}
+
+.selected-files li {
+    margin: 5px 0;
+}
+
+.selected-files a {
+    color: lightblue;
+}
+
+.selected-files label {
+    margin-top: 10px;
+    display: block;
+}
