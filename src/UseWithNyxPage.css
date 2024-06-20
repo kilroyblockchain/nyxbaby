@@ -20,6 +20,7 @@ body, html {
 .content-container {
     flex-grow: 1;
     width: 100%;
+    height: auto;
     padding: 20px;
     overflow: auto;
     background-color: black; /* Ensure the background is black */

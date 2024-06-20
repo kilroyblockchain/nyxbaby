@@ -10,14 +10,14 @@ const UseWithNyxPage = () => {
     const [pageContent, setPageContent] = useState('');
 
     return (
-        <div className="nyx-page">
+        <div>
             <ChatbotNYX
                 setPageContent={setPageContent}
                 selectedFileUrls={selectedFileUrls}
                 includeFilesInChat={includeFilesInChat}
                 setIncludeFilesInChat={setIncludeFilesInChat}
             />
-            <div className="content-container" dangerouslySetInnerHTML={{ __html: pageContent }} />
+            <div dangerouslySetInnerHTML={{ __html: pageContent }} />
         </div>
     );
 };

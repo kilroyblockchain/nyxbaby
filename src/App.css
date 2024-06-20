@@ -164,7 +164,6 @@ label {
 }
 .App {
   text-align: center;
-  background-color: #61dafb;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -179,6 +178,9 @@ label {
 }
 .user {
   color: blue;
+}
+.shareSelected button {
+  margin: 20px;
 }
 .chat {
   font-size:1em;

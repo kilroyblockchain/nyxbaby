@@ -7,11 +7,6 @@
     <list default="true" id="351c5aa2-9427-4c8d-8e42-fab32051235d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppContent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FooterSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/FooterSection.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UseWithNyxPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/UseWithNyxPage.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UseWithNyxPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/UseWithNyxPage.js" afterDir="false" />
     </list>
@@ -93,7 +88,7 @@
       <workItem from="1718835276478" duration="621000" />
       <workItem from="1718836462855" duration="12130000" />
       <workItem from="1718854898109" duration="2690000" />
-      <workItem from="1718883459966" duration="2515000" />
+      <workItem from="1718883459966" duration="3313000" />
     </task>
     <servers />
   </component>
