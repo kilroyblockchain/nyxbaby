@@ -122,9 +122,7 @@ const ChatbotNYX = ({ setPageContent, selectedFileUrls, includeFilesInChat }) =>
             console.log('Received response:', gptResponse);
             if (gptResponse.startsWith("<!DOCTYPE html>") || gptResponse.startsWith("<html>")) {
                 console.log('HTML content detected');
-                document.open();
-                document.write(gptResponse);
-                document.close();
+                setPageContent(gptResponse);
             } else {
                 console.log('Text content detected');
                 setResponse(prevResponses => [...prevResponses, { question: prompt, answer: gptResponse }]);

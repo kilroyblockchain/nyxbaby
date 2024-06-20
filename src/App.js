@@ -3,17 +3,16 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import msalInstance from "./authConfig";
+import HeaderSection from "./HeaderSection";
 import TenantFileGallery from './TenantFileGallery';
 import FileUploadPage from './FileUploadPage';
 import ManifestGenerator from "./ManifestGenerator";
 import ManifestRetriever from "./ManifestRetriever";
 import Imagebot from "./Imagebot";
-import logo from './logo.png';
 import PromptLibrary from "./PromptLibrary";
 import TextToImage from "./TextToImage";
 import ClaimedFileUploader from "./ClaimedFileUploader";
 import SignInImage from "./ms_signin_dark.png";
-import { SignOutButton } from './SignOutButton';
 import DragAndDropMediaPlayer from "./DragAndDropMediaPlayer";
 import UseWithNyxPage from './UseWithNyxPage';
 import NyxFileBabyModule from './NyxFileBabyModule';
@@ -32,7 +31,7 @@ function SignInButton() {
 
 function HomePage({ isAuthenticated, isDevelopment, userName }) {
     return (
-        <>
+        <>  <HeaderSection />
             <TenantFileGallery userName={userName} />
             <hr />
             <ManifestRetriever />
@@ -63,10 +62,7 @@ function AppContent() {
 
     return (
         <div className="App">
-            <header className="App-header">
-                <img src={logo} alt="my.file.baby... MINE!" className="responsive" />
-                {isAuthenticated && <SignOutButton />}
-            </header>
+
             <Routes>
                 <Route
                     path="/"
@@ -80,12 +76,7 @@ function AppContent() {
                 />
                 <Route path="/use-with-nyx" element={<UseWithNyxPage />} />
             </Routes>
-            <footer className="footer">
-                <p><a href="https://file.baby">Privacy Policy & Terms of Use</a></p>
-                <p><a href="https://contentcredentials.org/verify" target="_blank" rel="noopener noreferrer">Validate Files at Content Authenticity Initiative</a></p>
-                <p>Need a Login? <a href={"https://subscribe.file.baby"}>Subscribe here.</a></p>
-                <p>&copy; Copyright 2024, <a href="https://file.baby" alt="File Baby" title={"File Baby"}>File Baby</a>, All Rights Reserved</p>
-            </footer>
+
         </div>
     );
 }

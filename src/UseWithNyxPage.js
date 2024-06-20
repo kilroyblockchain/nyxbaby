@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import ChatbotNYX from './ChatbotNYX';
-import nyxImage from './img/Nyx Goddess of Night1.png';
 import './UseWithNyxPage.css';
 
 const UseWithNyxPage = () => {
@@ -16,7 +15,6 @@ const UseWithNyxPage = () => {
 
     return (
         <div className="nyx-page">
-            <img src={nyxImage} alt="NYX" className="nyx-image" />
             <div className="nyx-content">
                 <h2>Use with NYX</h2>
                 <div className="selected-files">
@@ -37,8 +35,14 @@ const UseWithNyxPage = () => {
                         Include files in chat
                     </label>
                 </div>
+                <div className="iframe-container">
+                    <iframe
+                        title="Generated Content"
+                        srcDoc={pageContent}
+                        sandbox="allow-scripts allow-same-origin"
+                    />
+                </div>
                 <ChatbotNYX setPageContent={setPageContent} selectedFileUrls={selectedFileUrls} includeFilesInChat={includeFilesInChat} />
-                <div dangerouslySetInnerHTML={{ __html: pageContent }} />
             </div>
         </div>
     );
