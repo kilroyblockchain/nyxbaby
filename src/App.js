@@ -29,7 +29,7 @@ function SignInButton() {
     return <button className={"msbutton"} onClick={handleLogin}><img src={SignInImage} alt={"Sign in to File Baby with Microsoft"} /></button>;
 }
 
-function HomePage({ isAuthenticated, isDevelopment, userName }) {
+function HomePage({ userName }) {
     return (
         <>
             <TenantFileGallery userName={userName} />
@@ -64,6 +64,8 @@ function AppContent() {
 
     const isUseWithNyxPage = location.pathname === "/use-with-nyx";
 
+    console.log("AppContent userName:", userName); // Debugging line
+
     return (
         <div className={`App ${!isUseWithNyxPage ? 'file-baby-home' : ''}`}>
             {!isUseWithNyxPage && <HeaderSection />}
@@ -72,15 +74,13 @@ function AppContent() {
                     path="/"
                     element={
                         isAuthenticated || isDevelopment ? (
-                            <>
-                                <HomePage isAuthenticated={isAuthenticated} isDevelopment={isDevelopment} userName={userName} />
-                            </>
+                            <HomePage userName={userName} />
                         ) : (
                             <SignInButton />
                         )
                     }
                 />
-                <Route path="/use-with-nyx" element={<UseWithNyxPage />} />
+                <Route path="/use-with-nyx" element={<UseWithNyxPage userName={userName} />} />
             </Routes>
             {!isUseWithNyxPage && <FooterSection />}
         </div>

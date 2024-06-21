@@ -63,6 +63,42 @@
     z-index: 1000;
     display: none;
 }
+.chatbox-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.chatbox {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.generated-content {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+..save-button {
+    margin: 10px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.save-button:hover {
+    background-color: #0056b3;
+}
+
+.error {
+    color: red;
+    padding: 10px;
+}
 
 .loading-overlay.visible {
     display: flex;

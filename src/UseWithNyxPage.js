@@ -3,15 +3,18 @@ import { useLocation } from 'react-router-dom';
 import ChatbotNYX from './ChatbotNYX';
 import './UseWithNyxPage.css';
 
-const UseWithNyxPage = () => {
+const UseWithNyxPage = ({ userName }) => {
     const location = useLocation();
     const selectedFileUrls = location.state?.selectedFileUrls || [];
     const [includeFilesInChat, setIncludeFilesInChat] = useState(true);
     const [pageContent, setPageContent] = useState('');
 
+    console.log("UseWithNyxPage userName:", userName);  // Debugging line
+
     return (
         <div>
             <ChatbotNYX
+                userName={userName}
                 setPageContent={setPageContent}
                 selectedFileUrls={selectedFileUrls}
                 includeFilesInChat={includeFilesInChat}
