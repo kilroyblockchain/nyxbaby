@@ -188,7 +188,8 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                 throw new Error(`Failed to save to File Baby with status: ${saveResponse.status}`);
             }
 
-            const thumbnailPath = await handleThumbnailGeneration();  // Generate and save thumbnail
+            // Generate and save thumbnail after saving the HTML file
+            const thumbnailPath = await handleThumbnailGeneration();
 
             setSavedToFileBaby(true);
             setTimeout(() => setSavedToFileBaby(false), 3000); // Reset after 3 seconds

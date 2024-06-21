@@ -6,12 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="351c5aa2-9427-4c8d-8e42-fab32051235d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/TenantFileGallery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/TenantFileGallery.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UseWithNyxPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/UseWithNyxPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UseWithNyxPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/UseWithNyxPage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +92,7 @@
       <workItem from="1718895772825" duration="993000" />
       <workItem from="1718904324099" duration="1199000" />
       <workItem from="1718921650242" duration="295000" />
-      <workItem from="1718926720917" duration="7442000" />
+      <workItem from="1718926720917" duration="9672000" />
     </task>
     <servers />
   </component>
@@ -111,7 +107,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/ChatbotNYX.js</url>
-          <line>273</line>
+          <line>274</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
