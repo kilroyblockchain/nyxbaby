@@ -64,11 +64,9 @@ function TenantFileGallery({ userName, filterCriteria }) {
 
   const getFileThumbnail = (file) => {
     if (file.type.match(/(mp3|wav|aac|mp4)$/i)) {
-      return './audio_placeholder.png';
-    } else if (file.type === 'html') {
-      const thumbnailUrl = file.url.replace('.html', '.png');
-      console.log("Thumbnail URL:", thumbnailUrl);  // Debugging line
-      return thumbnailUrl;
+      return './audio_placeholder.webp';
+    } else if (file.type.match(/(html)$/i)) {
+      return './html_placeholder.webp';  // Replace with the path to your generic thumbnail
     } else {
       return file.url;
     }

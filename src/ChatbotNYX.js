@@ -120,7 +120,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             // Check if the response is HTML content
             if (gptResponse.startsWith("<!DOCTYPE html>") || gptResponse.startsWith("<html>")) {
                 setPageContent(gptResponse);
-                savePageContent(gptResponse);  // Save the HTML content
             } else {
                 setResponse(prevResponses => [...prevResponses, { question: prompt, answer: gptResponse }]);
             }
@@ -146,34 +145,61 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
         });
     };
 
-    const handleThumbnailGeneration = async () => {
-        const canvas = await html2canvas(document.querySelector("#pageContent"));
-        const thumbnailBlob = await new Promise(resolve => canvas.toBlob(resolve));
+    const handleThumbnailGeneration = async (uniqueFileName) => {
+        try {
+            const pageContentElement = document.querySelector("#pageContent");
+            if (!pageContentElement) {
+                throw new Error('Page content element not found');
+            }
 
-        const uniqueThumbnailName = `${new Date().getTime()}-thumbnail.png`;
-        const thumbnailPath = `${containerUrl}/${userName}/thumbnails/${uniqueThumbnailName}?${sasToken}`;
+            console.log("Capturing screenshot of the page content...");
 
-        const thumbnailResponse = await fetch(thumbnailPath, {
-            method: 'PUT',
-            headers: {
-                'x-ms-blob-type': 'BlockBlob',
-                'Content-Type': 'image/png',
-            },
-            body: thumbnailBlob,
-        });
+            const canvas = await html2canvas(pageContentElement);
+            const thumbnailBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
 
-        if (!thumbnailResponse.ok) {
-            throw new Error(`Failed to save thumbnail to File Baby with status: ${thumbnailResponse.status}`);
+            if (!thumbnailBlob) {
+                throw new Error('Failed to create thumbnail blob');
+            }
+
+            const uniqueThumbnailName = uniqueFileName.replace('.html', '-thumbnail.png');
+            const thumbnailPath = `${containerUrl}/${userName}/thumbnails/${uniqueThumbnailName}?${sasToken}`;
+
+            console.log("Thumbnail path:", thumbnailPath);
+
+            const thumbnailResponse = await fetch(thumbnailPath, {
+                method: 'PUT',
+                headers: {
+                    'x-ms-blob-type': 'BlockBlob',
+                    'Content-Type': 'image/png',
+                },
+                body: thumbnailBlob,
+            });
+
+            if (!thumbnailResponse.ok) {
+                throw new Error(`Failed to save thumbnail to File Baby with status: ${thumbnailResponse.status}`);
+            }
+
+            console.log("Thumbnail saved successfully:", thumbnailPath);
+            return thumbnailPath;
+        } catch (error) {
+            console.error('Error generating and saving thumbnail:', error);
+            setError(`Error generating and saving thumbnail: ${error.message}`);
+            return null;
         }
-
-        return thumbnailPath;
     };
 
-    const savePageContent = async (htmlContent) => {
+    const savePageContent = async () => {
         try {
+            const htmlContent = pageContent;
+            if (!htmlContent) {
+                throw new Error('No page content to save');
+            }
+
             const uniqueFileName = `${new Date().getTime()}-generated-page.html`;
             const filePath = `${containerUrl}/${userName}/${uniqueFileName}?${sasToken}`;
             const blob = new Blob([htmlContent], { type: 'text/html' });
+
+            console.log("Saving HTML file:", filePath);
 
             const saveResponse = await fetch(filePath, {
                 method: 'PUT',
@@ -188,8 +214,13 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                 throw new Error(`Failed to save to File Baby with status: ${saveResponse.status}`);
             }
 
-            // Generate and save thumbnail after saving the HTML file
-            const thumbnailPath = await handleThumbnailGeneration();
+            console.log("HTML file saved successfully:", filePath);
+
+            const thumbnailPath = await handleThumbnailGeneration(uniqueFileName);
+
+            if (!thumbnailPath) {
+                throw new Error('Thumbnail generation failed');
+            }
 
             setSavedToFileBaby(true);
             setTimeout(() => setSavedToFileBaby(false), 3000); // Reset after 3 seconds
@@ -210,7 +241,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
     };
 
     const handleThumbnailClick = (url) => {
-        setPrompt(url);
+        setPrompt(prevPrompt => prevPrompt ? `${prevPrompt} ${url}` : url);
     };
 
     useEffect(() => {
@@ -274,7 +305,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                             <button tabIndex="0" type="submit" title="Send to NYX">Send</button>
                             <button type="button" onClick={handleClearChat} title="Clear Chat">Clear</button>
                             <button type="button" onClick={handleCopyChat} title="Copy Chat">Copy</button>
-                            <button type="button" onClick={() => savePageContent(pageContent)} title="Save to File Baby">Save to File Baby</button>
+                            <button type="button" onClick={savePageContent} title="Save to File Baby">Save to File Baby</button>
                         </div>
                     </form>
                     {isLoading && <p>Saving...</p>}

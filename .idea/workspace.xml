@@ -5,6 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="351c5aa2-9427-4c8d-8e42-fab32051235d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/public/audio_placeholder.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/html_placeholder.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/html_placeholder.webp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/TenantFileGallery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/TenantFileGallery.js" afterDir="false" />
@@ -72,7 +75,9 @@
       <recent name="$PROJECT_DIR$/src/img" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/img" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -93,6 +98,9 @@
       <workItem from="1718904324099" duration="1199000" />
       <workItem from="1718921650242" duration="295000" />
       <workItem from="1718926720917" duration="9672000" />
+      <workItem from="1718986269903" duration="3741000" />
+      <workItem from="1718991572761" duration="885000" />
+      <workItem from="1718997506105" duration="994000" />
     </task>
     <servers />
   </component>
@@ -101,17 +109,5 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ChatbotNYX.js</url>
-          <line>274</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
