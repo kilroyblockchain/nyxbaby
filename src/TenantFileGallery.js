@@ -63,7 +63,14 @@ function TenantFileGallery({ userName, filterCriteria }) {
   };
 
   const getFileThumbnail = (file) => {
-    return file.type.match(/(mp3|wav|aac|mp4)$/i) ? './audio_placeholder.png' : file.url;
+    if (file.type.match(/(mp3|wav|aac|mp4)$/i)) {
+      return './audio_placeholder.png';
+    } else if (file.type === 'html') {
+      const thumbnailUrl = file.url.replace('.html', '-thumbnail.png');
+      return thumbnailUrl;
+    } else {
+      return file.url;
+    }
   };
 
   const handleFileSelection = (fileName, isSelected) => {

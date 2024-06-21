@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
+import html2canvas from 'html2canvas';
 import './ChatbotNYX.css';
 import chatConfig from './ChatSetup-NYX.json';
 import { SearchClient, AzureKeyCredential } from "@azure/search-documents";
@@ -16,12 +17,12 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
     const [response, setResponse] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [isSaving, setIsSaving] = useState(false);
     const [savedToFileBaby, setSavedToFileBaby] = useState(false);
     const [error, setError] = useState('');
     const responseEndRef = useRef(null);
 
-    console.log("ChatbotNYX userName:", userName);  // Debugging line
+    const containerUrl = 'https://claimed.at.file.baby/filebabyblob';
+    const sasToken = process.env.REACT_APP_SAS_TOKEN;
 
     const handleInputChange = (e) => {
         setPrompt(e.target.value);
@@ -119,6 +120,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             // Check if the response is HTML content
             if (gptResponse.startsWith("<!DOCTYPE html>") || gptResponse.startsWith("<html>")) {
                 setPageContent(gptResponse);
+                savePageContent(gptResponse);  // Save the HTML content
             } else {
                 setResponse(prevResponses => [...prevResponses, { question: prompt, answer: gptResponse }]);
             }
@@ -144,6 +146,60 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
         });
     };
 
+    const handleThumbnailGeneration = async () => {
+        const canvas = await html2canvas(document.querySelector("#pageContent"));
+        const thumbnailBlob = await new Promise(resolve => canvas.toBlob(resolve));
+
+        const uniqueThumbnailName = `${new Date().getTime()}-thumbnail.png`;
+        const thumbnailPath = `${containerUrl}/${userName}/thumbnails/${uniqueThumbnailName}?${sasToken}`;
+
+        const thumbnailResponse = await fetch(thumbnailPath, {
+            method: 'PUT',
+            headers: {
+                'x-ms-blob-type': 'BlockBlob',
+                'Content-Type': 'image/png',
+            },
+            body: thumbnailBlob,
+        });
+
+        if (!thumbnailResponse.ok) {
+            throw new Error(`Failed to save thumbnail to File Baby with status: ${thumbnailResponse.status}`);
+        }
+
+        return thumbnailPath;
+    };
+
+    const savePageContent = async (htmlContent) => {
+        try {
+            const uniqueFileName = `${new Date().getTime()}-generated-page.html`;
+            const filePath = `${containerUrl}/${userName}/${uniqueFileName}?${sasToken}`;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+
+            const saveResponse = await fetch(filePath, {
+                method: 'PUT',
+                headers: {
+                    'x-ms-blob-type': 'BlockBlob',
+                    'Content-Type': 'text/html',
+                },
+                body: blob,
+            });
+
+            if (!saveResponse.ok) {
+                throw new Error(`Failed to save to File Baby with status: ${saveResponse.status}`);
+            }
+
+            const thumbnailPath = await handleThumbnailGeneration();  // Generate and save thumbnail
+
+            setSavedToFileBaby(true);
+            setTimeout(() => setSavedToFileBaby(false), 3000); // Reset after 3 seconds
+
+            console.log("File and thumbnail saved successfully:", filePath, thumbnailPath);
+        } catch (error) {
+            console.error('Error saving to File Baby:', error);
+            setError(`Error saving to File Baby: ${error.message}`);
+        }
+    };
+
     useEffect(() => {
         responseEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [response]);
@@ -164,45 +220,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             chatContainer.classList.remove('expanded');
         }
     }, [isOpen]);
-
-    const handleSaveToFileBaby = async () => {
-        if (!userName) {
-            setError('User name is not defined. Cannot save to specific folder.');
-            return;
-        }
-
-        setIsSaving(true);
-        setError('');
-
-        try {
-            const containerUrl = 'https://filebaby.blob.core.windows.net/filebabyblob';
-            const sasToken = process.env.REACT_APP_SAS_TOKEN;
-            const uniqueFileName = `${new Date().getTime()}-generated-page.html`;
-            const filePath = `${containerUrl}/${userName}/${uniqueFileName}?${sasToken}`;
-            const blob = new Blob([pageContent], { type: 'text/html' });
-
-            const saveResponse = await fetch(filePath, {
-                method: 'PUT',
-                headers: {
-                    'x-ms-blob-type': 'BlockBlob',
-                    'Content-Type': 'text/html',
-                },
-                body: blob,
-            });
-
-            if (!saveResponse.ok) {
-                throw new Error(`Failed to save to File Baby with status: ${saveResponse.status}`);
-            }
-
-            setSavedToFileBaby(true);
-            setTimeout(() => setSavedToFileBaby(false), 3000); // Reset after 3 seconds
-        } catch (error) {
-            console.error('Error saving to File Baby:', error);
-            setError(`Error saving to File Baby: ${error.message}`);
-        } finally {
-            setIsSaving(false);
-        }
-    };
 
     return (
         <div className="chat-container">
@@ -256,10 +273,10 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                             <button tabIndex="0" type="submit" title="Send to NYX">Send</button>
                             <button type="button" onClick={handleClearChat} title="Clear Chat">Clear</button>
                             <button type="button" onClick={handleCopyChat} title="Copy Chat">Copy</button>
-                            <button type="button" onClick={handleSaveToFileBaby} title="Save to File Baby" disabled={isSaving}>Save to File Baby</button>
+                            <button type="button" onClick={() => savePageContent(pageContent)} title="Save to File Baby">Save to File Baby</button>
                         </div>
                     </form>
-                    {isSaving && <p>Saving...</p>}
+                    {isLoading && <p>Saving...</p>}
                     {error && <p className="error">{error}</p>}
                     {savedToFileBaby && <p>Web page saved to File Baby successfully!</p>}
                 </div>

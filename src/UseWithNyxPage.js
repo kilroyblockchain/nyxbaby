@@ -12,7 +12,7 @@ const UseWithNyxPage = ({ userName }) => {
     console.log("UseWithNyxPage userName:", userName);  // Debugging line
 
     return (
-        <div>
+        <div id="pageContent">
             <ChatbotNYX
                 userName={userName}
                 setPageContent={setPageContent}
