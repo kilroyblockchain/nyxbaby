@@ -16,6 +16,7 @@ const UseWithNyxPage = ({ userName }) => {
             <ChatbotNYX
                 userName={userName}
                 setPageContent={setPageContent}
+                pageContent={pageContent}
                 selectedFileUrls={selectedFileUrls}
                 includeFilesInChat={includeFilesInChat}
                 setIncludeFilesInChat={setIncludeFilesInChat}

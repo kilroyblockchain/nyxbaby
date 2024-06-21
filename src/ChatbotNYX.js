@@ -11,11 +11,12 @@ const searchEndpoint = `https://${searchServiceName}.search.windows.net`;
 
 const searchClient = new SearchClient(searchEndpoint, indexName, new AzureKeyCredential(searchApiKey));
 
-const ChatbotNYX = ({ userName, setPageContent, selectedFileUrls, includeFilesInChat, setIncludeFilesInChat }) => {
+const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, includeFilesInChat, setIncludeFilesInChat }) => {
     const [prompt, setPrompt] = useState('');
     const [response, setResponse] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
     const [savedToFileBaby, setSavedToFileBaby] = useState(false);
     const [error, setError] = useState('');
     const responseEndRef = useRef(null);
@@ -170,7 +171,7 @@ const ChatbotNYX = ({ userName, setPageContent, selectedFileUrls, includeFilesIn
             return;
         }
 
-        setIsLoading(true);
+        setIsSaving(true);
         setError('');
 
         try {
@@ -178,7 +179,7 @@ const ChatbotNYX = ({ userName, setPageContent, selectedFileUrls, includeFilesIn
             const sasToken = process.env.REACT_APP_SAS_TOKEN;
             const uniqueFileName = `${new Date().getTime()}-generated-page.html`;
             const filePath = `${containerUrl}/${userName}/${uniqueFileName}?${sasToken}`;
-            const blob = new Blob([response.map(exchange => `You: ${exchange.question}\nNYX: ${exchange.answer}`).join('\n')], { type: 'text/html' });
+            const blob = new Blob([pageContent], { type: 'text/html' });
 
             const saveResponse = await fetch(filePath, {
                 method: 'PUT',
@@ -199,7 +200,7 @@ const ChatbotNYX = ({ userName, setPageContent, selectedFileUrls, includeFilesIn
             console.error('Error saving to File Baby:', error);
             setError(`Error saving to File Baby: ${error.message}`);
         } finally {
-            setIsLoading(false);
+            setIsSaving(false);
         }
     };
 
@@ -255,10 +256,10 @@ const ChatbotNYX = ({ userName, setPageContent, selectedFileUrls, includeFilesIn
                             <button tabIndex="0" type="submit" title="Send to NYX">Send</button>
                             <button type="button" onClick={handleClearChat} title="Clear Chat">Clear</button>
                             <button type="button" onClick={handleCopyChat} title="Copy Chat">Copy</button>
-                            <button type="button" onClick={handleSaveToFileBaby} title="Save to File Baby">Save to File Baby</button>
+                            <button type="button" onClick={handleSaveToFileBaby} title="Save to File Baby" disabled={isSaving}>Save to File Baby</button>
                         </div>
                     </form>
-                    {isLoading && <p>Saving...</p>}
+                    {isSaving && <p>Saving...</p>}
                     {error && <p className="error">{error}</p>}
                     {savedToFileBaby && <p>Web page saved to File Baby successfully!</p>}
                 </div>
