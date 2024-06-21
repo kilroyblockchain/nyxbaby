@@ -33,7 +33,7 @@ const NyxFileBabyModule = ({ userName }) => {
 
     return (
         <div>
-            <h1>Saved NYX Pages: Search My Gallery for html</h1>
+            <h1>Saved NYX Pages: Filter My Gallery for html</h1>
             {error && <p className="error">{error}</p>}
             <ul>
                 {savedPages.map((page, index) => (
