@@ -4,6 +4,8 @@ import html2canvas from 'html2canvas';
 import './ChatbotNYX.css';
 import chatConfig from './ChatSetup-NYX.json';
 import { SearchClient, AzureKeyCredential } from "@azure/search-documents";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileAudio, faFileVideo, faFileCode, faFileImage } from '@fortawesome/free-solid-svg-icons';
 
 const searchServiceName = "nyxsearch724482774264";
 const indexName = "nyx-index";
@@ -26,6 +28,30 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
 
     const handleInputChange = (e) => {
         setPrompt(e.target.value);
+    };
+
+    const getFileIcon = (url) => {
+        const extension = url.split('.').pop().toLowerCase();
+        switch (extension) {
+            case 'mp3':
+            case 'wav':
+            case 'ogg':
+                return <FontAwesomeIcon icon={faFileAudio} />;
+            case 'mp4':
+            case 'avi':
+            case 'mov':
+                return <FontAwesomeIcon icon={faFileVideo} />;
+            case 'html':
+            case 'htm':
+                return <FontAwesomeIcon icon={faFileCode} />;
+            case 'jpg':
+            case 'jpeg':
+            case 'png':
+            case 'gif':
+                return <img src={url} alt="Selected File" className="thumbnail" />;
+            default:
+                return <FontAwesomeIcon icon={faFileImage} />;
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -260,13 +286,10 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                         <h3>Click images to include in the prompt:</h3>
                         <div className="file-thumbnails">
                             {selectedFileUrls.map((url, index) => (
-                                <img
-                                    src={url}
-                                    alt={`Selected File ${index + 1}`}
-                                    className="thumbnail"
-                                    onClick={() => handleThumbnailClick(url)}
-                                    key={index}
-                                />
+                                <div key={index} onClick={() => handleThumbnailClick(url)} className="thumbnail-container">
+                                    {getFileIcon(url)}
+                                    <span className="file-label">Selected File {index + 1}</span>
+                                </div>
                             ))}
                         </div>
                     </div>

@@ -94,6 +94,22 @@
 .save-button:hover {
     background-color: #0056b3;
 }
+.thumbnail-container {
+    display: inline-block;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.file-icon {
+    font-size: 24px;
+    color: #555;
+}
+
+.file-thumbnails img.thumbnail {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+}
 
 .error {
     color: red;
