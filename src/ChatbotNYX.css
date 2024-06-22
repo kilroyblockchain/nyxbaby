@@ -1,4 +1,12 @@
 /* ChatbotNYX.css */
+
+body, html {
+    background-color: white; /* Ensure page background is white */
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
 .chat-container {
     position: fixed;
     bottom: 0;
@@ -63,6 +71,21 @@
     z-index: 1000;
     display: none;
 }
+
+.loading-overlay.visible {
+    display: flex;
+}
+
+.loading-indicator {
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+    background-color: transparent;
+    animation: blinker 2s linear infinite;
+    margin-bottom: 65px;
+}
+
 .chatbox-container {
     display: flex;
     flex-direction: column;
@@ -81,7 +104,7 @@
     border-radius: 5px;
 }
 
-..save-button {
+.save-button {
     margin: 10px;
     padding: 10px;
     background-color: #007bff;
@@ -94,6 +117,7 @@
 .save-button:hover {
     background-color: #0056b3;
 }
+
 .thumbnail-container {
     display: inline-block;
     margin: 5px;
@@ -116,19 +140,6 @@
     padding: 10px;
 }
 
-.loading-overlay.visible {
-    display: flex;
-}
-
-.loading-indicator {
-    text-align: center;
-    font-size: 13px;
-    font-weight: bold;
-    color: white;
-    background-color: transparent;
-    animation: blinker 2s linear infinite;
-    margin-bottom: 65px;
-}
 .response-container {
     flex-grow: 1;
     overflow-y: auto;
@@ -160,10 +171,6 @@
 }
 
 .response-container p {
-    color: black;
-}
-
-.chat-title-bar nyx {
     color: black;
 }
 
@@ -283,8 +290,4 @@ button[type="submit"], button[title="Clear Chat"], button[title="Copy Chat"] {
     .chat-popup {
         width: 360px;
     }
-}
-
-body {
-    background-color: black; /* Set body background color to black */
 }

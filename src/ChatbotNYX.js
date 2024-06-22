@@ -36,21 +36,21 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             case 'mp3':
             case 'wav':
             case 'ogg':
-                return <FontAwesomeIcon icon={faFileAudio} />;
+                return <FontAwesomeIcon icon={faFileAudio} className="file-icon" />;
             case 'mp4':
             case 'avi':
             case 'mov':
-                return <FontAwesomeIcon icon={faFileVideo} />;
+                return <FontAwesomeIcon icon={faFileVideo} className="file-icon" />;
             case 'html':
             case 'htm':
-                return <FontAwesomeIcon icon={faFileCode} />;
+                return <FontAwesomeIcon icon={faFileCode} className="file-icon" />;
             case 'jpg':
             case 'jpeg':
             case 'png':
             case 'gif':
                 return <img src={url} alt="Selected File" className="thumbnail" />;
             default:
-                return <FontAwesomeIcon icon={faFileImage} />;
+                return <FontAwesomeIcon icon={faFileImage} className="file-icon" />;
         }
     };
 
@@ -288,7 +288,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                             {selectedFileUrls.map((url, index) => (
                                 <div key={index} onClick={() => handleThumbnailClick(url)} className="thumbnail-container">
                                     {getFileIcon(url)}
-                                    <span className="file-label">Selected File {index + 1}</span>
                                 </div>
                             ))}
                         </div>
