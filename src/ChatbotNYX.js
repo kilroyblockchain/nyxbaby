@@ -52,7 +52,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
         let imageUrl = '';
         try {
             const dalleResponse = await axios.post(
-                'https://filebabydalle.openai.azure.com/openai/images/generations:submit?api-version=2023-06-01-preview',
+                'https://nyx.openai.azure.com/openai/deployments/Dalle3/images/generations?api-version=2024-04-01-preview',
                 {
                     prompt: prompt,
                     n: 1,
@@ -66,24 +66,15 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                 }
             );
 
-            const operationLocation = dalleResponse.headers['operation-location'];
-            const pollForImage = async (operationLocation) => {
-                try {
-                    const statusResponse = await axios.get(operationLocation, { headers: { 'api-key': process.env.REACT_APP_DALLE_OPENAI_API_KEY } });
-                    if (statusResponse.status === 200 && statusResponse.data.status === 'succeeded' && statusResponse.data.result.data[0].url) {
-                        imageUrl = statusResponse.data.result.data[0].url;
-                        // Proceed with the next step to use the imageUrl
-                        completeOpenAIRequest(imageUrl, searchResults);
-                    } else {
-                        setTimeout(() => pollForImage(operationLocation), 1000);
-                    }
-                } catch (pollError) {
-                    console.error('Error polling for image:', pollError);
-                    setIsLoading(false);
-                }
-            };
-
-            pollForImage(operationLocation);
+            console.log('DALL-E Response:', dalleResponse);
+            console.log('DALL-E Response Headers:', dalleResponse.headers);
+            if (dalleResponse.data && dalleResponse.data.data && dalleResponse.data.data.length > 0) {
+                imageUrl = dalleResponse.data.data[0].url;
+                console.log('Image URL:', imageUrl);
+                completeOpenAIRequest(imageUrl, searchResults);
+            } else {
+                throw new Error('Image URL is missing in the response');
+            }
         } catch (error) {
             console.error('Error generating image with DALL-E:', error);
             alert(`Error generating image with DALL-E: ${error.message}`);
