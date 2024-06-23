@@ -13,12 +13,12 @@ body, html {
     bottom: 0;
     right: 0;
     z-index: 1000;
-    margin: 10px;
     border: 1px solid #4859a6;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     width: 300px;
     margin-right: 20px;
+    margin-left:20px;
     max-width: 300px;
     max-height: 600px;
     display: flex;
@@ -27,7 +27,13 @@ body, html {
     overflow: hidden;
     background: none;
 }
-
+h3 {
+    text-align: center;
+}
+.response-container {
+    padding-left: 20px;
+    padding-right: 20px;
+}
 .chat-toggle-button {
     width: 100%;
     padding: 8px;
