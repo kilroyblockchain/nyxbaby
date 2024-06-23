@@ -23,7 +23,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
     const [error, setError] = useState('');
     const responseEndRef = useRef(null);
 
-    const containerUrl = 'https://claimed.at.file.baby/filebabyblob';
+    const containerUrl = 'https://filebaby.blob.core.windows.net/filebabyblob';
     const sasToken = process.env.REACT_APP_SAS_TOKEN;
 
     const handleInputChange = (e) => {
@@ -97,6 +97,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             if (dalleResponse.data && dalleResponse.data.data && dalleResponse.data.data.length > 0) {
                 imageUrl = dalleResponse.data.data[0].url;
                 console.log('Image URL:', imageUrl);
+                await saveGeneratedFile(imageUrl, `${prompt.replace(/[^a-zA-Z0-9]/g, '_')}-generated.png`);
                 completeOpenAIRequest(imageUrl, searchResults);
             } else {
                 throw new Error('Image URL is missing in the response');
@@ -105,6 +106,39 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             console.error('Error generating image with DALL-E:', error);
             alert(`Error generating image with DALL-E: ${error.message}`);
             setIsLoading(false);
+        }
+    };
+
+    const saveGeneratedFile = async (fileUrl, fileName) => {
+        try {
+            const response = await fetch(fileUrl);
+            const blob = await response.blob();
+            const filePath = `${containerUrl}/${userName}/${fileName}?${sasToken}`;
+
+            console.log('Saving to URL:', filePath);
+            console.log('SAS Token:', sasToken);
+
+            const saveResponse = await fetch(filePath, {
+                method: 'PUT',
+                headers: {
+                    'x-ms-blob-type': 'BlockBlob',
+                    'Content-Type': blob.type,
+                },
+                body: blob,
+            });
+
+            if (!saveResponse.ok) {
+                throw new Error(`Failed to save file to File Baby: ${saveResponse.statusText}`);
+            }
+
+            console.log(`File saved to File Baby: ${filePath}`);
+            setSavedToFileBaby(true);
+            setTimeout(() => setSavedToFileBaby(false), 3000); // Reset after 3 seconds
+            return filePath;
+        } catch (error) {
+            console.error('Error saving file to File Baby:', error);
+            setError(`Error saving file to File Baby: ${error.message}`);
+            return null;
         }
     };
 
@@ -238,6 +272,21 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             if (!thumbnailPath) {
                 throw new Error('Thumbnail generation failed');
             }
+
+            // Save all images referenced in the generated HTML
+            const imageUrls = htmlContent.match(/<img[^>]+src="([^">]+)"/g) || [];
+            const savedImages = await Promise.all(
+                imageUrls.map(async (imgTag) => {
+                    const urlMatch = imgTag.match(/src="([^">]+)"/);
+                    if (urlMatch && urlMatch[1]) {
+                        const imageFileName = `${uniqueFileName.replace('.html', '')}-${urlMatch[1].split('/').pop()}`;
+                        return await saveGeneratedFile(urlMatch[1], imageFileName);
+                    }
+                    return null;
+                })
+            );
+
+            console.log("Saved images to File Baby:", savedImages.filter(Boolean));
 
             setSavedToFileBaby(true);
             setTimeout(() => setSavedToFileBaby(false), 3000); // Reset after 3 seconds
