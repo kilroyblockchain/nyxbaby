@@ -199,10 +199,12 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
 
             // Update the CSS to use the new background image URL
             const newCssBackgroundImageUrl = savedImages[0]; // Assuming the first saved image is the background
-            htmlContent = htmlContent.replace(
-                /background-image: url\('[^']+'\)/,
-                `background-image: url('${newCssBackgroundImageUrl}')`
-            );
+            if (newCssBackgroundImageUrl) {
+                htmlContent = htmlContent.replace(
+                    /background-image: url\('[^']+'\)/,
+                    `background-image: url('${newCssBackgroundImageUrl}')`
+                );
+            }
 
             // Save the updated HTML file with new image URLs
             const updatedBlob = new Blob([htmlContent], { type: 'text/html' });
@@ -387,12 +389,12 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                         <div ref={responseEndRef} />
                     </div>
                     <form onSubmit={handleSubmit}>
-                    <textarea
-                        value={prompt}
-                        onChange={handleInputChange}
-                        placeholder="What kind of web page would you like to make?"
-                        rows="3" // Adjust the number of rows as needed
-                    ></textarea>
+                <textarea
+                    value={prompt}
+                    onChange={handleInputChange}
+                    placeholder="What kind of web page would you like to make?"
+                    rows="3" // Adjust the number of rows as needed
+                ></textarea>
                         <div className="button-container">
                             <button tabIndex="0" type="submit" title="Send to NYX">Send</button>
                             <button type="button" onClick={handleClearChat} title="Clear Chat">Clear</button>
