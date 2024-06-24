@@ -97,8 +97,8 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             if (dalleResponse.data && dalleResponse.data.data && dalleResponse.data.data.length > 0) {
                 imageUrl = dalleResponse.data.data[0].url;
                 console.log('Image URL:', imageUrl);
-                await saveGeneratedFile(imageUrl, `${prompt.replace(/[^a-zA-Z0-9]/g, '_')}-generated.png`);
-                completeOpenAIRequest(imageUrl, searchResults);
+                const savedImageUrl = await saveGeneratedFile(imageUrl, `${prompt.replace(/[^a-zA-Z0-9]/g, '_')}-generated.png`);
+                completeOpenAIRequest(savedImageUrl, searchResults);
             } else {
                 throw new Error('Image URL is missing in the response');
             }
@@ -134,7 +134,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             console.log(`File saved to File Baby: ${filePath}`);
             setSavedToFileBaby(true);
             setTimeout(() => setSavedToFileBaby(false), 3000); // Reset after 3 seconds
-            return filePath;
+            return filePath.split('?')[0]; // Return the URL without the SAS token
         } catch (error) {
             console.error('Error saving file to File Baby:', error);
             setError(`Error saving file to File Baby: ${error.message}`);
@@ -196,6 +196,13 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             );
 
             console.log("Saved images to File Baby:", savedImages.filter(Boolean));
+
+            // Update the CSS to use the new background image URL
+            const newCssBackgroundImageUrl = savedImages[0]; // Assuming the first saved image is the background
+            htmlContent = htmlContent.replace(
+                /background-image: url\('[^']+'\)/,
+                `background-image: url('${newCssBackgroundImageUrl}')`
+            );
 
             // Save the updated HTML file with new image URLs
             const updatedBlob = new Blob([htmlContent], { type: 'text/html' });
@@ -380,12 +387,12 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                         <div ref={responseEndRef} />
                     </div>
                     <form onSubmit={handleSubmit}>
-                        <textarea
-                            value={prompt}
-                            onChange={handleInputChange}
-                            placeholder="What kind of web page would you like to make?"
-                            rows="3" // Adjust the number of rows as needed
-                        ></textarea>
+                    <textarea
+                        value={prompt}
+                        onChange={handleInputChange}
+                        placeholder="What kind of web page would you like to make?"
+                        rows="3" // Adjust the number of rows as needed
+                    ></textarea>
                         <div className="button-container">
                             <button tabIndex="0" type="submit" title="Send to NYX">Send</button>
                             <button type="button" onClick={handleClearChat} title="Clear Chat">Clear</button>
