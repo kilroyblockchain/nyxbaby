@@ -142,6 +142,88 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
         }
     };
 
+    const savePageContent = async () => {
+        try {
+            let htmlContent = pageContent;
+            if (!htmlContent) {
+                throw new Error('No page content to save');
+            }
+
+            const uniqueFileName = `${new Date().getTime()}-generated-page.html`;
+            const filePath = `${containerUrl}/${userName}/${uniqueFileName}?${sasToken}`;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+
+            console.log("Saving HTML file:", filePath);
+
+            // Save the initial HTML file
+            const saveResponse = await fetch(filePath, {
+                method: 'PUT',
+                headers: {
+                    'x-ms-blob-type': 'BlockBlob',
+                    'Content-Type': 'text/html',
+                },
+                body: blob,
+            });
+
+            if (!saveResponse.ok) {
+                throw new Error(`Failed to save to File Baby with status: ${saveResponse.status}`);
+            }
+
+            console.log("HTML file saved successfully:", filePath);
+
+            // Handle thumbnail generation
+            const thumbnailPath = await handleThumbnailGeneration(uniqueFileName);
+            if (!thumbnailPath) {
+                throw new Error('Thumbnail generation failed');
+            }
+
+            // Save all DALL-E generated images referenced in the generated HTML
+            const dalleImageUrls = htmlContent.match(/<img[^>]+src="([^">]+nyx.openai.azure.com[^">]+)"/g) || [];
+            const savedImages = await Promise.all(
+                dalleImageUrls.map(async (imgTag) => {
+                    const urlMatch = imgTag.match(/src="([^">]+)"/);
+                    if (urlMatch && urlMatch[1]) {
+                        const imageFileName = `${uniqueFileName.replace('.html', '')}-${urlMatch[1].split('/').pop()}`;
+                        const savedFilePath = await saveGeneratedFile(urlMatch[1], imageFileName);
+                        if (savedFilePath) {
+                            // Update the HTML content with the new image URL
+                            htmlContent = htmlContent.replace(urlMatch[1], savedFilePath);
+                        }
+                        return savedFilePath;
+                    }
+                    return null;
+                })
+            );
+
+            console.log("Saved images to File Baby:", savedImages.filter(Boolean));
+
+            // Save the updated HTML file with new image URLs
+            const updatedBlob = new Blob([htmlContent], { type: 'text/html' });
+            const updatedFilePath = `${containerUrl}/${userName}/${uniqueFileName}?${sasToken}`;
+
+            const updateSaveResponse = await fetch(updatedFilePath, {
+                method: 'PUT',
+                headers: {
+                    'x-ms-blob-type': 'BlockBlob',
+                    'Content-Type': 'text/html',
+                },
+                body: updatedBlob,
+            });
+
+            if (!updateSaveResponse.ok) {
+                throw new Error(`Failed to save updated HTML to File Baby with status: ${updateSaveResponse.status}`);
+            }
+
+            console.log("Updated HTML file saved successfully:", updatedFilePath);
+
+            setSavedToFileBaby(true);
+            setTimeout(() => setSavedToFileBaby(false), 3000); // Reset after 3 seconds
+        } catch (error) {
+            console.error('Error saving to File Baby:', error);
+            setError(`Error saving to File Baby: ${error.message}`);
+        }
+    };
+
     const completeOpenAIRequest = async (imageUrl, searchResults) => {
         const apiEndpoint = "https://nyx.openai.azure.com/openai/deployments/nyx/chat/completions?api-version=2024-05-01-preview";
 
@@ -236,65 +318,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             console.error('Error generating and saving thumbnail:', error);
             setError(`Error generating and saving thumbnail: ${error.message}`);
             return null;
-        }
-    };
-
-    const savePageContent = async () => {
-        try {
-            const htmlContent = pageContent;
-            if (!htmlContent) {
-                throw new Error('No page content to save');
-            }
-
-            const uniqueFileName = `${new Date().getTime()}-generated-page.html`;
-            const filePath = `${containerUrl}/${userName}/${uniqueFileName}?${sasToken}`;
-            const blob = new Blob([htmlContent], { type: 'text/html' });
-
-            console.log("Saving HTML file:", filePath);
-
-            const saveResponse = await fetch(filePath, {
-                method: 'PUT',
-                headers: {
-                    'x-ms-blob-type': 'BlockBlob',
-                    'Content-Type': 'text/html',
-                },
-                body: blob,
-            });
-
-            if (!saveResponse.ok) {
-                throw new Error(`Failed to save to File Baby with status: ${saveResponse.status}`);
-            }
-
-            console.log("HTML file saved successfully:", filePath);
-
-            const thumbnailPath = await handleThumbnailGeneration(uniqueFileName);
-
-            if (!thumbnailPath) {
-                throw new Error('Thumbnail generation failed');
-            }
-
-            // Save all images referenced in the generated HTML
-            const imageUrls = htmlContent.match(/<img[^>]+src="([^">]+)"/g) || [];
-            const savedImages = await Promise.all(
-                imageUrls.map(async (imgTag) => {
-                    const urlMatch = imgTag.match(/src="([^">]+)"/);
-                    if (urlMatch && urlMatch[1]) {
-                        const imageFileName = `${uniqueFileName.replace('.html', '')}-${urlMatch[1].split('/').pop()}`;
-                        return await saveGeneratedFile(urlMatch[1], imageFileName);
-                    }
-                    return null;
-                })
-            );
-
-            console.log("Saved images to File Baby:", savedImages.filter(Boolean));
-
-            setSavedToFileBaby(true);
-            setTimeout(() => setSavedToFileBaby(false), 3000); // Reset after 3 seconds
-
-            console.log("File and thumbnail saved successfully:", filePath, thumbnailPath);
-        } catch (error) {
-            console.error('Error saving to File Baby:', error);
-            setError(`Error saving to File Baby: ${error.message}`);
         }
     };
 
