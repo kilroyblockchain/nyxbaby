@@ -24,7 +24,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
     const [error, setError] = useState('');
     const responseEndRef = useRef(null);
 
-    const containerUrl = 'https://filebaby.blob.core.windows.net/filebabyblob';
+    const containerUrl = 'https://claimed.at.file.baby/filebabyblob';
     const sasToken = process.env.REACT_APP_SAS_TOKEN;
 
     const handleInputChange = (e) => {
