@@ -20,6 +20,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [savedToFileBaby, setSavedToFileBaby] = useState(false);
+    const [savedFileLink, setSavedFileLink] = useState('');
     const [error, setError] = useState('');
     const responseEndRef = useRef(null);
 
@@ -223,10 +224,11 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                 throw new Error(`Failed to save updated HTML to File Baby with status: ${updateSaveResponse.status}`);
             }
 
-            console.log("Updated HTML file saved successfully:", updatedFilePath);
+            const fileLink = updatedFilePath.split('?')[0];
+            console.log("Updated HTML file saved successfully:", fileLink); // Debugging information
+            setSavedFileLink(fileLink); // Set the link to the saved file
 
             setSavedToFileBaby(true);
-            setTimeout(() => setSavedToFileBaby(false), 3000); // Reset after 3 seconds
         } catch (error) {
             console.error('Error saving to File Baby:', error);
             setError(`Error saving to File Baby: ${error.message}`);
@@ -284,6 +286,12 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
         const chatContent = response.map(exchange => `You: ${exchange.question}\nNYX: ${exchange.answer}`).join('\n\n');
         navigator.clipboard.writeText(chatContent).then(() => {
             alert('Chat copied to clipboard');
+        });
+    };
+
+    const handleCopyLink = () => {
+        navigator.clipboard.writeText(savedFileLink).then(() => {
+            alert('Link copied to clipboard');
         });
     };
 
@@ -388,13 +396,19 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                         ))}
                         <div ref={responseEndRef} />
                     </div>
+                    {savedToFileBaby && savedFileLink && (
+                        <div className="copy-link-container">
+                            <p className="success-message">Web page saved to File Baby successfully!</p>
+                            <button onClick={handleCopyLink}>Copy Link to Clipboard</button>
+                        </div>
+                    )}
                     <form onSubmit={handleSubmit}>
-                <textarea
-                    value={prompt}
-                    onChange={handleInputChange}
-                    placeholder="What kind of web page would you like to make?"
-                    rows="3" // Adjust the number of rows as needed
-                ></textarea>
+                        <textarea
+                            value={prompt}
+                            onChange={handleInputChange}
+                            placeholder="What kind of web page would you like to make?"
+                            rows="3" // Adjust the number of rows as needed
+                        ></textarea>
                         <div className="button-container">
                             <button tabIndex="0" type="submit" title="Send to NYX">Send</button>
                             <button type="button" onClick={handleClearChat} title="Clear Chat">Clear</button>
@@ -404,7 +418,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                     </form>
                     {isLoading && <p>Saving...</p>}
                     {error && <p className="error">{error}</p>}
-                    {savedToFileBaby && <p>Web page saved to File Baby successfully!</p>}
                 </div>
             )}
         </div>

@@ -34,6 +34,33 @@ h3 {
     padding-left: 20px;
     padding-right: 20px;
 }
+.copy-link-container {
+    margin-bottom: 10px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.copy-link-container {
+    margin-bottom: 10px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.copy-link-container p {
+    margin: 0;
+}
+
+.copy-link-container button {
+    margin-top: 5px;
+}
+
+.success-message {
+    color: green;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+
 .chat-toggle-button {
     width: 100%;
     padding: 8px;
