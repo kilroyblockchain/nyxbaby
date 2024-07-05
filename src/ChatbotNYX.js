@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import html2canvas from 'html2canvas';
 import './ChatbotNYX.css';
 import chatConfig from './ChatSetup-NYX.json';
 import { SearchClient, AzureKeyCredential } from "@azure/search-documents";
@@ -172,12 +171,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
 
             console.log("HTML file saved successfully:", filePath);
 
-            // Handle thumbnail generation
-            const thumbnailPath = await handleThumbnailGeneration(uniqueFileName);
-            if (!thumbnailPath) {
-                throw new Error('Thumbnail generation failed');
-            }
-
             // Save all DALL-E generated images referenced in the generated HTML
             const dalleImageUrls = htmlContent.match(/<img[^>]+src="([^">]+nyx.openai.azure.com[^">]+)"/g) || [];
             const savedImages = await Promise.all(
@@ -293,49 +286,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
         navigator.clipboard.writeText(savedFileLink).then(() => {
             alert('Link copied to clipboard');
         });
-    };
-
-    const handleThumbnailGeneration = async (uniqueFileName) => {
-        try {
-            const pageContentElement = document.querySelector("#pageContent");
-            if (!pageContentElement) {
-                throw new Error('Page content element not found');
-            }
-
-            console.log("Capturing screenshot of the page content...");
-
-            const canvas = await html2canvas(pageContentElement);
-            const thumbnailBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-
-            if (!thumbnailBlob) {
-                throw new Error('Failed to create thumbnail blob');
-            }
-
-            const uniqueThumbnailName = uniqueFileName.replace('.html', '-thumbnail.png');
-            const thumbnailPath = `${containerUrl}/${userName}/thumbnails/${uniqueThumbnailName}?${sasToken}`;
-
-            console.log("Thumbnail path:", thumbnailPath);
-
-            const thumbnailResponse = await fetch(thumbnailPath, {
-                method: 'PUT',
-                headers: {
-                    'x-ms-blob-type': 'BlockBlob',
-                    'Content-Type': 'image/png',
-                },
-                body: thumbnailBlob,
-            });
-
-            if (!thumbnailResponse.ok) {
-                throw new Error(`Failed to save thumbnail to File Baby with status: ${thumbnailResponse.status}`);
-            }
-
-            console.log("Thumbnail saved successfully:", thumbnailPath);
-            return thumbnailPath;
-        } catch (error) {
-            console.error('Error generating and saving thumbnail:', error);
-            setError(`Error generating and saving thumbnail: ${error.message}`);
-            return null;
-        }
     };
 
     useEffect(() => {

@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="351c5aa2-9427-4c8d-8e42-fab32051235d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FileUploadPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/FileUploadPage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +18,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="develop-temp" />
+        <entry key="$PROJECT_DIR$" value="nyxwebsites" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -103,6 +106,11 @@
       <workItem from="1719202881998" duration="1190000" />
       <workItem from="1719230617961" duration="375000" />
       <workItem from="1719244826844" duration="984000" />
+      <workItem from="1719983287325" duration="1087000" />
+      <workItem from="1720008852542" duration="1374000" />
+      <workItem from="1720105977285" duration="60000" />
+      <workItem from="1720116932789" duration="53000" />
+      <workItem from="1720119672274" duration="281000" />
     </task>
     <servers />
   </component>

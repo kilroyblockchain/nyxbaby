@@ -129,6 +129,7 @@ h3 {
 .chatbox {
     flex-grow: 1;
     overflow-y: auto;
+    font-size: 12px;
 }
 
 .generated-content {
