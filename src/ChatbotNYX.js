@@ -11,11 +11,10 @@ const indexName = "nyx-index";
 const searchApiKey = process.env.REACT_APP_AZURE_SEARCH_API_KEY;
 const searchEndpoint = `https://${searchServiceName}.search.windows.net`;
 
-const searchClient = new SearchClient(searchEndpoint, indexName, new AzureKeyCredential(searchApiKey));
+const searchClient = searchApiKey ? new SearchClient(searchEndpoint, indexName, new AzureKeyCredential(searchApiKey)) : null;
 
 const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, includeFilesInChat, setIncludeFilesInChat }) => {
     const [prompt, setPrompt] = useState('');
-    const [response, setResponse] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [savedToFileBaby, setSavedToFileBaby] = useState(false);
@@ -63,6 +62,9 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
         // Step 1: Query Azure Search
         let searchResults = '';
         try {
+            if (!searchClient) {
+                throw new Error('Search client is not initialized.');
+            }
             const searchResponse = await searchClient.search(prompt, { top: 5 });
             for await (const result of searchResponse.results) {
                 searchResults += result.document.content + ' ';
@@ -92,11 +94,8 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                 }
             );
 
-            console.log('DALL-E Response:', dalleResponse);
-            console.log('DALL-E Response Headers:', dalleResponse.headers);
             if (dalleResponse.data && dalleResponse.data.data && dalleResponse.data.data.length > 0) {
                 imageUrl = dalleResponse.data.data[0].url;
-                console.log('Image URL:', imageUrl);
                 const savedImageUrl = await saveGeneratedFile(imageUrl, `${prompt.replace(/[^a-zA-Z0-9]/g, '_')}-generated.png`);
                 completeOpenAIRequest(savedImageUrl, searchResults);
             } else {
@@ -111,12 +110,12 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
 
     const saveGeneratedFile = async (fileUrl, fileName) => {
         try {
+            if (!fileUrl || !sasToken) {
+                throw new Error('File URL or SAS Token is missing.');
+            }
             const response = await fetch(fileUrl);
             const blob = await response.blob();
             const filePath = `${containerUrl}/${userName}/${fileName}?${sasToken}`;
-
-            console.log('Saving to URL:', filePath);
-            console.log('SAS Token:', sasToken);
 
             const saveResponse = await fetch(filePath, {
                 method: 'PUT',
@@ -131,7 +130,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                 throw new Error(`Failed to save file to File Baby: ${saveResponse.statusText}`);
             }
 
-            console.log(`File saved to File Baby: ${filePath}`);
             setSavedToFileBaby(true);
             setTimeout(() => setSavedToFileBaby(false), 3000); // Reset after 3 seconds
             return filePath.split('?')[0]; // Return the URL without the SAS token
@@ -153,8 +151,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             const filePath = `${containerUrl}/${userName}/${uniqueFileName}?${sasToken}`;
             const blob = new Blob([htmlContent], { type: 'text/html' });
 
-            console.log("Saving HTML file:", filePath);
-
             // Save the initial HTML file
             const saveResponse = await fetch(filePath, {
                 method: 'PUT',
@@ -168,8 +164,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             if (!saveResponse.ok) {
                 throw new Error(`Failed to save to File Baby with status: ${saveResponse.status}`);
             }
-
-            console.log("HTML file saved successfully:", filePath);
 
             // Save all DALL-E generated images referenced in the generated HTML
             const dalleImageUrls = htmlContent.match(/<img[^>]+src="([^">]+nyx.openai.azure.com[^">]+)"/g) || [];
@@ -188,8 +182,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                     return null;
                 })
             );
-
-            console.log("Saved images to File Baby:", savedImages.filter(Boolean));
 
             // Update the CSS to use the new background image URL
             const newCssBackgroundImageUrl = savedImages[0]; // Assuming the first saved image is the background
@@ -218,7 +210,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             }
 
             const fileLink = updatedFilePath.split('?')[0];
-            console.log("Updated HTML file saved successfully:", fileLink); // Debugging information
             setSavedFileLink(fileLink); // Set the link to the saved file
 
             setSavedToFileBaby(true);
@@ -254,11 +245,9 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             const apiResponse = await axios.post(apiEndpoint, data, { headers });
             const gptResponse = apiResponse.data.choices[0].message.content;
 
-            // Check if the response is HTML content
+            // Always set the page content, assuming it's HTML
             if (gptResponse.startsWith("<!DOCTYPE html>") || gptResponse.startsWith("<html>")) {
                 setPageContent(gptResponse);
-            } else {
-                setResponse(prevResponses => [...prevResponses, { question: prompt, answer: gptResponse }]);
             }
         } catch (error) {
             console.error('Error with OpenAI Chat:', error.response ? error.response.data : error.message);
@@ -270,13 +259,12 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
     };
 
     const handleClearChat = () => {
-        setResponse([]);
         setPrompt(''); // Clear the input field
         setPageContent(''); // Clear the generated page content
     };
 
     const handleCopyChat = () => {
-        const chatContent = response.map(exchange => `You: ${exchange.question}\nNYX: ${exchange.answer}`).join('\n\n');
+        const chatContent = `Prompt: ${prompt}\nPage Content:\n${pageContent}`;
         navigator.clipboard.writeText(chatContent).then(() => {
             alert('Chat copied to clipboard');
         });
@@ -290,7 +278,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
 
     useEffect(() => {
         responseEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [response]);
+    }, []);
 
     const toggleChat = () => {
         setIsOpen(!isOpen);
@@ -332,20 +320,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                         </div>
                     </div>
 
-                    <div className="response-container">
-                        {response.map((exchange, index) => (
-                            <div className="chat" key={index}>
-                                <div className="user"><strong>You:</strong> {exchange.question}</div>
-                                <div className="nyx">
-                                    <strong>NYX:</strong>
-                                    {exchange.answer.split('\n').map((paragraph, i) => (
-                                        <p key={i}>{paragraph}</p>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                        <div ref={responseEndRef} />
-                    </div>
                     {savedToFileBaby && savedFileLink && (
                         <div className="copy-link-container">
                             <p className="success-message">Web page saved to File Baby successfully!</p>
