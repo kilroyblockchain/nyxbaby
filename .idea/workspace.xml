@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="351c5aa2-9427-4c8d-8e42-fab32051235d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_2_24,_10_50 PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_2_24,_10_51 PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_2_24__10_50PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_2_24__10_51PM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -113,7 +110,7 @@
       <workItem from="1720105977285" duration="60000" />
       <workItem from="1720116932789" duration="53000" />
       <workItem from="1720119672274" duration="281000" />
-      <workItem from="1720872556657" duration="249000" />
+      <workItem from="1720872556657" duration="1348000" />
     </task>
     <servers />
   </component>

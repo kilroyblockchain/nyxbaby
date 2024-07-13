@@ -16,10 +16,9 @@ body, html {
     border: 1px solid #4859a6;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
-    width: 300px;
     margin-right: 20px;
-    margin-left:20px;
-    max-width: 300px;
+    margin-left: 5px;
+    max-width: 400px;
     max-height: 600px;
     display: flex;
     flex-direction: column;
@@ -27,17 +26,14 @@ body, html {
     overflow: hidden;
     background: none;
 }
+
 h3 {
     text-align: center;
 }
+
 .response-container {
     padding-left: 20px;
     padding-right: 20px;
-}
-.copy-link-container {
-    margin-bottom: 10px;
-    margin-right: 10px;
-    text-align: center;
 }
 
 .copy-link-container {
@@ -59,8 +55,9 @@ h3 {
     font-size: 12px;
     margin-bottom: 5px;
 }
-
-
+button.last {
+    margin-right:10px;
+}
 .chat-toggle-button {
     width: 100%;
     padding: 8px;
@@ -90,6 +87,7 @@ h3 {
     border-radius: 0 0 8px 8px;
     width: 100%;
     box-sizing: border-box;
+    padding-right: 10px; /* Added padding */
 }
 
 .loading-overlay {
@@ -211,7 +209,8 @@ h3 {
 
 input[type="text"], textarea {
     padding: 10px;
-    width: 100%;
+    justify-self: left;
+    width: 90%;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -222,6 +221,7 @@ input[type="text"], textarea {
 .button-container {
     display: flex;
     justify-content: space-between;
+    padding-right: 10px; /* Added padding */
 }
 
 button[type="submit"], button[title="Clear Chat"], button[title="Copy Chat"] {

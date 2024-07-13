@@ -337,7 +337,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                             <button tabIndex="0" type="submit" title="Send to NYX">Send</button>
                             <button type="button" onClick={handleClearChat} title="Clear Chat">Clear</button>
                             <button type="button" onClick={handleCopyChat} title="Copy Chat">Copy</button>
-                            <button type="button" onClick={savePageContent} title="Save to File Baby">Save to File Baby</button>
+                            <button type="button" onClick={savePageContent} title="Save to File Baby" className={"last"}>Save to File Baby</button>
                         </div>
                     </form>
                     {isLoading && <p>Saving...</p>}
