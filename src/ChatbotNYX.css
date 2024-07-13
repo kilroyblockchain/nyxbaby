@@ -25,6 +25,8 @@ body, html {
     transition: width 0.3s ease;
     overflow: hidden;
     background: none;
+    font-family: Arial, sans-serif; /* Ensure font is consistent */
+
 }
 
 h3 {

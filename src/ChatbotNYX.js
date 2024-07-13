@@ -127,15 +127,15 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             });
 
             if (!saveResponse.ok) {
-                throw new Error(`Failed to save file to File Baby: ${saveResponse.statusText}`);
+                throw new Error(`No new images to save: ${saveResponse.statusText}`);
             }
 
             setSavedToFileBaby(true);
             setTimeout(() => setSavedToFileBaby(false), 3000); // Reset after 3 seconds
             return filePath.split('?')[0]; // Return the URL without the SAS token
         } catch (error) {
-            console.error('Error saving file to File Baby:', error);
-            setError(`Error saving file to File Baby: ${error.message}`);
+            console.error('Error Saving to File Baby:', error);
+            setError(`No new images to save ${error.message}`);
             return null;
         }
     };
@@ -300,17 +300,17 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
     return (
         <div className="chat-container">
             <button className="chat-toggle-button" onClick={toggleChat}>
-                {isOpen ? 'Hide NYX' : 'Create a web page with NYX'}
+                {isOpen ? 'Hide NYX' : 'Create a web page with NYX NoCode'}
             </button>
             {isOpen && (
                 <div className="chat-popup">
-                    <div className="chat-title-bar nyx">ASK NYX TO CREATE A PAGE</div>
+                    <div className="chat-title-bar nyx">ASK NYX NOCODE TO CREATE A PAGE</div>
                     <div className={`loading-overlay ${isLoading ? 'visible' : ''}`}>
                         <div className="loading-indicator">Generating Response _</div>
                     </div>
 
                     <div className="selected-files">
-                        <h3>Click images to include in the prompt:</h3>
+                        <h3>Click icons to include content in the prompt:</h3>
                         <div className="file-thumbnails">
                             {selectedFileUrls.map((url, index) => (
                                 <div key={index} onClick={() => handleThumbnailClick(url)} className="thumbnail-container">
@@ -334,13 +334,13 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                             rows="3" // Adjust the number of rows as needed
                         ></textarea>
                         <div className="button-container">
-                            <button tabIndex="0" type="submit" title="Send to NYX">Send</button>
+                            <button tabIndex="0" type="submit" title="Send to NYX NoCode">Send</button>
                             <button type="button" onClick={handleClearChat} title="Clear Chat">Clear</button>
                             <button type="button" onClick={handleCopyChat} title="Copy Chat">Copy</button>
                             <button type="button" onClick={savePageContent} title="Save to File Baby" className={"last"}>Save to File Baby</button>
                         </div>
                     </form>
-                    {isLoading && <p>Saving...</p>}
+                    {isLoading && <p>NYX NoCode is working</p>}
                     {error && <p className="error">{error}</p>}
                 </div>
             )}
