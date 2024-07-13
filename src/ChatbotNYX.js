@@ -20,6 +20,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
     const [savedToFileBaby, setSavedToFileBaby] = useState(false);
     const [savedFileLink, setSavedFileLink] = useState('');
     const [error, setError] = useState('');
+    const [completionMessage, setCompletionMessage] = useState(''); // New state variable for completion message
     const responseEndRef = useRef(null);
 
     const containerUrl = 'https://claimed.at.file.baby/filebabyblob';
@@ -248,10 +249,12 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             // Always set the page content, assuming it's HTML
             if (gptResponse.startsWith("<!DOCTYPE html>") || gptResponse.startsWith("<html>")) {
                 setPageContent(gptResponse);
+                setCompletionMessage("Your creation is complete. Click Save to File Baby then Copy to Clipboard or view it in a new browser window.");
             }
         } catch (error) {
             console.error('Error with OpenAI Chat:', error.response ? error.response.data : error.message);
             alert(`Error: ${error.response ? JSON.stringify(error.response.data) : error.message}`);
+            setCompletionMessage("Could not complete your request. Try again.");
         }
 
         setIsLoading(false);
@@ -261,6 +264,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
     const handleClearChat = () => {
         setPrompt(''); // Clear the input field
         setPageContent(''); // Clear the generated page content
+        setCompletionMessage(''); // Clear the completion message
     };
 
     const handleCopyChat = () => {
@@ -341,6 +345,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                         </div>
                     </form>
                     {isLoading && <p>NYX NoCode is working</p>}
+                    {completionMessage && <p className="completion-message">{completionMessage}</p>}
                     {error && <p className="error">{error}</p>}
                 </div>
             )}
