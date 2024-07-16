@@ -1,0 +1,104 @@
+Index: src/LlamaTtfPage.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/LlamaTtfPage.js b/src/LlamaTtfPage.js
+new file mode 100644
+--- /dev/null	(date 1721059272965)
++++ b/src/LlamaTtfPage.js	(date 1721059272965)
+@@ -0,0 +1,35 @@
++import React, { useEffect } from 'react';
++const App = () => {
++    useEffect(() => {
++// Load the llama.ttf font
++        const llamaFont = new FontFace('Llama', 'url(./fonts/llama.ttf)');
++        llamaFont.load().then((loadedFont) => {
++            document.fonts.add(loadedFont);
++            document.body.style.fontFamily = 'Llama, Arial, sans-serif';
++        });
++// Function to initialize HarfBuzz and Wasm
++        const initHarfBuzzWithWasm = async () => {
++            try {
++// Dynamically import Wasm runtime scripts if available
++                const wasmRuntime = await import('./path/to/libiwasm.js');
++                const harfbuzz = await import('./path/to/libharfbuzz.js');
++// Fetch shared libraries as array buffers
++                const libharfbuzzBuffer = await fetch('./path/to/libharfbuzz.so').then(res => res.arrayBuffer());
++                const libiwasmBuffer = await fetch('./path/to/libiwasm.so').then(res => res.arrayBuffer());
++// Initialize runtime and libraries (pseudo-code, replace with actual logic)
++                wasmRuntime.loadLibrary(libharfbuzzBuffer);
++                wasmRuntime.loadLibrary(libiwasmBuffer);
++// Your logic to use HarfBuzz with Wasm goes here
++            } catch (error) {
++                console.error("Error initializing HarfBuzz with Wasm:", error);
++            }
++        };
++        initHarfBuzzWithWasm();
++    }, []);
++    return (
++        <div>
++            <h1>Welcome to ReactJS with llama.ttf</h1>
++            <p>This text is generated using the llama.ttf font file, which includes a large language model and an inference engine.</p>
++        </div>
++    );
++};
+\ No newline at end of file
+Index: src/App.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React from 'react';\nimport { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';\nimport './App.css';\nimport { MsalProvider, useMsal, useIsAuthenticated } from \"@azure/msal-react\";\nimport msalInstance from \"./authConfig\";\nimport HeaderSection from \"./HeaderSection\";\nimport TenantFileGallery from './TenantFileGallery';\nimport FileUploadPage from './FileUploadPage';\nimport ManifestGenerator from \"./ManifestGenerator\";\nimport ManifestRetriever from \"./ManifestRetriever\";\nimport Imagebot from \"./Imagebot\";\nimport PromptLibrary from \"./PromptLibrary\";\nimport TextToImage from \"./TextToImage\";\nimport ClaimedFileUploader from \"./ClaimedFileUploader\";\nimport SignInImage from \"./ms_signin_dark.png\";\nimport DragAndDropMediaPlayer from \"./DragAndDropMediaPlayer\";\nimport UseWithNyxPage from './UseWithNyxPage';\nimport NyxFileBabyModule from './NyxFileBabyModule';\nimport FooterSection from \"./FooterSection\";\n\nfunction SignInButton() {\n    const { instance } = useMsal();\n    const handleLogin = () => {\n        instance.loginRedirect().catch(e => {\n            console.error(e);\n        });\n    };\n\n    return <button className={\"msbutton\"} onClick={handleLogin}><img src={SignInImage} alt={\"Sign in to File Baby with Microsoft\"} /></button>;\n}\n\nfunction HomePage({ userName }) {\n    return (\n        <>\n            <TenantFileGallery userName={userName} />\n            <hr />\n            <ManifestRetriever />\n            <hr />\n            <ManifestGenerator />\n            <FileUploadPage userName={userName} />\n            <hr />\n            <PromptLibrary userName={userName} />\n            <hr />\n            <Imagebot userName={userName} />\n            <hr />\n            <TextToImage />\n            <hr />\n            <ClaimedFileUploader userName={userName} />\n            <hr />\n            <DragAndDropMediaPlayer />\n            <hr />\n            <NyxFileBabyModule userName={userName} />\n        </>\n    );\n}\n\nfunction AppContent() {\n    const isAuthenticated = useIsAuthenticated();\n    const { accounts } = useMsal();\n    const isDevelopment = process.env.NODE_ENV === 'development';\n    const userName = isDevelopment ? \"kilroy@uark.edu\" : accounts?.[0]?.username;\n\n    const location = useLocation();\n\n    const isUseWithNyxPage = location.pathname === \"/use-with-nyx\";\n\n    console.log(\"AppContent userName:\", userName); // Debugging line\n\n    return (\n        <div className={`App ${!isUseWithNyxPage ? 'file-baby-home' : ''}`}>\n            {!isUseWithNyxPage && <HeaderSection />}\n            <Routes>\n                <Route\n                    path=\"/\"\n                    element={\n                        isAuthenticated || isDevelopment ? (\n                            <HomePage userName={userName} />\n                        ) : (\n                            <SignInButton />\n                        )\n                    }\n                />\n                <Route path=\"/use-with-nyx\" element={<UseWithNyxPage userName={userName} />} />\n            </Routes>\n            {!isUseWithNyxPage && <FooterSection />}\n        </div>\n    );\n}\n\nfunction App() {\n    return (\n        <MsalProvider instance={msalInstance}>\n            <Router>\n                <AppContent />\n            </Router>\n        </MsalProvider>\n    );\n}\n\nexport default App;\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/App.js b/src/App.js
+--- a/src/App.js	(revision e29c0d7e8732d831726a7de6c631b230821536a8)
++++ b/src/App.js	(date 1721058922499)
+@@ -17,6 +17,7 @@
+ import UseWithNyxPage from './UseWithNyxPage';
+ import NyxFileBabyModule from './NyxFileBabyModule';
+ import FooterSection from "./FooterSection";
++import LlamaTtfPage from "./LlamaTtfPage";
+ 
+ function SignInButton() {
+     const { instance } = useMsal();
+@@ -50,6 +51,8 @@
+             <DragAndDropMediaPlayer />
+             <hr />
+             <NyxFileBabyModule userName={userName} />
++            <hr />
++            <LlamaTtfPage />
+         </>
+     );
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"351c5aa2-9427-4c8d-8e42-fab32051235d\" name=\"Changes\" comment=\"\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/ChatbotNYX.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/ChatbotNYX.js\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"add-stable-diffusion\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;customColor&quot;: &quot;&quot;,\n  &quot;associatedIndex&quot;: 5\n}</component>\n  <component name=\"ProjectId\" id=\"2i6xUQ92R6N4dVWqIawnRp0HYHt\" />\n  <component name=\"ProjectLevelVcsManager\">\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/karenkilroy/zorro_kilroy/myfilebaby/src&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;settings.space&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  }\n}</component>\n  <component name=\"ReactDesignerToolWindowState\">\n    <option name=\"myId2Visible\">\n      <map>\n        <entry key=\"com.haulmont.rcb.reactComponents\" value=\"false\" />\n        <entry key=\"com.haulmont.rcb.reactInspector\" value=\"false\" />\n        <entry key=\"com.haulmont.rcb.storybook\" value=\"false\" />\n      </map>\n    </option>\n  </component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src\" />\n      <recent name=\"$PROJECT_DIR$/src/img\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/public\" />\n      <recent name=\"$PROJECT_DIR$/src\" />\n      <recent name=\"$PROJECT_DIR$/src/img\" />\n    </key>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"351c5aa2-9427-4c8d-8e42-fab32051235d\" name=\"Changes\" comment=\"\" />\n      <created>1718824842618</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1718824842618</updated>\n      <workItem from=\"1718824843719\" duration=\"6361000\" />\n      <workItem from=\"1718835276478\" duration=\"621000\" />\n      <workItem from=\"1718836462855\" duration=\"12130000\" />\n      <workItem from=\"1718854898109\" duration=\"2690000\" />\n      <workItem from=\"1718883459966\" duration=\"4983000\" />\n      <workItem from=\"1718892332840\" duration=\"328000\" />\n      <workItem from=\"1718895772825\" duration=\"993000\" />\n      <workItem from=\"1718904324099\" duration=\"1199000\" />\n      <workItem from=\"1718921650242\" duration=\"295000\" />\n      <workItem from=\"1718926720917\" duration=\"9672000\" />\n      <workItem from=\"1718986269903\" duration=\"3741000\" />\n      <workItem from=\"1718991572761\" duration=\"885000\" />\n      <workItem from=\"1718997506105\" duration=\"1287000\" />\n      <workItem from=\"1719026857951\" duration=\"1156000\" />\n      <workItem from=\"1719028976546\" duration=\"1419000\" />\n      <workItem from=\"1719056231918\" duration=\"1384000\" />\n      <workItem from=\"1719169215610\" duration=\"8223000\" />\n      <workItem from=\"1719202881998\" duration=\"1190000\" />\n      <workItem from=\"1719230617961\" duration=\"375000\" />\n      <workItem from=\"1719244826844\" duration=\"984000\" />\n      <workItem from=\"1719983287325\" duration=\"1087000\" />\n      <workItem from=\"1720008852542\" duration=\"1374000\" />\n      <workItem from=\"1720105977285\" duration=\"60000\" />\n      <workItem from=\"1720116932789\" duration=\"53000\" />\n      <workItem from=\"1720119672274\" duration=\"281000\" />\n      <workItem from=\"1720872556657\" duration=\"3020000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision e29c0d7e8732d831726a7de6c631b230821536a8)
++++ b/.idea/workspace.xml	(date 1721059237935)
+@@ -5,8 +5,9 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="351c5aa2-9427-4c8d-8e42-fab32051235d" name="Changes" comment="">
++      <change afterPath="$PROJECT_DIR$/src/LlamaTtfPage.js" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.js" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -109,7 +110,8 @@
+       <workItem from="1720105977285" duration="60000" />
+       <workItem from="1720116932789" duration="53000" />
+       <workItem from="1720119672274" duration="281000" />
+-      <workItem from="1720872556657" duration="3020000" />
++      <workItem from="1720872556657" duration="3493000" />
++      <workItem from="1721058566060" duration="672000" />
+     </task>
+     <servers />
+   </component>
