@@ -104,8 +104,15 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             }
         } catch (error) {
             console.error('Error generating image with DALL-E:', error);
-            alert(`Error generating image with DALL-E: ${error.message}`);
-            setIsLoading(false);
+
+            if (error.response && error.response.status === 400) {
+                console.log('DALLE Error 400: Continuing the NYX NoCode process');
+                completeOpenAIRequest('', searchResults); // Proceed without an image URL
+            } else {
+                alert(`Error generating image with DALL-E: ${error.message}`);
+                setIsLoading(false);
+                return;
+            }
         }
     };
 

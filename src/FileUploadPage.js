@@ -165,14 +165,14 @@ function FileUploadPage({ userName }) {
                 <b>AND</b>
                 <div>
                     <label htmlFor="imageFile">Image, Audio or Video File</label>
-                    <div className="footnote">Supported are .jpeg, .jpg, .png, .tiff, .webp, .svg, .mp3, .m4a, .wav, .avi, avif, .mp4, .mov, or .mpeg. 100 megabyte limit.
+                    <div className="footnote">Supported are .jpeg, .jpg, .png, .tiff, .webp, .svg, .mp3, .m4a, .wav, .avi, avif, .mp4, .mov, .mpeg or .webm. 100 megabyte limit.
                     </div>
                     <input
                         tabIndex={"0"}
                         id="imageFile"
                         type="file"
                         onChange={handleImageFileChange}
-                        accept="image/avif, image/jpeg, image/png, image/tiff, image/webp, image/svg+xml, audio/mpeg, audio/m4a, audio/x-m4a, audio/aac, audio/wav, video/avi, video/mp4, video/quicktime, video/mpeg, text/plain, application/pdf"
+                        accept="image/avif, image/jpeg, image/png, image/tiff, image/webp, image/svg+xml, audio/mpeg, audio/m4a, audio/x-m4a, audio/aac, audio/wav, video/avi, video/mp4, video/quicktime, video/mpeg, video/webm, text/plain, application/pdf"
                         title={"Select a File to Claim"}
                     />
                 </div>

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import tooltipIcon from './file_baby_tooltip_20px.png'; // Replace with the correct path
 
 const TooltipIcon = ({ title }) => (
-    <img tabIndex={"0"} src={tooltipIcon} alt="Tooltip" title={title} className="tooltip-icon" />
+    <img tabIndex="0" src={tooltipIcon} alt="Tooltip" title={title} className="tooltip-icon" />
 );
+
 const ManifestGenerator = () => {
     const [formData, setFormData] = useState({
         author: '',
@@ -39,19 +40,6 @@ const ManifestGenerator = () => {
                         ]
                     }
                 },
-/*                {
-                    label: "c2pa.actions",
-                    data: {
-                        "actions": [
-                            {
-                                "action": "created",
-                                "description": formData.description
-                            }
-                        ]
-                    }
-                },*/
-                // The following assertion is static, so it is hardcoded here.
-                // If it needs to be dynamic, similar inputs can be created as shown above.
                 {
                     label: "c2pa.training-mining",
                     data: {
@@ -88,7 +76,7 @@ const ManifestGenerator = () => {
             <h3>1. Generate Manifest</h3>
             <TooltipIcon title="Create and download a C2PA manifest for claiming ownership of a file." />
             {!manifest ? (
-                <div className={"form-container"}>
+                <div className="form-container">
                     <input
                         type="text"
                         name="author"
@@ -110,7 +98,7 @@ const ManifestGenerator = () => {
                         onChange={handleChange}
                         placeholder="LinkedIn, Instagram or Behance Profile URL"
                     />
-                    <button tabIndex={"0"} onClick={generateManifest}>Generate Manifest</button>
+                    <button tabIndex="0" onClick={generateManifest}>Generate Manifest</button>
                 </div>
             ) : (
                 <div>

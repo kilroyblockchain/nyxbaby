@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="351c5aa2-9427-4c8d-8e42-fab32051235d" name="Changes" comment="">
+    <list default="true" id="351c5aa2-9427-4c8d-8e42-fab32051235d" name="Changes" comment="tried Llama TTF font but didn't get it to work quickly will try again">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FileUploadPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/FileUploadPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ManifestGenerator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ManifestGenerator.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +22,9 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/ChatbotNYX.js" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -109,6 +115,15 @@
       <workItem from="1720116932789" duration="53000" />
       <workItem from="1720119672274" duration="281000" />
       <workItem from="1720872556657" duration="3020000" />
+      <workItem from="1721434185153" duration="1489000" />
+      <workItem from="1721474721275" duration="54000" />
+      <workItem from="1721488389614" duration="1442000" />
+      <workItem from="1721498541143" duration="445000" />
+      <workItem from="1721556655088" duration="544000" />
+      <workItem from="1721732663137" duration="347000" />
+      <workItem from="1721759593546" duration="1998000" />
+      <workItem from="1721800302846" duration="901000" />
+      <workItem from="1721857496282" duration="498000" />
     </task>
     <servers />
   </component>
