@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="351c5aa2-9427-4c8d-8e42-fab32051235d" name="Changes" comment="tried Llama TTF font but didn't get it to work quickly will try again">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +123,7 @@
       <workItem from="1721800302846" duration="901000" />
       <workItem from="1721857496282" duration="498000" />
       <workItem from="1722119629068" duration="595000" />
-      <workItem from="1722296819107" duration="3130000" />
+      <workItem from="1722296819107" duration="4437000" />
     </task>
     <servers />
   </component>

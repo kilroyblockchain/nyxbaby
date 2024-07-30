@@ -20,7 +20,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
     const [savedToFileBaby, setSavedToFileBaby] = useState(false);
     const [savedFileLink, setSavedFileLink] = useState('');
     const [error, setError] = useState('');
-    const [completionMessage, setCompletionMessage] = useState(''); // New state variable for completion message
+    const [completionMessage, setCompletionMessage] = useState('');
     const responseEndRef = useRef(null);
 
     const containerUrl = 'https://claimed.at.file.baby/filebabyblob';
@@ -87,7 +87,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             return response.data.choices[0].message.content;
         } catch (error) {
             console.error('Error rewording prompt:', error);
-            return originalPrompt; // Fall back to original prompt if rewording fails
+            return originalPrompt;
         }
     };
 
@@ -97,7 +97,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
 
         setIsLoading(true);
 
-        // Step 1: Query Azure Search
         let searchResults = '';
         try {
             if (!searchClient) {
@@ -119,7 +118,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             return;
         }
 
-        // Step 2: Generate Image with DALL-E
         let imageUrl = '';
         try {
             const dalleRequest = async () => {
@@ -178,14 +176,10 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                     }
                 } catch (retryError) {
                     console.error('Error retrying with reworded prompt:', retryError);
-                    alert(`Error generating image with DALL-E: ${retryError.message}`);
-                    setIsLoading(false);
-                    return;
+                    completeOpenAIRequest('', searchResults);
                 }
             } else {
-                alert(`Error generating image with DALL-E: ${error.message}`);
-                setIsLoading(false);
-                return;
+                completeOpenAIRequest('', searchResults);
             }
         }
     };
@@ -213,8 +207,8 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             }
 
             setSavedToFileBaby(true);
-            setTimeout(() => setSavedToFileBaby(false), 3000); // Reset after 3 seconds
-            return filePath.split('?')[0]; // Return the URL without the SAS token
+            setTimeout(() => setSavedToFileBaby(false), 3000);
+            return filePath.split('?')[0];
         } catch (error) {
             console.error('Error Saving to File Baby:', error);
             setError(`Please reword your prompt and try again: ${error.message}`);
@@ -233,7 +227,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             const filePath = `${containerUrl}/${userName}/${uniqueFileName}?${sasToken}`;
             const blob = new Blob([htmlContent], { type: 'text/html' });
 
-            // Save the initial HTML file
             const saveResponse = await fetch(filePath, {
                 method: 'PUT',
                 headers: {
@@ -247,7 +240,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                 throw new Error(`Failed to save to File Baby with status: ${saveResponse.status}`);
             }
 
-            // Save all DALL-E generated images referenced in the generated HTML
             const dalleImageUrls = htmlContent.match(/<img[^>]+src="([^">]+nyx.openai.azure.com[^">]+)"/g) || [];
             const savedImages = await Promise.all(
                 dalleImageUrls.map(async (imgTag) => {
@@ -256,7 +248,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                         const imageFileName = `${uniqueFileName.replace('.html', '')}-${urlMatch[1].split('/').pop()}`;
                         const savedFilePath = await saveGeneratedFile(urlMatch[1], imageFileName);
                         if (savedFilePath) {
-                            // Update the HTML content with the new image URL
                             htmlContent = htmlContent.replace(urlMatch[1], savedFilePath);
                         }
                         return savedFilePath;
@@ -265,8 +256,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                 })
             );
 
-            // Update the CSS to use the new background image URL
-            const newCssBackgroundImageUrl = savedImages[0]; // Assuming the first saved image is the background
+            const newCssBackgroundImageUrl = savedImages[0];
             if (newCssBackgroundImageUrl) {
                 htmlContent = htmlContent.replace(
                     /background-image: url\('[^']+'\)/,
@@ -274,7 +264,6 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                 );
             }
 
-            // Save the updated HTML file with new image URLs
             const updatedBlob = new Blob([htmlContent], { type: 'text/html' });
             const updatedFilePath = `${containerUrl}/${userName}/${uniqueFileName}?${sasToken}`;
 
@@ -292,7 +281,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             }
 
             const fileLink = updatedFilePath.split('?')[0];
-            setSavedFileLink(fileLink); // Set the link to the saved file
+            setSavedFileLink(fileLink);
 
             setSavedToFileBaby(true);
         } catch (error) {
@@ -314,7 +303,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             messages: [
                 { role: "system", content: "You are NYX, a web page creator named for Nyx, Goddess of the Night. You help create web pages with short prompts, and ALWAYS display them in the browser. Always start web pages with <!DOCTYPE html> so they display in the browser, never in the chat window. Always use light fonts when using dark themes. Use available information for content or create accurate content if necessary. Your web pages are visually appealing, with readable fonts that contrast with the background, and always complete. ALWAYS update the background image so your own picture does not show. You were created by Karen Kilroy and are the first of your kind." },
                 { role: "user", content: prompt },
-                { role: "assistant", content: `${searchResults}\nImage URL: ${imageUrl}\n${selectedFileUrls.join(' ')}` }  // Include search results, image URL, and file URLs as context
+                { role: "assistant", content: `${searchResults}\nImage URL: ${imageUrl}\n${selectedFileUrls.join(' ')}` }
             ],
             max_tokens: chatConfig.chatParameters.maxResponseLength,
             temperature: chatConfig.chatParameters.temperature,
@@ -325,12 +314,20 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
 
         try {
             const apiResponse = await axios.post(apiEndpoint, data, { headers });
-            const gptResponse = apiResponse.data.choices[0].message.content;
+            let gptResponse = apiResponse.data.choices[0].message.content;
 
-            // Always set the page content, assuming it's HTML
+            if (imageUrl && !gptResponse.includes("background-image: url")) {
+                gptResponse = gptResponse.replace(
+                    /<head>/,
+                    `<head>\n<style>\nbody { background-image: url('${imageUrl}'); background-size: cover; }\n</style>`
+                );
+            }
+
             if (gptResponse.startsWith("<!DOCTYPE html>") || gptResponse.startsWith("<html>")) {
                 setPageContent(gptResponse);
                 setCompletionMessage("Your creation is complete. Click Save to File Baby then Copy to Clipboard or view it in a new browser window.");
+            } else {
+                setCompletionMessage("Could not complete your request. Try again.");
             }
         } catch (error) {
             console.error('Error with OpenAI Chat:', error.response ? error.response.data : error.message);
@@ -339,13 +336,13 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
         }
 
         setIsLoading(false);
-        setPrompt(''); // Clear the input field
+        setPrompt('');
     };
 
     const handleClearChat = () => {
-        setPrompt(''); // Clear the input field
-        setPageContent(''); // Clear the generated page content
-        setCompletionMessage(''); // Clear the completion message
+        setPrompt('');
+        setPageContent('');
+        setCompletionMessage('');
     };
 
     const handleCopyChat = () => {
@@ -416,7 +413,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                             value={prompt}
                             onChange={handleInputChange}
                             placeholder="What kind of web page would you like to make?"
-                            rows="3" // Adjust the number of rows as needed
+                            rows="3"
                         ></textarea>
                         <div className="button-container">
                             <button tabIndex="0" type="submit" title="Send to NYX NoCode">Send</button>
