@@ -21,6 +21,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
     const [savedFileLink, setSavedFileLink] = useState('');
     const [error, setError] = useState('');
     const [completionMessage, setCompletionMessage] = useState('');
+    const [flashSaveButton, setFlashSaveButton] = useState(false); // New state for flashing save button
     const responseEndRef = useRef(null);
 
     const containerUrl = 'https://claimed.at.file.baby/filebabyblob';
@@ -326,6 +327,8 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             if (gptResponse.startsWith("<!DOCTYPE html>") || gptResponse.startsWith("<html>")) {
                 setPageContent(gptResponse);
                 setCompletionMessage("Your creation is complete. Click Save to File Baby then Copy to Clipboard or view it in a new browser window.");
+                setFlashSaveButton(true); // Flash the save button
+                setTimeout(() => setFlashSaveButton(false), 3000); // Stop flashing after 3 seconds
             } else {
                 setCompletionMessage("Could not complete your request. Try again.");
             }
@@ -419,7 +422,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                             <button tabIndex="0" type="submit" title="Send to NYX NoCode">Send</button>
                             <button type="button" onClick={handleClearChat} title="Clear Chat">Clear</button>
                             <button type="button" onClick={handleCopyChat} title="Copy Chat">Copy</button>
-                            <button type="button" onClick={savePageContent} title="Save to File Baby" className={!pageContent ? "disabled" : ""} disabled={!pageContent}>Save to File Baby</button>
+                            <button type="button" onClick={savePageContent} title="Save to File Baby" className={`${!pageContent ? "disabled" : ""} ${flashSaveButton ? "flash-green" : ""}`} disabled={!pageContent}>Save to File Baby</button>
                         </div>
                     </form>
                     {isLoading && <p>NYX NoCode is working</p>}
