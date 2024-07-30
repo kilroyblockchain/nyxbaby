@@ -54,6 +54,43 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
         }
     };
 
+    const retryRequest = async (requestFn, retries = 3, delay = 1000) => {
+        let attempt = 0;
+        while (attempt < retries) {
+            try {
+                return await requestFn();
+            } catch (error) {
+                attempt++;
+                if (attempt >= retries) throw error;
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+        }
+    };
+
+    const rewordPrompt = async (originalPrompt) => {
+        const rewordEndpoint = "https://nyx.openai.azure.com/openai/deployments/nyx/chat/completions?api-version=2024-05-01-preview";
+        const headers = {
+            'api-key': process.env.REACT_APP_OPENAI_API_KEY,
+            'Content-Type': 'application/json'
+        };
+        const data = {
+            model: "nyx",
+            messages: [
+                { role: "system", content: "You are an assistant that helps reword prompts to be more effective." },
+                { role: "user", content: `Please reword this prompt to make it more effective: ${originalPrompt}` }
+            ],
+            max_tokens: 50,
+            temperature: 0.7,
+        };
+        try {
+            const response = await axios.post(rewordEndpoint, data, { headers });
+            return response.data.choices[0].message.content;
+        } catch (error) {
+            console.error('Error rewording prompt:', error);
+            return originalPrompt; // Fall back to original prompt if rewording fails
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!prompt.trim()) return;
@@ -66,10 +103,15 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             if (!searchClient) {
                 throw new Error('Search client is not initialized.');
             }
-            const searchResponse = await searchClient.search(prompt, { top: 5 });
-            for await (const result of searchResponse.results) {
-                searchResults += result.document.content + ' ';
-            }
+            const searchRequest = async () => {
+                const searchResponse = await searchClient.search(prompt, { top: 5 });
+                let results = '';
+                for await (const result of searchResponse.results) {
+                    results += result.document.content + ' ';
+                }
+                return results;
+            };
+            searchResults = await retryRequest(searchRequest);
         } catch (error) {
             console.error('Error querying Azure Search:', error);
             alert(`Error querying Azure Search: ${error.message}`);
@@ -80,34 +122,66 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
         // Step 2: Generate Image with DALL-E
         let imageUrl = '';
         try {
-            const dalleResponse = await axios.post(
-                'https://nyx.openai.azure.com/openai/deployments/Dalle3/images/generations?api-version=2024-04-01-preview',
-                {
-                    prompt: prompt,
-                    n: 1,
-                    size: "1024x1024"
-                },
-                {
-                    headers: {
-                        'api-key': process.env.REACT_APP_DALLE_OPENAI_API_KEY,
-                        'Content-Type': 'application/json'
+            const dalleRequest = async () => {
+                const dalleResponse = await axios.post(
+                    'https://nyx.openai.azure.com/openai/deployments/Dalle3/images/generations?api-version=2024-04-01-preview',
+                    {
+                        prompt: prompt,
+                        n: 1,
+                        size: "1024x1024"
+                    },
+                    {
+                        headers: {
+                            'api-key': process.env.REACT_APP_DALLE_OPENAI_API_KEY,
+                            'Content-Type': 'application/json'
+                        }
                     }
-                }
-            );
+                );
 
-            if (dalleResponse.data && dalleResponse.data.data && dalleResponse.data.data.length > 0) {
-                imageUrl = dalleResponse.data.data[0].url;
-                const savedImageUrl = await saveGeneratedFile(imageUrl, `${prompt.replace(/[^a-zA-Z0-9]/g, '_')}-generated.png`);
-                completeOpenAIRequest(savedImageUrl, searchResults);
-            } else {
-                throw new Error('Image URL is missing in the response');
-            }
+                if (dalleResponse.data && dalleResponse.data.data && dalleResponse.data.data.length > 0) {
+                    return dalleResponse.data.data[0].url;
+                } else {
+                    throw new Error('Image URL is missing in the response');
+                }
+            };
+            imageUrl = await retryRequest(dalleRequest);
+            const savedImageUrl = await saveGeneratedFile(imageUrl, `${prompt.replace(/[^a-zA-Z0-9]/g, '_')}-generated.png`);
+            completeOpenAIRequest(savedImageUrl, searchResults);
         } catch (error) {
             console.error('Error generating image with DALL-E:', error);
 
             if (error.response && error.response.status === 400) {
-                console.log('DALLE Error 400: Continuing the NYX NoCode process');
-                completeOpenAIRequest('', searchResults); // Proceed without an image URL
+                console.log('DALLE Error 400: Rewording prompt and retrying');
+                const newPrompt = await rewordPrompt(prompt);
+                try {
+                    const dalleResponse = await axios.post(
+                        'https://nyx.openai.azure.com/openai/deployments/Dalle3/images/generations?api-version=2024-04-01-preview',
+                        {
+                            prompt: newPrompt,
+                            n: 1,
+                            size: "1024x1024"
+                        },
+                        {
+                            headers: {
+                                'api-key': process.env.REACT_APP_DALLE_OPENAI_API_KEY,
+                                'Content-Type': 'application/json'
+                            }
+                        }
+                    );
+
+                    if (dalleResponse.data && dalleResponse.data.data && dalleResponse.data.data.length > 0) {
+                        imageUrl = dalleResponse.data.data[0].url;
+                        const savedImageUrl = await saveGeneratedFile(imageUrl, `${newPrompt.replace(/[^a-zA-Z0-9]/g, '_')}-generated.png`);
+                        completeOpenAIRequest(savedImageUrl, searchResults);
+                    } else {
+                        throw new Error('Image URL is missing in the response');
+                    }
+                } catch (retryError) {
+                    console.error('Error retrying with reworded prompt:', retryError);
+                    alert(`Error generating image with DALL-E: ${retryError.message}`);
+                    setIsLoading(false);
+                    return;
+                }
             } else {
                 alert(`Error generating image with DALL-E: ${error.message}`);
                 setIsLoading(false);
@@ -135,7 +209,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             });
 
             if (!saveResponse.ok) {
-                throw new Error(`No new images to save: ${saveResponse.statusText}`);
+                throw new Error(`Failed to save to File Baby with status: ${saveResponse.statusText}`);
             }
 
             setSavedToFileBaby(true);
@@ -143,7 +217,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             return filePath.split('?')[0]; // Return the URL without the SAS token
         } catch (error) {
             console.error('Error Saving to File Baby:', error);
-            setError(`No new images to save ${error.message}`);
+            setError(`Please reword your prompt and try again: ${error.message}`);
             return null;
         }
     };
