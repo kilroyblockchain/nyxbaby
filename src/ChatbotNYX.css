@@ -51,6 +51,12 @@ h3 {
 .copy-link-container button {
     margin-top: 5px;
 }
+/* ChatbotNYX.css */
+
+.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
 
 .success-message {
     color: green;
