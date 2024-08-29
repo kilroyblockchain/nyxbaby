@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="351c5aa2-9427-4c8d-8e42-fab32051235d" name="Changes" comment="tried Llama TTF font but didn't get it to work quickly will try again">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.js" afterDir="false" />
-    </list>
+    <list default="true" id="351c5aa2-9427-4c8d-8e42-fab32051235d" name="Changes" comment="tried Llama TTF font but didn't get it to work quickly will try again" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -138,6 +135,7 @@
       <workItem from="1724636106007" duration="51000" />
       <workItem from="1724749102277" duration="582000" />
       <workItem from="1724802465988" duration="230000" />
+      <workItem from="1724958456197" duration="317000" />
     </task>
     <servers />
   </component>

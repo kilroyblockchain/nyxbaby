@@ -5,7 +5,6 @@ import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import msalInstance from "./authConfig";
 import HeaderSection from "./HeaderSection";
 import TenantFileGallery from './TenantFileGallery';
-import FileUploadPage from './FileUploadPage';
 import ManifestGenerator from "./ManifestGenerator";
 import ManifestRetriever from "./ManifestRetriever";
 import Imagebot from "./Imagebot";
