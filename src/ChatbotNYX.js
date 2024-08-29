@@ -21,7 +21,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
     const [savedFileLink, setSavedFileLink] = useState('');
     const [error, setError] = useState('');
     const [completionMessage, setCompletionMessage] = useState('');
-    const [flashSaveButton, setFlashSaveButton] = useState(false); // New state for flashing save button
+    const [flashSaveButton, setFlashSaveButton] = useState(false);
     const responseEndRef = useRef(null);
 
     const containerUrl = 'https://claimed.at.file.baby/filebabyblob';
@@ -317,12 +317,23 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             const apiResponse = await axios.post(apiEndpoint, data, { headers });
             let gptResponse = apiResponse.data.choices[0].message.content;
 
-            if (imageUrl && !gptResponse.includes("background-image: url")) {
-                gptResponse = gptResponse.replace(
-                    /<head>/,
-                    `<head>\n<style>\nbody { background-image: url('${imageUrl}'); background-size: cover; }\n</style>`
-                );
+            // Remove any existing background image styles
+            gptResponse = gptResponse.replace(/background-image: url\('[^']+'\);/g, '');
+
+            // Inject the new background image style
+            if (gptResponse.includes("<head>") && imageUrl) {
+                const headIndex = gptResponse.indexOf("<head>") + 6;
+                const updatedGptResponse =
+                    gptResponse.slice(0, headIndex) +
+                    `\n<style>\nbody { background-image: url('${imageUrl}'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed; }\n</style>\n` +
+                    gptResponse.slice(headIndex);
+                gptResponse = updatedGptResponse;
+            } else if (!gptResponse.includes("<head>") && imageUrl) {
+                // Handle cases where <head> is not present
+                gptResponse = `<!DOCTYPE html>\n<html lang="en">\n<head>\n<style>\nbody { background-image: url('${imageUrl}'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed; }\n</style>\n</head>\n${gptResponse}`;
             }
+
+            console.log("Generated HTML Content:", gptResponse);
 
             if (gptResponse.startsWith("<!DOCTYPE html>") || gptResponse.startsWith("<html>")) {
                 setPageContent(gptResponse);

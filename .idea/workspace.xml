@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="351c5aa2-9427-4c8d-8e42-fab32051235d" name="Changes" comment="tried Llama TTF font but didn't get it to work quickly will try again">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -76,8 +75,8 @@
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/public" />
-      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/src/img" />
+      <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -126,6 +125,19 @@
       <workItem from="1722119629068" duration="595000" />
       <workItem from="1722296819107" duration="5672000" />
       <workItem from="1722352187790" duration="49000" />
+      <workItem from="1722352246823" duration="668000" />
+      <workItem from="1722356586772" duration="8000" />
+      <workItem from="1722358149654" duration="453000" />
+      <workItem from="1722366727477" duration="23000" />
+      <workItem from="1722397179274" duration="1318000" />
+      <workItem from="1722675928958" duration="459000" />
+      <workItem from="1722737854981" duration="1040000" />
+      <workItem from="1722932202674" duration="342000" />
+      <workItem from="1724181804566" duration="39000" />
+      <workItem from="1724368966744" duration="481000" />
+      <workItem from="1724636106007" duration="51000" />
+      <workItem from="1724749102277" duration="582000" />
+      <workItem from="1724802465988" duration="230000" />
     </task>
     <servers />
   </component>
