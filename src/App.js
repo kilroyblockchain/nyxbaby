@@ -36,7 +36,7 @@ function HomePage({ userName }) {
             <ManifestRetriever />
             <hr />
             <ManifestGenerator />
-            <p>I am being upgraded! Check back soon for my Upload Manifest and Image, Audio or Video Feature. File Baby - Aug 29, 2024</p>
+            <p>I am being upgraded! Check back soon for my Upload Manifest and Image, Audio or Video Feature. File Baby</p>
             <hr />
             <PromptLibrary userName={userName} />
             <hr />
