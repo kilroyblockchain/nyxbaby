@@ -9,6 +9,7 @@ import Imagebot from "./Imagebot";
 import SignInImage from "./ms_signin_dark.png";
 import UseWithNyxPage from './UseWithNyxPage';
 import FooterSection from "./FooterSection";
+import FileUpload from "./FileUploader";
 
 function SignInButton() {
     const { instance } = useMsal();
@@ -26,8 +27,11 @@ function HomePage({ userName }) {
         <>
             <TenantFileGallery userName={userName} />
             <hr />
+            <FileUpload />
+            <hr />
             <Imagebot userName={userName} />
             <hr />
+
         </>
     );
 }
