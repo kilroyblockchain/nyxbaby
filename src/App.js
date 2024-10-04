@@ -8,7 +8,6 @@ import TenantFileGallery from './TenantFileGallery';
 import Imagebot from "./Imagebot";
 import SignInImage from "./ms_signin_dark.png";
 import UseWithNyxPage from './UseWithNyxPage';
-import NyxFileBabyModule from './NyxFileBabyModule';
 import FooterSection from "./FooterSection";
 
 function SignInButton() {
@@ -29,7 +28,6 @@ function HomePage({ userName }) {
             <hr />
             <Imagebot userName={userName} />
             <hr />
-           <NyxFileBabyModule userName={userName} />
         </>
     );
 }
