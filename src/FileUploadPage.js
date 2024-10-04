@@ -49,7 +49,7 @@ function FileUploadPage({ userName }) {
         }
 
         try {
-            const response = await fetch('https://paybots-claim-engine.azurewebsites.net/api/file_and_manifest', {
+            const response = await fetch('https://dev-paybots-claim-engine.azurewebsites.net/api/file_and_manifest', {
                 method: 'POST',
                 body: formData,
             });

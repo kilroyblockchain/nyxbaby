@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="351c5aa2-9427-4c8d-8e42-fab32051235d" name="Changes" comment="tried Llama TTF font but didn't get it to work quickly will try again">
+    <list default="true" id="93291af6-01eb-41d3-86a7-c4458f1ff235" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ChatbotNYX.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatbotNYX.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FileUploadPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/FileUploadPage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,25 +19,19 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="add-stable-diffusion" />
+        <entry key="$PROJECT_DIR$" value="main-mynyxbaby" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/ChatbotNYX.js" root0="SKIP_INSPECTION" />
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 5
+  &quot;associatedIndex&quot;: 7
 }</component>
-  <component name="ProjectId" id="2i6xUQ92R6N4dVWqIawnRp0HYHt" />
+  <component name="ProjectId" id="2lTUbI4TaOYqsJIUezPYoEZXjoR" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
@@ -43,12 +41,10 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/karenkilroy/zorro_kilroy/myfilebaby/src&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -67,86 +63,47 @@
       </map>
     </option>
   </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/src/img" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/public" />
-      <recent name="$PROJECT_DIR$/src/img" />
-      <recent name="$PROJECT_DIR$/src" />
-    </key>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="351c5aa2-9427-4c8d-8e42-fab32051235d" name="Changes" comment="" />
-      <created>1718824842618</created>
+      <changelist id="93291af6-01eb-41d3-86a7-c4458f1ff235" name="Changes" comment="" />
+      <created>1725203631277</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1718824842618</updated>
-      <workItem from="1718824843719" duration="6361000" />
-      <workItem from="1718835276478" duration="621000" />
-      <workItem from="1718836462855" duration="12130000" />
-      <workItem from="1718854898109" duration="2690000" />
-      <workItem from="1718883459966" duration="4983000" />
-      <workItem from="1718892332840" duration="328000" />
-      <workItem from="1718895772825" duration="993000" />
-      <workItem from="1718904324099" duration="1199000" />
-      <workItem from="1718921650242" duration="295000" />
-      <workItem from="1718926720917" duration="9672000" />
-      <workItem from="1718986269903" duration="3741000" />
-      <workItem from="1718991572761" duration="885000" />
-      <workItem from="1718997506105" duration="1287000" />
-      <workItem from="1719026857951" duration="1156000" />
-      <workItem from="1719028976546" duration="1419000" />
-      <workItem from="1719056231918" duration="1384000" />
-      <workItem from="1719169215610" duration="8223000" />
-      <workItem from="1719202881998" duration="1190000" />
-      <workItem from="1719230617961" duration="375000" />
-      <workItem from="1719244826844" duration="984000" />
-      <workItem from="1719983287325" duration="1087000" />
-      <workItem from="1720008852542" duration="1374000" />
-      <workItem from="1720105977285" duration="60000" />
-      <workItem from="1720116932789" duration="53000" />
-      <workItem from="1720119672274" duration="281000" />
-      <workItem from="1720872556657" duration="3020000" />
-      <workItem from="1721434185153" duration="1489000" />
-      <workItem from="1721474721275" duration="54000" />
-      <workItem from="1721488389614" duration="1442000" />
-      <workItem from="1721498541143" duration="445000" />
-      <workItem from="1721556655088" duration="544000" />
-      <workItem from="1721732663137" duration="347000" />
-      <workItem from="1721759593546" duration="1998000" />
-      <workItem from="1721800302846" duration="901000" />
-      <workItem from="1721857496282" duration="498000" />
-      <workItem from="1722119629068" duration="595000" />
-      <workItem from="1722296819107" duration="5672000" />
-      <workItem from="1722352187790" duration="49000" />
-      <workItem from="1722352246823" duration="668000" />
-      <workItem from="1722356586772" duration="8000" />
-      <workItem from="1722358149654" duration="453000" />
-      <workItem from="1722366727477" duration="23000" />
-      <workItem from="1722397179274" duration="1318000" />
-      <workItem from="1722675928958" duration="459000" />
-      <workItem from="1722737854981" duration="1040000" />
-      <workItem from="1722932202674" duration="342000" />
-      <workItem from="1724181804566" duration="39000" />
-      <workItem from="1724368966744" duration="481000" />
-      <workItem from="1724636106007" duration="51000" />
-      <workItem from="1724749102277" duration="582000" />
-      <workItem from="1724802465988" duration="230000" />
-      <workItem from="1724958456197" duration="900000" />
+      <updated>1725203631277</updated>
+      <workItem from="1725203636093" duration="1308000" />
+      <workItem from="1725208393658" duration="1835000" />
+      <workItem from="1725273152906" duration="32000" />
+      <workItem from="1725552759853" duration="19000" />
+      <workItem from="1725559401253" duration="723000" />
+      <workItem from="1725736443525" duration="24000" />
+      <workItem from="1725809038047" duration="185000" />
+      <workItem from="1727737272879" duration="300000" />
+      <workItem from="1727738060095" duration="916000" />
+      <workItem from="1727739935488" duration="383000" />
+      <workItem from="1727814148435" duration="158000" />
+      <workItem from="1727898360657" duration="22000" />
+      <workItem from="1727985792002" duration="558000" />
+      <workItem from="1728030179453" duration="1078000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="tried Llama TTF font but didn't get it to work quickly will try again" />
-    <option name="LAST_COMMIT_MESSAGE" value="tried Llama TTF font but didn't get it to work quickly will try again" />
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/App.js</url>
+          <line>18</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/App.js</url>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

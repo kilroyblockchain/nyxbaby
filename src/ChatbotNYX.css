@@ -26,7 +26,9 @@ body, html {
     background: none;
     font-family: Arial, sans-serif; /* Ensure font is consistent */
 }
-
+form {
+    padding:0px;
+}
 h3 {
     text-align: center;
 }
@@ -63,6 +65,9 @@ h3 {
 
 button.last {
     margin-right: 10px;
+}
+button {
+    font-size: 12px;
 }
 
 .chat-toggle-button {
@@ -235,7 +240,7 @@ input[type="text"], textarea {
 }
 
 .button-container {
-    display: flex;
+    display: block;
     justify-content: space-between;
     padding-right: 10px; /* Added padding */
 }
@@ -336,7 +341,7 @@ button[type="submit"], button[title="Clear Chat"], button[title="Copy Chat"] {
         max-width: 400px;
     }
     .loading-indicator {
-        font-size: 1.2em;
+        font-size: 12px;
     }
     .chat-popup {
         width: 360px;

@@ -204,14 +204,14 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             });
 
             if (!saveResponse.ok) {
-                throw new Error(`Failed to save to File Baby with status: ${saveResponse.statusText}`);
+                throw new Error(`Failed to save page with status: ${saveResponse.statusText}`);
             }
 
             setSavedToFileBaby(true);
             setTimeout(() => setSavedToFileBaby(false), 3000);
             return filePath.split('?')[0];
         } catch (error) {
-            console.error('Error Saving to File Baby:', error);
+            console.error('Error Saving Page:', error);
             setError(`Please reword your prompt and try again: ${error.message}`);
             return null;
         }
@@ -238,7 +238,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             });
 
             if (!saveResponse.ok) {
-                throw new Error(`Failed to save to File Baby with status: ${saveResponse.status}`);
+                throw new Error(`Failed to save page with status: ${saveResponse.status}`);
             }
 
             const dalleImageUrls = htmlContent.match(/<img[^>]+src="([^">]+nyx.openai.azure.com[^">]+)"/g) || [];
@@ -278,7 +278,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
             });
 
             if (!updateSaveResponse.ok) {
-                throw new Error(`Failed to save updated HTML to File Baby with status: ${updateSaveResponse.status}`);
+                throw new Error(`Failed to save updated HTML page with status: ${updateSaveResponse.status}`);
             }
 
             const fileLink = updatedFilePath.split('?')[0];
@@ -433,7 +433,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                             <button tabIndex="0" type="submit" title="Send to NYX NoCode">Send</button>
                             <button type="button" onClick={handleClearChat} title="Clear Chat">Clear</button>
                             <button type="button" onClick={handleCopyChat} title="Copy Chat">Copy</button>
-                            <button type="button" onClick={savePageContent} title="Save to File Baby" className={`${!pageContent ? "disabled" : ""} ${flashSaveButton ? "flash-green" : ""}`} disabled={!pageContent}>Save to File Baby</button>
+                            <button type="button" onClick={savePageContent} title="Save Page" className={`${!pageContent ? "disabled" : ""} ${flashSaveButton ? "flash-green" : ""}`} disabled={!pageContent}>Save Page</button>
                         </div>
                     </form>
                     {isLoading && <p>NYX NoCode is working</p>}

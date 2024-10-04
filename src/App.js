@@ -16,6 +16,7 @@ import DragAndDropMediaPlayer from "./DragAndDropMediaPlayer";
 import UseWithNyxPage from './UseWithNyxPage';
 import NyxFileBabyModule from './NyxFileBabyModule';
 import FooterSection from "./FooterSection";
+import FileUploadPage from "./FileUploadPage";
 
 function SignInButton() {
     const { instance } = useMsal();
@@ -36,7 +37,8 @@ function HomePage({ userName }) {
             <ManifestRetriever />
             <hr />
             <ManifestGenerator />
-            <p>I am being upgraded! Check back soon for my Upload Manifest and Image, Audio or Video Feature. File Baby</p>
+            <hr />
+            <FileUploadPage userName={userName} />
             <hr />
             <PromptLibrary userName={userName} />
             <hr />
