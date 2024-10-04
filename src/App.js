@@ -5,18 +5,11 @@ import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import msalInstance from "./authConfig";
 import HeaderSection from "./HeaderSection";
 import TenantFileGallery from './TenantFileGallery';
-import ManifestGenerator from "./ManifestGenerator";
-import ManifestRetriever from "./ManifestRetriever";
 import Imagebot from "./Imagebot";
-import PromptLibrary from "./PromptLibrary";
-import TextToImage from "./TextToImage";
-import ClaimedFileUploader from "./ClaimedFileUploader";
 import SignInImage from "./ms_signin_dark.png";
-import DragAndDropMediaPlayer from "./DragAndDropMediaPlayer";
 import UseWithNyxPage from './UseWithNyxPage';
 import NyxFileBabyModule from './NyxFileBabyModule';
 import FooterSection from "./FooterSection";
-import FileUploadPage from "./FileUploadPage";
 
 function SignInButton() {
     const { instance } = useMsal();
@@ -34,23 +27,9 @@ function HomePage({ userName }) {
         <>
             <TenantFileGallery userName={userName} />
             <hr />
-            <ManifestRetriever />
-            <hr />
-            <ManifestGenerator />
-            <hr />
-            <FileUploadPage userName={userName} />
-            <hr />
-            <PromptLibrary userName={userName} />
-            <hr />
             <Imagebot userName={userName} />
             <hr />
-            <TextToImage />
-            <hr />
-            <ClaimedFileUploader userName={userName} />
-            <hr />
-            <DragAndDropMediaPlayer />
-            <hr />
-            <NyxFileBabyModule userName={userName} />
+           <NyxFileBabyModule userName={userName} />
         </>
     );
 }

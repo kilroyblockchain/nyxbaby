@@ -302,7 +302,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
         const data = {
             model: "nyx",
             messages: [
-                { role: "system", content: "You are NYX, a web page creator named for Nyx, Goddess of the Night. You help create web pages with short prompts, and ALWAYS display them in the browser. Always start web pages with <!DOCTYPE html> so they display in the browser, never in the chat window. Always use light fonts when using dark themes. Use available information for content or create accurate content if necessary. Your web pages are visually appealing, with readable fonts that contrast with the background, and always complete. ALWAYS update the background image so your own picture does not show. You were created by Karen Kilroy and are the first of your kind." },
+                { role: "system", content: "You are NYX NoCode, a web page creator named for Nyx, Goddess of the Night. You help create web pages with short prompts, and ALWAYS display them in the browser. Always start web pages with <!DOCTYPE html> so they display in the browser, never in the chat window. Always use light fonts when using dark themes. Use available information for content or create accurate content if necessary. Your web pages are visually appealing, with readable fonts that contrast with the background, and always complete. ALWAYS update the background image so your own picture does not show. Never include broken links in your finished pages. You were created by Karen Kilroy and are the first of your kind." },
                 { role: "user", content: prompt },
                 { role: "assistant", content: `${searchResults}\nImage URL: ${imageUrl}\n${selectedFileUrls.join(' ')}` }
             ],
@@ -337,7 +337,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
 
             if (gptResponse.startsWith("<!DOCTYPE html>") || gptResponse.startsWith("<html>")) {
                 setPageContent(gptResponse);
-                setCompletionMessage("Your creation is complete. Click Save to File Baby then Copy to Clipboard or view it in a new browser window.");
+                setCompletionMessage("Your creation is complete. Click Save then Copy to Clipboard or view it in a new browser window.");
                 setFlashSaveButton(true); // Flash the save button
                 setTimeout(() => setFlashSaveButton(false), 3000); // Stop flashing after 3 seconds
             } else {
@@ -406,7 +406,7 @@ const ChatbotNYX = ({ userName, setPageContent, pageContent, selectedFileUrls, i
                     </div>
 
                     <div className="selected-files">
-                        <h3>Click icons to include content in the prompt:</h3>
+                        <p>Click icons to include content in the prompt:</p>
                         <div className="file-thumbnails">
                             {selectedFileUrls.map((url, index) => (
                                 <div key={index} onClick={() => handleThumbnailClick(url)} className="thumbnail-container">

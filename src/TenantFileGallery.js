@@ -31,8 +31,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
         const fileName = fullPath.split('/').pop();
         const url = `${containerUrl}/${encodeURIComponent(fullPath)}`;
         const fileExtension = fileName.split('.').pop();
-        const verifyUrl = `https://contentcredentials.org/verify?source=${encodeURIComponent(url)}`;
-        return { name: fileName, url, verifyUrl, type: fileExtension };
+        return { name: fileName, url, type: fileExtension };
       });
 
       if (nameFilter) {
@@ -80,25 +79,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
     }
   };
 
-  const handleShareGallery = async () => {
-    const encodedFileUrls = selectedFiles.map(file => encodeURIComponent(file.url)).join(',');
-    const shareUrl = `https://share.at.file.baby/?files=${encodedFileUrls}`;
-    try {
-      await navigator.clipboard.writeText(shareUrl);
-      alert('Gallery URL copied to clipboard!');
-    } catch (err) {
-      console.error('Failed to copy:', err);
-    }
-  };
 
-  const handleShareFile = async (fileUrl) => {
-    try {
-      await navigator.clipboard.writeText(fileUrl);
-      alert('File URL copied to clipboard!');
-    } catch (err) {
-      console.error('Failed to copy:', err);
-    }
-  };
 
   const handleUseWithNYX = () => {
     const selectedFileUrls = selectedFiles.map(file => file.url);
@@ -153,8 +134,6 @@ function TenantFileGallery({ userName, filterCriteria }) {
                 <a href={file.url} target="_blank" rel="noopener noreferrer" className="file-name" title={file.name}>
                   {file.name}
                 </a>
-                <p><a href={file.verifyUrl} target="_blank" rel="noopener noreferrer">Verify</a></p>
-                <button tabIndex={"0"} onClick={() => handleShareFile(file.url)} title={"Copy the URL to your clipboard; paste to share."}>Share File</button>
               </div>
           ))}
         </div>
@@ -178,8 +157,7 @@ function TenantFileGallery({ userName, filterCriteria }) {
           </div>
         </div>
         <div className={"shareSelected"}>
-          <button tabIndex={"0"} onClick={handleShareGallery} title="Select up to 10 files to share with others. Use https://tinyurl.com to shorten the Shared Gallery URL.">Share Selected Files</button>
-          <button tabIndex={"0"} onClick={handleUseWithNYX} title="Use Selected Files with NYX">Use Selected Files with NYX</button>
+          <button tabIndex={"0"} onClick={handleUseWithNYX} title="Create a Page with Selected Files">Create a Page with Selected Files</button>
         </div>
       </div>
   );

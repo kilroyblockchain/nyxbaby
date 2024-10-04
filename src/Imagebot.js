@@ -99,7 +99,7 @@ const Imagebot = ({ userName }) => {
             });
 
             if (!uploadResponse.ok) {
-                throw new Error(`Failed to save to File Baby with status: ${uploadResponse.status}`);
+                throw new Error(`Failed to save image with status: ${uploadResponse.status}`);
             }
 
             setSavedToFileBaby(true);
@@ -108,8 +108,8 @@ const Imagebot = ({ userName }) => {
                 setImageUrl('');
             }, 3000);
         } catch (error) {
-            console.error('Error saving to File Baby:', error);
-            setError(`Error saving to File Baby: ${error.message}`);
+            console.error('Error saving image:', error);
+            setError(`Error saving image: ${error.message}`);
         } finally {
             setIsLoading(false);
         }
@@ -119,7 +119,7 @@ const Imagebot = ({ userName }) => {
         <div className={"chatFB"}>
             <h1>AI Image Generator</h1>
             <form onSubmit={handleSubmit}>
-                <TooltipIcon title="Generate images from AI based on your text descriptions. Uses DALL-E 2. Generated images are signed by Microsoft Responsible AI. Chat with File Baby AI for prompt ideas." />
+                <TooltipIcon title="Generate images from AI based on your text descriptions. Uses DALL-E 2. Generated images are signed by Microsoft Responsible AI." />
                 <input
                     type="text"
                     value={prompt}

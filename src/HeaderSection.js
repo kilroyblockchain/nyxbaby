@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from "./logo.png";
+import logo from "./img/NYX_NoCode-home.png";
 import { SignOutButton } from "./SignOutButton";
 import { useIsAuthenticated } from "@azure/msal-react";
 
